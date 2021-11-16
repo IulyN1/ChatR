@@ -17,6 +17,14 @@ public class Message extends Entity<Integer>{
         this.date = LocalDate.now();
     }
 
+    public Message(User from, List<User> to, String message) {
+        super(0);
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.date = LocalDate.now();
+    }
+
     public Integer getId() {
         return id;
     }

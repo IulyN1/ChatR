@@ -13,9 +13,9 @@ public class DbRepoMessage implements Repo<Integer, Message> {
     private String url;
     private String username;
     private String password;
-    private DbRepoUser repoUser;
+    private Repo<Integer, User> repoUser;
 
-    public DbRepoMessage(String url, String username, String password, DbRepoUser repoUser) {
+    public DbRepoMessage(String url, String username, String password, Repo<Integer, User> repoUser) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -24,22 +24,19 @@ public class DbRepoMessage implements Repo<Integer, Message> {
 
     @Override
     public void add(Message message) throws Exception {
-        String sql = "insert into messages (id,fromUserId,toUserIds,message,date) values (?,?,?,?,?)";
+        String sql = "insert into messages (from_user_id,to_user_ids,message,date) values (?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement ps = connection.prepareStatement(sql)){
 
-            ps.setInt(1,message.getId());
-            ps.setInt(2,message.getFrom().getId());
-            ps.setString(3,message.getFrom().getFirstName());
-            ps.setString(4,message.getFrom().getLastName());
+            ps.setInt(1,message.getFrom().getId());
 
             List<User> toUsers = message.getTo();
             String toIds = getToIds(toUsers);
-            ps.setString(5,toIds);
+            ps.setString(2,toIds);
 
-            ps.setString(6,message.getMessage());
-            ps.setDate(7, Date.valueOf(message.getDate()));
+            ps.setString(3,message.getMessage());
+            ps.setDate(4, Date.valueOf(message.getDate()));
 
             ps.executeUpdate();
         } catch (SQLException e){
@@ -84,21 +81,21 @@ public class DbRepoMessage implements Repo<Integer, Message> {
 
             while (resultSet.next()) {
                 Integer id = resultSet.getInt("id");
-                Integer fromId = resultSet.getInt("fromUserId");
-                String fromFirstName = resultSet.getString("fromUserFirstName");
-                String fromLastName = resultSet.getString("fromUserLastName");
-                String to = resultSet.getString("toUserIds");
+                Integer fromId = resultSet.getInt("from_user_id");
+                String to = resultSet.getString("to_user_ids");
                 String message = resultSet.getString("message");
 
-                User userFrom = new User(fromId,fromFirstName,fromLastName);
+                User userFrom = repoUser.find_by_id(fromId);
                 List<User> toUsers = getToUsers(to);
-                Message messageSent = new Message(id,userFrom,toUsers,message);
-
+                Message messageSent = new Message(userFrom,toUsers,message);
+                messageSent.setId(id);
                 messages.add(messageSent);
             }
             return messages;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.getMessage();
         }
         return messages;
     }
