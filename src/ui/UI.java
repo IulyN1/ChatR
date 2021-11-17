@@ -2,10 +2,13 @@ package ui;
 
 import domain.Friendship;
 import domain.Message;
+import domain.MessageDTO;
 import domain.User;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -224,6 +227,7 @@ public class UI {
             System.out.println("1. Send message");
             System.out.println("2. All messages");
             System.out.println("3. Reply to message");
+            System.out.println("4. Chat between 2 users");
             System.out.println("0. Exit\n");
             try {
                 int c = scanner.nextInt();
@@ -257,6 +261,19 @@ public class UI {
                         message = scanner.nextLine();
                         serviceMessage.sendReplyMessage(idMessage,idReplier,message);
                         System.out.println("\nSuccess!\n");
+                        break;
+                    case 4:
+                        System.out.println("Id user 1:");
+                        int idUser1 = scanner.nextInt();
+                        System.out.println("Id user 2:");
+                        int idUser2 = scanner.nextInt();
+                        System.out.println();
+                        Collection<Message> messages = serviceMessage.get_chat(idUser1,idUser2);
+                        for(Message msg: messages){
+                            MessageDTO dto = new MessageDTO(msg.getId(), msg.getFrom(),msg.getTo(),msg.getMessage());
+                            System.out.println(dto);
+                        }
+                        System.out.println();
                         break;
                     case 0:
                         return;

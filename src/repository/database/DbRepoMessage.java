@@ -48,7 +48,7 @@ public class DbRepoMessage implements Repo<Integer, Message> {
             ps.setString(2,toIds);
 
             ps.setString(3,message.getMessage());
-            ps.setDate(4, Date.valueOf(message.getDate()));
+            ps.setTimestamp(4, Timestamp.valueOf(message.getDate()));
 
             if(message.getReply()==null)
                 ps.setNull(5,Types.INTEGER);
@@ -110,14 +110,14 @@ public class DbRepoMessage implements Repo<Integer, Message> {
                     Integer fromId = resultSet.getInt("from_user_id");
                     String to = resultSet.getString("to_user_ids");
                     String message = resultSet.getString("message");
-                    Date date = resultSet.getDate("date");
+                    Timestamp date = resultSet.getTimestamp("date");
                     int replyId = resultSet.getInt("reply");
 
                     User userFrom = repoUser.find_by_id(fromId);
                     List<User> toUsers = getToUsers(to);
                     Message messageSent = new Message(userFrom,toUsers,message);
                     messageSent.setId(id);
-                    messageSent.setDate(date.toLocalDate());
+                    messageSent.setDate(date.toLocalDateTime());
                     if(replyId!=0){
                         messageSent.setReply(find_by_id(replyId));
                     }
@@ -149,14 +149,14 @@ public class DbRepoMessage implements Repo<Integer, Message> {
                 Integer fromId = resultSet.getInt("from_user_id");
                 String to = resultSet.getString("to_user_ids");
                 String message = resultSet.getString("message");
-                Date date = resultSet.getDate("date");
+                Timestamp date = resultSet.getTimestamp("date");
                 int replyId = resultSet.getInt("reply");
 
                 User userFrom = repoUser.find_by_id(fromId);
                 List<User> toUsers = getToUsers(to);
                 Message messageSent = new Message(userFrom,toUsers,message);
                 messageSent.setId(id);
-                messageSent.setDate(date.toLocalDate());
+                messageSent.setDate(date.toLocalDateTime());
                 if(replyId!=0){
                     messageSent.setReply(find_by_id(replyId));
                 }

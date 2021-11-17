@@ -7,9 +7,10 @@ import repository.Repo;
 import validators.MessageValidator;
 import validators.StrategyValidator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class ServiceMessage {
     private final Repo<Integer, User> userRepo;
@@ -102,5 +103,36 @@ public class ServiceMessage {
      */
     public Collection<Message> get_all_messages(){
         return messageRepo.find_all();
+    }
+
+    /**
+     * Gets all the messages between 2 users in chronological order
+     * @param idUser1 the id of the first user
+     * @param idUser2 the id of the second user
+     * @return a collection of messages
+     */
+    public Collection<Message> get_chat(int idUser1,int idUser2) throws Exception{
+        Collection<Message> messages = messageRepo.find_all();
+        Stream<Message> stream =  messages.stream().
+                sorted(Comparator.comparing(Message::getDate));
+        List<Message> messagesSorted = stream.toList();
+        Collection<Message> chat = new ArrayList<>();
+
+        for(Message msg: messagesSorted){
+            if(msg.getFrom().getId()==idUser1){
+                for(User us: msg.getTo()){
+                    if(us.equals(userRepo.find_by_id(idUser2)))
+                        chat.add(msg);
+                }
+            }
+            else if(msg.getFrom().getId()==idUser2){
+                for(User us: msg.getTo()){
+                    if(us.equals(userRepo.find_by_id(idUser1)))
+                        chat.add(msg);
+                }
+            }
+        }
+        if(chat.isEmpty()) throw new MessageException("There are no messages between these users!\n");
+        return chat;
     }
 }

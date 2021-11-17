@@ -1,6 +1,9 @@
 package domain;
 
+import utils.Constants;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +12,7 @@ public class Message extends Entity<Integer>{
     private User from;
     private List<User> to;
     private String message;
-    private LocalDate date;
+    private LocalDateTime date;
 
     /**
      * Constructor for Message
@@ -24,7 +27,7 @@ public class Message extends Entity<Integer>{
         this.from = from;
         this.to = to;
         this.message = message;
-        this.date = LocalDate.now();
+        this.date = LocalDateTime.now();
     }
 
     /**
@@ -39,7 +42,7 @@ public class Message extends Entity<Integer>{
         this.from = from;
         this.to = to;
         this.message = message;
-        this.date = LocalDate.now();
+        this.date = LocalDateTime.now();
     }
 
     /**
@@ -90,7 +93,7 @@ public class Message extends Entity<Integer>{
      * Getter for date
      * @return the date
      */
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -130,7 +133,7 @@ public class Message extends Entity<Integer>{
      * Setter for date
      * @param date the new date
      */
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -162,14 +165,14 @@ public class Message extends Entity<Integer>{
                     ", from=" + from +
                     ", to=" + to +
                     ", message='" + message + '\'' +
-                    ", date=" + date;
+                    ", date=" + date.format(Constants.DATE_TIME_FORMATTER);
         }
         return "Message: " +
                 "id=" + id +
                 ", from=" + from +
                 ", to=" + to +
                 ", message='" + message + '\'' +
-                ", date=" + date +
+                ", date=" + date.format(Constants.DATE_TIME_FORMATTER)+
                 ", reply to message: " + reply.getId();
     }
 }
