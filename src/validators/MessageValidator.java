@@ -25,7 +25,9 @@ public class MessageValidator implements StrategyValidator<Message> {
     @Override
     public void validate(Message message) throws MessageException {
         String err="";
-
+        if(message.getTo().contains(message.getFrom())){
+            err += "User can't send message to self!\n";
+        }
         if(message.getTo().size()<1){
             err += "Invalid users to send message!\n";
         }

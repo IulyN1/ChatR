@@ -15,6 +15,13 @@ public class DbRepoMessage implements Repo<Integer, Message> {
     private String password;
     private Repo<Integer, User> repoUser;
 
+    /**
+     * Constructor for Message repo
+     * @param url the url of the server where the database runs
+     * @param username the username used to log into the database
+     * @param password the password used to log into the database
+     * @param repoUser the user repo
+     */
     public DbRepoMessage(String url, String username, String password, Repo<Integer, User> repoUser) {
         this.url = url;
         this.username = username;
@@ -22,6 +29,11 @@ public class DbRepoMessage implements Repo<Integer, Message> {
         this.repoUser = repoUser;
     }
 
+    /**
+     * Adds a message in the repo
+     * @param message message Object
+     * @throws Exception if the operation fails
+     */
     @Override
     public void add(Message message) throws Exception {
         String sql = "insert into messages (from_user_id,to_user_ids,message,date) values (?,?,?,?)";
@@ -44,6 +56,11 @@ public class DbRepoMessage implements Repo<Integer, Message> {
         }
     }
 
+    /**
+     * Gets a string of ids from a list of users
+     * @param toUsers the list of the users
+     * @return the string with ids
+     */
     public String getToIds(List<User> toUsers){
         String toIds = "";
         int i = 0;
@@ -72,6 +89,10 @@ public class DbRepoMessage implements Repo<Integer, Message> {
         return null;
     }
 
+    /**
+     * Gets all the messages
+     * @return a collection with all the messages
+     */
     @Override
     public Collection<Message> find_all() {
         Set<Message> messages = new HashSet<>();
@@ -84,11 +105,13 @@ public class DbRepoMessage implements Repo<Integer, Message> {
                 Integer fromId = resultSet.getInt("from_user_id");
                 String to = resultSet.getString("to_user_ids");
                 String message = resultSet.getString("message");
+                Date date = resultSet.getDate("date");
 
                 User userFrom = repoUser.find_by_id(fromId);
                 List<User> toUsers = getToUsers(to);
                 Message messageSent = new Message(userFrom,toUsers,message);
                 messageSent.setId(id);
+                messageSent.setDate(date.toLocalDate());
                 messages.add(messageSent);
             }
             return messages;
@@ -100,6 +123,11 @@ public class DbRepoMessage implements Repo<Integer, Message> {
         return messages;
     }
 
+    /**
+     * Gets the list of users from a string of ids
+     * @param to the string with user ids
+     * @return the user list
+     */
     public List<User> getToUsers(String to){
         String[] array = to.split(" ");
         int[] toUsersIds = new int[array.length];

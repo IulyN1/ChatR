@@ -231,7 +231,7 @@ public class UI {
                         System.out.println("From user ID:");
                         int fromId = scanner.nextInt();
                         System.out.println("To users IDs:");
-                        System.out.println("Separate them with ','");
+                        System.out.println("Separate them with ,");
                         scanner.nextLine();
                         String ids = scanner.nextLine();
                         System.out.println("Message:");
@@ -240,6 +240,12 @@ public class UI {
                         serviceMessage.sendMessage(fromId,toIds,message);
                         System.out.println("\nSuccess!\n");
                         break;
+                    case 2:
+                        System.out.println();
+                        for(Message msg: serviceMessage.get_all_messages())
+                            System.out.println(msg);
+                        System.out.println();
+                        break;
                     case 0:
                         return;
                     default:
@@ -247,7 +253,6 @@ public class UI {
                 }
             } catch (Exception e){
                 System.out.println(e.getMessage());
-                scanner.nextLine();
             }
         }
     }
