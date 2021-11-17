@@ -4,7 +4,7 @@ exceptions
 repository
 repository.fileRepo
 repository.inMemoryRepo
-service
+serviceUserFriendship
 ui
 utils
 validators

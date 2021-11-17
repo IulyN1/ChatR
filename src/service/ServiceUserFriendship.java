@@ -14,7 +14,7 @@ import validators.UserValidator;
 import java.util.Collection;
 import java.util.List;
 
-public class Service {
+public class ServiceUserFriendship {
     private final Repo<Integer, User> userRepo;
     private final Repo<Integer, Friendship> friendshipRepo;
     private final StrategyValidator<User> userValidator;
@@ -26,7 +26,7 @@ public class Service {
      * @param friendshipRepo repository used for Friendships
      * @throws Exception if an operation fails
      */
-    public Service(Repo<Integer, User> userRepo, Repo<Integer, Friendship> friendshipRepo) throws  Exception{
+    public ServiceUserFriendship(Repo<Integer, User> userRepo, Repo<Integer, Friendship> friendshipRepo) throws  Exception{
         this.userRepo = userRepo;
         this.friendshipRepo = friendshipRepo;
         this.userValidator = UserValidator.getInstance();
@@ -43,8 +43,8 @@ public class Service {
      * @param friendshipValidator validator used for validating a friendship
      * @throws Exception if an operation fails
      */
-    public Service(Repo<Integer, User> userRepo, Repo<Integer, Friendship> friendshipRepo,
-                   UserValidator userValidator, FriendshipValidator friendshipValidator) throws  Exception{
+    public ServiceUserFriendship(Repo<Integer, User> userRepo, Repo<Integer, Friendship> friendshipRepo,
+                                 UserValidator userValidator, FriendshipValidator friendshipValidator) throws  Exception{
         this.userRepo = userRepo;
         this.friendshipRepo = friendshipRepo;
         this.userValidator = userValidator;
