@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Message extends Entity<Integer>{
+    private Message reply;
     private User from;
     private List<User> to;
     private String message;
@@ -19,6 +20,7 @@ public class Message extends Entity<Integer>{
      */
     public Message(Integer id, User from, List<User> to, String message) {
         super(id);
+        this.reply = null;
         this.from = from;
         this.to = to;
         this.message = message;
@@ -33,6 +35,7 @@ public class Message extends Entity<Integer>{
      */
     public Message(User from, List<User> to, String message) {
         super(0);
+        this.reply = null;
         this.from = from;
         this.to = to;
         this.message = message;
@@ -132,17 +135,41 @@ public class Message extends Entity<Integer>{
     }
 
     /**
+     * Getter for reply message
+     * @return the reply message
+     */
+    public Message getReply() {
+        return reply;
+    }
+
+    /**
+     * Setter for replay message
+     * @param reply sets the message to which the actual message replies
+     */
+    public void setReply(Message reply) {
+        this.reply = reply;
+    }
+
+    /**
      * Converts the Message into a string
      * @return the message object as a string
      */
     @Override
     public String toString() {
-        return "Message{" +
+        if(reply==null){
+            return "Message: " +
+                    "id=" + id +
+                    ", from=" + from +
+                    ", to=" + to +
+                    ", message='" + message + '\'' +
+                    ", date=" + date;
+        }
+        return "Message: " +
                 "id=" + id +
                 ", from=" + from +
                 ", to=" + to +
                 ", message='" + message + '\'' +
                 ", date=" + date +
-                '}';
+                ", reply to message: " + reply.getId();
     }
 }

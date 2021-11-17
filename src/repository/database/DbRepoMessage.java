@@ -36,7 +36,7 @@ public class DbRepoMessage implements Repo<Integer, Message> {
      */
     @Override
     public void add(Message message) throws Exception {
-        String sql = "insert into messages (from_user_id,to_user_ids,message,date) values (?,?,?,?)";
+        String sql = "insert into messages (from_user_id,to_user_ids,message,date,reply) values (?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement ps = connection.prepareStatement(sql)){
@@ -49,6 +49,11 @@ public class DbRepoMessage implements Repo<Integer, Message> {
 
             ps.setString(3,message.getMessage());
             ps.setDate(4, Date.valueOf(message.getDate()));
+
+            if(message.getReply()==null)
+                ps.setNull(5,Types.INTEGER);
+            else
+                ps.setInt(5,message.getReply().getId());
 
             ps.executeUpdate();
         } catch (SQLException e){
@@ -84,9 +89,48 @@ public class DbRepoMessage implements Repo<Integer, Message> {
         return null;
     }
 
+    /**
+     * Finds a message by its id
+     * @param integer the id of the message
+     * @return the found message
+     * @throws RepoException if the message doesn't exist
+     */
     @Override
     public Message find_by_id(Integer integer) throws RepoException {
-        return null;
+        String sql = "select * from messages where id=?";
+
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1,integer);
+
+            try(ResultSet resultSet = statement.executeQuery()){
+                if (resultSet.next()) {
+                    Integer id = resultSet.getInt("id");
+                    Integer fromId = resultSet.getInt("from_user_id");
+                    String to = resultSet.getString("to_user_ids");
+                    String message = resultSet.getString("message");
+                    Date date = resultSet.getDate("date");
+                    int replyId = resultSet.getInt("reply");
+
+                    User userFrom = repoUser.find_by_id(fromId);
+                    List<User> toUsers = getToUsers(to);
+                    Message messageSent = new Message(userFrom,toUsers,message);
+                    messageSent.setId(id);
+                    messageSent.setDate(date.toLocalDate());
+                    if(replyId!=0){
+                        messageSent.setReply(find_by_id(replyId));
+                    }
+                    return messageSent;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new RepoException("Message doesn't exist!\n");
     }
 
     /**
@@ -106,12 +150,16 @@ public class DbRepoMessage implements Repo<Integer, Message> {
                 String to = resultSet.getString("to_user_ids");
                 String message = resultSet.getString("message");
                 Date date = resultSet.getDate("date");
+                int replyId = resultSet.getInt("reply");
 
                 User userFrom = repoUser.find_by_id(fromId);
                 List<User> toUsers = getToUsers(to);
                 Message messageSent = new Message(userFrom,toUsers,message);
                 messageSent.setId(id);
                 messageSent.setDate(date.toLocalDate());
+                if(replyId!=0){
+                    messageSent.setReply(find_by_id(replyId));
+                }
                 messages.add(messageSent);
             }
             return messages;

@@ -223,6 +223,7 @@ public class UI {
         while (true) {
             System.out.println("1. Send message");
             System.out.println("2. All messages");
+            System.out.println("3. Reply to message");
             System.out.println("0. Exit\n");
             try {
                 int c = scanner.nextInt();
@@ -245,6 +246,17 @@ public class UI {
                         for(Message msg: serviceMessage.get_all_messages())
                             System.out.println(msg);
                         System.out.println();
+                        break;
+                    case 3:
+                        System.out.println("Message id to reply to:");
+                        int idMessage = scanner.nextInt();
+                        System.out.println("Id of user who replies to this message:");
+                        int idReplier = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Message:");
+                        message = scanner.nextLine();
+                        serviceMessage.sendReplyMessage(idMessage,idReplier,message);
+                        System.out.println("\nSuccess!\n");
                         break;
                     case 0:
                         return;

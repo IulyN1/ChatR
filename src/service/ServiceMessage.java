@@ -74,6 +74,29 @@ public class ServiceMessage {
     }
 
     /**
+     * Sends a reply message
+     * @param idMessage the id of the message to which the user replies
+     * @param idReplier the id of the user who replies
+     * @param message the message itself
+     * @throws Exception if the operation fails
+     */
+    public void sendReplyMessage(int idMessage,int idReplier,String message) throws Exception {
+        Message messageToReplyTo = messageRepo.find_by_id(idMessage);
+        List<User> to = messageToReplyTo.getTo();
+        User replier = userRepo.find_by_id(idReplier);
+
+        if(to.contains(replier)){
+            List<User> receiver = new ArrayList<>();
+            receiver.add(messageToReplyTo.getFrom());
+            Message messageToSend = new Message(replier,receiver,message);
+            messageValidator.validate(messageToSend);
+            messageToSend.setReply(messageToReplyTo);
+            messageRepo.add(messageToSend);
+        }
+        else throw new MessageException("User didn't receive that message!\n");
+    }
+
+    /**
      * Gets all the messages
      * @return a collection of all the messages
      */
