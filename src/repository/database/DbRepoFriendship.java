@@ -6,7 +6,9 @@ import exceptions.RepoException;
 import repository.Repo;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +37,9 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
     @Override
     public void add(Friendship friendship) throws Exception {
         String sql = "insert into friendships (first_name_user1, last_name_user1, " +
-                "first_name_user2, last_name_user2, uid1, uid2) values (?,?,?,?,?,?)";
+                "first_name_user2, last_name_user2, uid1, uid2,friendship_date) values (?,?,?,?,?,?,?)";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String date = sdf.format(new Date());
         Collection<Friendship> all_friendships = find_all();
         for(Friendship fr: all_friendships){
             if(fr.equals(friendship)){
@@ -51,7 +55,7 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
             ps.setString(4,friendship.getUser2().getLastName());
             ps.setInt(5,friendship.getUser1().getId());
             ps.setInt(6,friendship.getUser2().getId());
-
+            ps.setString(7,date);
             ps.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
@@ -138,10 +142,11 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
                     String lastNameUser2 = resultSet.getString("last_name_user2");
                     int userId1 = resultSet.getInt("uid1");
                     int userId2 = resultSet.getInt("uid2");
+                    String friendshipDate=resultSet.getString("friendship_date");
 
                     User user1 = new User(userId1, firstNameUser1, lastNameUser1);
                     User user2 = new User(userId2, firstNameUser2, lastNameUser2);
-                    Friendship friendship = new Friendship(user1, user2);
+                    Friendship friendship = new Friendship(user1, user2,friendshipDate);
                     friendship.setId(id);
                     return friendship;
                 }
@@ -174,10 +179,10 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
                 String lastNameUser2 = resultSet.getString("last_name_user2");
                 int userId1 = resultSet.getInt("uid1");
                 int userId2 = resultSet.getInt("uid2");
-
+                String friendshipDate=resultSet.getString("friendship_date");
                 User user1 = new User(userId1, firstNameUser1, lastNameUser1);
                 User user2 = new User(userId2, firstNameUser2, lastNameUser2);
-                Friendship friendship = new Friendship(user1,user2);
+                Friendship friendship = new Friendship(user1,user2,friendshipDate);
                 friendship.setId(id);
                 friendships.add(friendship);
             }

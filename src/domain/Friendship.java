@@ -5,16 +5,18 @@ import java.util.Objects;
 public class Friendship extends Entity<Integer>{
     User user1;
     User user2;
-
+    String friendshipDate;
     /**
      * Constructor for Friendship
      * @param user1 the first user
      * @param user2 the second user
+     * @param friendshipDate
      */
-    public Friendship(User user1, User user2){
+    public Friendship(User user1, User user2,String friendshipDate){
         super(0);
         this.user1 = user1;
         this.user2 = user2;
+        this.friendshipDate=friendshipDate;
     }
 
     /**
@@ -60,7 +62,17 @@ public class Friendship extends Entity<Integer>{
     public void setUser2(User user2) {
         this.user2 = user2;
     }
+    public String getFriendshipDate(){
+        return friendshipDate;
+    }
 
+    /**
+     * Modifies the friendshipDate
+     * @param friendshipDate
+     */
+    public void setFriendshipDate(String friendshipDate){
+        this.friendshipDate=friendshipDate;
+    }
     /**
      * Modifies the entity
      * @param entity the new entity
@@ -71,6 +83,7 @@ public class Friendship extends Entity<Integer>{
         setUser1(friendship.getUser1());
         setUser2(friendship.getUser2());
     }
+
 
     /**
      * Checks if 2 objects are equal
