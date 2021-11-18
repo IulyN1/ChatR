@@ -16,11 +16,11 @@ public class Main {
         //Repo<Integer, User> userRepo = new FileRepoUser("src/users.csv");
         //Repo<Integer, Friendship> friendshipRepo = new FileRepoFriendship("src/friendships.csv");
         Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/network",
-                "postgres","postgres");
+                "postgres","Catinei18");
         Repo<Integer, Friendship> friendshipRepo = new DbRepoFriendship("jdbc:postgresql://localhost:5432/network",
-                "postgres","postgres");
+                "postgres","Catinei18");
         Repo<Integer, Message> messageRepo = new DbRepoMessage("jdbc:postgresql://localhost:5432/network",
-                "postgres","postgres", userRepo);
+                "postgres","Catinei18", userRepo);
 
         ServiceUserFriendship serviceUserFriendship = new ServiceUserFriendship(userRepo, friendshipRepo,
                 UserValidator.getInstance(), FriendshipValidator.getInstance());
