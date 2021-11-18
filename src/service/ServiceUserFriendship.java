@@ -11,7 +11,9 @@ import validators.PairValidator;
 import validators.StrategyValidator;
 import validators.UserValidator;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class ServiceUserFriendship {
@@ -143,11 +145,12 @@ public class ServiceUserFriendship {
     public void add_friendship(int id1,int id2) throws Exception{
         User user1 = userRepo.find_by_id(id1);
         User user2 = userRepo.find_by_id(id2);
-        Friendship friendship = new Friendship(user1, user2);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String date = sdf.format(new Date());
+        Friendship friendship = new Friendship(user1, user2,date);
         friendshipValidator.validate(friendship);
         friendshipRepo.add(friendship);
     }
-
     /**
      * Updates a friendship
      * @param id the id of the friendship

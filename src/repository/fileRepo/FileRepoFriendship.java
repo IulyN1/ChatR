@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Scanner;
 
 public class FileRepoFriendship extends SuperclassFileRepo<Friendship> {
@@ -38,7 +40,9 @@ public class FileRepoFriendship extends SuperclassFileRepo<Friendship> {
                     throw new RepoException("Row \"" + line + "\" is invalid!\n");
                 User user1 = new User(separate[0],separate[1]);
                 User user2 = new User(separate[2],separate[3]);
-                Friendship friendship = new Friendship(user1,user2);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                String date = sdf.format(new Date());
+                Friendship friendship = new Friendship(user1,user2,date);
                 FriendshipValidator.getInstance().validate(friendship);
                 super.add_no_save(friendship);
             }
