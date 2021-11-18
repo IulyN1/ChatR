@@ -7,6 +7,7 @@ import domain.User;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -172,6 +173,76 @@ public class UI {
                         for(Friendship fr: serviceUserFriendship.get_all_friendships())
                             System.out.println(fr);
                         System.out.println();
+                        break;
+                    case 6:
+                        System.out.println("ID: ");
+                        int ID = scanner.nextInt();
+                        User user = serviceUserFriendship.find_user_by_id(ID);//check user's existence
+                        System.out.println(user.getFirstName()+" "+user.getLastName()+"'s friendships are:");
+                        serviceUserFriendship.get_all_friendships().stream()
+                                .filter(
+                                        myKey->myKey.getUser1().getId()==ID
+                                )
+                                .forEach(
+                                        myKey->System.out.println(myKey.getUser2().getLastName()
+                                                +"|"
+                                                +myKey.getUser2().getFirstName()
+                                                +"|"
+                                                +myKey.getFriendshipDate()
+
+                                        )
+                                );
+                        serviceUserFriendship.get_all_friendships().stream()
+                                .filter(
+                                        myKey->myKey.getUser2().getId()==ID
+                                )
+                                .forEach(
+                                        myKey->System.out.println(myKey.getUser1().getLastName()
+                                                +"|"
+                                                +myKey.getUser1().getFirstName()
+                                                +"|"
+                                                +myKey.getFriendshipDate()
+                                        )
+                                );
+                        break;
+                    case 7:
+                        System.out.println("ID: ");
+                        id = scanner.nextInt();
+                        User user1 = serviceUserFriendship.find_user_by_id(id);//check user's existence
+                        System.out.println("MONTH: ");
+                        int month = scanner.nextInt();
+                        System.out.println("Friendship made in "+
+                                new DateFormatSymbols().getMonths()[month-1]+
+                                " for "+user1.getFirstName()+
+                                " "+
+                                user1.getLastName()+
+                                " are:");
+                        serviceUserFriendship.get_all_friendships().stream()
+                                .filter(
+                                        myKey->Integer.parseInt((myKey.getFriendshipDate().split("-")[1]))==month
+                                                && myKey.getUser1().getId()==id
+                                )
+                                .forEach(
+                                        myKey->System.out.println(myKey.getUser2().getLastName()
+                                                +"|"
+                                                +myKey.getUser2().getFirstName()
+                                                +"|"
+                                                +myKey.getFriendshipDate()
+                                        )
+                                );
+                        serviceUserFriendship.get_all_friendships().stream()
+                                .filter(
+                                        myKey->Integer.parseInt((myKey.getFriendshipDate().split("-")[1]))==month
+                                                && myKey.getUser2().getId()==id
+                                )
+                                .forEach(
+                                        myKey->System.out.println(myKey.getUser1().getLastName()
+                                                +"|"
+                                                +myKey.getUser1().getFirstName()
+                                                +"|"
+                                                +myKey.getFriendshipDate()
+                                        )
+                                );
                         break;
                     case 0:
                         return;
