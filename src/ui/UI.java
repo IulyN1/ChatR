@@ -134,6 +134,8 @@ public class UI {
             System.out.println("3. Delete friendship");
             System.out.println("4. Search friendship");
             System.out.println("5. All friendship");
+            System.out.println("6. User's friendships ");
+            System.out.println("7. User's friendships made in a certain month of the year");
             System.out.println("0. Exit\n");
             try{
                 int c = scanner.nextInt();
