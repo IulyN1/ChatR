@@ -136,6 +136,8 @@ public class UI {
             System.out.println("6. User's friendships ");
             System.out.println("7. User's friendships made in a certain month of the year");
             System.out.println("8. Friendship requests");
+            System.out.println("9. Send a friendship request");
+            System.out.println("10. Undo request");
             System.out.println("0. Exit\n");
             try{
                 int c = scanner.nextInt();
@@ -251,6 +253,20 @@ public class UI {
                         for(FriendshipRequest fr: serviceFriendshipRequest.getAllRequests())
                             System.out.println(fr);
                         System.out.println();
+                        break;
+                    case 9:
+                        System.out.println();
+                        System.out.println("First user ID: ");
+                        id1 = scanner.nextInt();
+                        System.out.println("Second user ID: ");
+                        id2 = scanner.nextInt();
+                        serviceFriendshipRequest.addFriendshipRequest(id1,id2);
+                        System.out.println("\nSuccess!\n");
+                    case 10:
+                        System.out.println("ID: ");
+                        id = scanner.nextInt();
+                        serviceFriendshipRequest.deleteFriendshipRequest(id);
+                        System.out.println("\nSuccess!\n");
                         break;
                     case 0:
                         return;

@@ -24,7 +24,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
 
     @Override
     public void add(FriendshipRequest friendshipRequest) throws Exception {
-        String sql = "insert into friendship_requst (sender_id, receiver_id, " +
+        String sql = "insert into friendship_request (sender_id, receiver_id, " +
                 "status) values (?,?,?)";
         Collection<FriendshipRequest> all_friendshipsReq = find_all();
         for(FriendshipRequest fr: all_friendshipsReq){
@@ -35,8 +35,8 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement ps = connection.prepareStatement(sql)){
 
-            ps.setString(1,friendshipRequest.getSender().getFirstName());
-            ps.setString(2, friendshipRequest.getReceiver().getLastName());
+            ps.setInt(1,friendshipRequest.getSender().getId());
+            ps.setInt(2, friendshipRequest.getReceiver().getId());
             ps.setString(3,friendshipRequest.getStatus());
             ps.executeUpdate();
         } catch (SQLException e){
