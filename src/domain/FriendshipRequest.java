@@ -56,27 +56,21 @@ public class FriendshipRequest extends Entity<Integer>{
     }
 
 
-    /**
-     * Checks if 2 objects are equal
-     * @param o other Object
-     * @return true if they are equal, false otherwise
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FriendshipRequest friendshipReq = (FriendshipRequest) o;
-        return sender.equals(friendshipReq.sender) && receiver.equals(friendshipReq.receiver);
+        FriendshipRequest that = (FriendshipRequest) o;
+        return sender.equals(that.sender) && receiver.equals(that.receiver) && status.equals(that.status);
     }
 
-    /**
-     * Gets the hash code of the objects
-     * @return the hash code
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(sender, receiver);
+        return Objects.hash(sender, receiver, status);
     }
+
+
+
     @Override
     public String toString() {
         return "FriendshipRequest{" +

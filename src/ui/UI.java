@@ -138,6 +138,7 @@ public class UI {
             System.out.println("8. Friendship requests");
             System.out.println("9. Send a friendship request");
             System.out.println("10. Undo request");
+            System.out.println("11. Respond to a friendship request");
             System.out.println("0. Exit\n");
             try{
                 int c = scanner.nextInt();
@@ -262,12 +263,31 @@ public class UI {
                         id2 = scanner.nextInt();
                         serviceFriendshipRequest.addFriendshipRequest(id1,id2);
                         System.out.println("\nSuccess!\n");
+                        break;
                     case 10:
                         System.out.println("ID: ");
                         id = scanner.nextInt();
                         serviceFriendshipRequest.deleteFriendshipRequest(id);
                         System.out.println("\nSuccess!\n");
                         break;
+                    case 11:
+                        System.out.println("ID: ");
+                        id = scanner.nextInt();
+                        System.out.println("0. Exit");
+                        System.out.println("1. Accept");
+                        System.out.println("2. Decline");
+                        int status=scanner.nextInt();
+                        switch(status){
+                            case(1):
+                                serviceFriendshipRequest.friendshipReplyRequest(id,"APPROVED");
+                                id1 = serviceFriendshipRequest.findFriendshipRequestById(id).getSender().getId();
+                                id2 = serviceFriendshipRequest.findFriendshipRequestById(id).getReceiver().getId();
+                                serviceUserFriendship.add_friendship(id1,id2);
+                                break;
+                            case(2):
+                                serviceFriendshipRequest.friendshipReplyRequest(id,"REJECTED");
+                                break;
+                        }
                     case 0:
                         return;
                     default:

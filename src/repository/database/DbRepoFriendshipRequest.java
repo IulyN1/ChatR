@@ -28,8 +28,9 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
                 "status) values (?,?,?)";
         Collection<FriendshipRequest> all_friendshipsReq = find_all();
         for(FriendshipRequest fr: all_friendshipsReq){
-            if(fr.equals(friendshipRequest)){
-                throw new RepoException("Friendship already exists!\n");
+            if(fr.getSender().getId()==friendshipRequest.getSender().getId()&&
+            fr.getReceiver().getId()==friendshipRequest.getReceiver().getId()){
+                throw new RepoException("Friendship request already exists!\n");
             }
         }
         try (Connection connection = DriverManager.getConnection(url,username,password);
@@ -59,10 +60,10 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement ps = connection.prepareStatement(sql)){
 
-            ps.setString(1,friendshipRequest.getSender().getFirstName());
-            ps.setString(2,friendshipRequest.getReceiver().getLastName());
+            ps.setInt(1,friendshipRequest.getSender().getId());
+            ps.setInt(2,friendshipRequest.getReceiver().getId());
             ps.setString(3,friendshipRequest.getStatus());
-            ps.setInt(7,friendshipRequest.getId());
+            ps.setInt(4,friendshipRequest.getId());
             ps.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
