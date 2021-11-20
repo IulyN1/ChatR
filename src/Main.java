@@ -11,6 +11,7 @@ import service.ServiceFriendshipRequest;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
 import ui.UI;
+import validators.FriendshipRequestValidator;
 import validators.FriendshipValidator;
 import validators.UserValidator;
 
@@ -31,7 +32,7 @@ public class Main {
                 UserValidator.getInstance(), FriendshipValidator.getInstance());
         ServiceMessage serviceMessage = new ServiceMessage(userRepo,messageRepo);
         ServiceFriendshipRequest serviceFriendshipRequest=new ServiceFriendshipRequest(userRepo,friendshipRequestRepo,
-                UserValidator.getInstance());
+                FriendshipRequestValidator.getInstance());
         UI ui = new UI(serviceUserFriendship, serviceMessage,serviceFriendshipRequest);
         ui.run();
         //Commentariu Test

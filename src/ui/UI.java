@@ -273,7 +273,7 @@ public class UI {
                     case 11:
                         System.out.println("ID: ");
                         id = scanner.nextInt();
-                        System.out.println("0. Exit");
+                        System.out.println("\n0. Exit");
                         System.out.println("1. Accept");
                         System.out.println("2. Decline");
                         int status=scanner.nextInt();
@@ -288,6 +288,8 @@ public class UI {
                                 serviceFriendshipRequest.friendshipReplyRequest(id,"REJECTED");
                                 break;
                         }
+                        System.out.println("\nSuccess!\n");
+                        break;
                     case 0:
                         return;
                     default:

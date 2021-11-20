@@ -16,12 +16,23 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     private String username;
     private String password;
 
+    /**
+     * Constructor for DbRepoFriendshipRequest
+     * @param url
+     * @param username
+     * @param password
+     */
     public DbRepoFriendshipRequest(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * added a friendshipRequest in db, in friendship_request table
+     * @param friendshipRequest
+     * @throws Exception
+     */
     @Override
     public void add(FriendshipRequest friendshipRequest) throws Exception {
         String sql = "insert into friendship_request (sender_id, receiver_id, " +
@@ -46,7 +57,11 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     }
 
 
-
+    /**
+     * update friendship request in db
+     * @param friendshipRequest
+     * @throws Exception
+     */
     @Override
     public void update(FriendshipRequest friendshipRequest) throws Exception {
         String sql = "update friendship_request set sender_id=?, receiver_id=?, " +
@@ -71,10 +86,10 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     }
 
     /**
-     * Deletes a friendship with a given id from the database, from friendships table
-     * @param integer the id of the friendship
-     * @return the deleted friendship
-     * @throws RepoException if the friendship doesn't exist
+     * Deletes a friendship request with a given id from the database, from friendship_request table
+     * @param integer the id of the friendshipRequest
+     * @return the deleted friendshipRequest
+     * @throws RepoException if the friendshipRequest doesn't exist
      */
     @Override
     public FriendshipRequest delete(Integer integer) throws RepoException {
@@ -95,10 +110,10 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     }
 
     /**
-     * Finds a friendship by id in the friendships table from the database
-     * @param integer the id of the friendship
-     * @return the found friendship
-     * @throws RepoException if the friendship doesn't exist
+     * Finds a friendshipRequest by id in the friendship_request table from the database
+     * @param integer the id of the friendshipRequest
+     * @return the found friendshipRequest
+     * @throws RepoException if the friendshipRequest doesn't exist
      */
     @Override
     public FriendshipRequest find_by_id(Integer integer) throws RepoException {
@@ -137,8 +152,8 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     }
 
     /**
-     * Gets all the friendships from the database, in the friendships table
-     * @return an iterable collection with all the friendships
+     * Gets all the friendshipsReq from the database, in the friendships_request table
+     * @return an iterable collection with all the friendships req
      */
     @Override
     public Collection<FriendshipRequest> find_all() {
