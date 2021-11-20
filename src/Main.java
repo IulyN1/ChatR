@@ -17,14 +17,12 @@ import validators.UserValidator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        //Repo<Integer, User> userRepo = new FileRepoUser("src/users.csv");
-        //Repo<Integer, Friendship> friendshipRepo = new FileRepoFriendship("src/friendships.csv");
         Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres");
         Repo<Integer, Friendship> friendshipRepo = new DbRepoFriendship("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres");
-        Repo<Integer, FriendshipRequest> friendshipRequestRepo = new DbRepoFriendshipRequest("jdbc:postgresql://localhost:5432/network",
-                "postgres","postgres");
+        Repo<Integer, FriendshipRequest> friendshipRequestRepo = new DbRepoFriendshipRequest(
+                "jdbc:postgresql://localhost:5432/network", "postgres","postgres");
         Repo<Integer, Message> messageRepo = new DbRepoMessage("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres", userRepo);
 
@@ -35,6 +33,5 @@ public class Main {
                 FriendshipRequestValidator.getInstance());
         UI ui = new UI(serviceUserFriendship, serviceMessage,serviceFriendshipRequest);
         ui.run();
-        //Commentariu Test
     }
 }
