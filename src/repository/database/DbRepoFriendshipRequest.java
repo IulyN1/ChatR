@@ -91,7 +91,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
         } catch (SQLException e){
             e.printStackTrace();
         }
-        throw new RepoException("Friendship doesn't exist!\n");
+        throw new RepoException("Friendship request doesn't exist!\n");
     }
 
     /**
