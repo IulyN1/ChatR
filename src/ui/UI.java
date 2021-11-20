@@ -1,9 +1,7 @@
 package ui;
 
-import domain.Friendship;
-import domain.Message;
-import domain.MessageDTO;
-import domain.User;
+import domain.*;
+import service.ServiceFriendshipRequest;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
 
@@ -16,15 +14,16 @@ import java.util.Scanner;
 public class UI {
      private final ServiceUserFriendship serviceUserFriendship;
      private final ServiceMessage serviceMessage;
-
+     private final ServiceFriendshipRequest serviceFriendshipRequest;
     /**
      * Constructor for UI
      * @param serviceUserFriendship the service to which the UI transmits the values about users and friendships
      * @param serviceMessage the service to which the UI transmits the values about messages between users
      */
-     public UI(ServiceUserFriendship serviceUserFriendship, ServiceMessage serviceMessage){
+     public UI(ServiceUserFriendship serviceUserFriendship, ServiceMessage serviceMessage,ServiceFriendshipRequest serviceFriendshipRequest){
          this.serviceUserFriendship = serviceUserFriendship;
          this.serviceMessage = serviceMessage;
+         this.serviceFriendshipRequest=serviceFriendshipRequest;
      }
 
     /**
@@ -136,6 +135,10 @@ public class UI {
             System.out.println("5. All friendship");
             System.out.println("6. User's friendships ");
             System.out.println("7. User's friendships made in a certain month of the year");
+            System.out.println("8. Friendship requests");
+            System.out.println("9. Send a friendship request");
+            System.out.println("10. Undo request");
+            System.out.println("11. Respond to a friendship request");
             System.out.println("0. Exit\n");
             try{
                 int c = scanner.nextInt();
@@ -245,6 +248,47 @@ public class UI {
                                                 +myKey.getFriendshipDate()
                                         )
                                 );
+                        break;
+                    case 8:
+                        System.out.println();
+                        for(FriendshipRequest fr: serviceFriendshipRequest.getAllRequests())
+                            System.out.println(fr);
+                        System.out.println();
+                        break;
+                    case 9:
+                        System.out.println();
+                        System.out.println("First user ID: ");
+                        id1 = scanner.nextInt();
+                        System.out.println("Second user ID: ");
+                        id2 = scanner.nextInt();
+                        serviceFriendshipRequest.addFriendshipRequest(id1,id2);
+                        System.out.println("\nSuccess!\n");
+                        break;
+                    case 10:
+                        System.out.println("ID: ");
+                        id = scanner.nextInt();
+                        serviceFriendshipRequest.deleteFriendshipRequest(id);
+                        System.out.println("\nSuccess!\n");
+                        break;
+                    case 11:
+                        System.out.println("ID: ");
+                        id = scanner.nextInt();
+                        System.out.println("\n0. Exit");
+                        System.out.println("1. Accept");
+                        System.out.println("2. Decline");
+                        int status=scanner.nextInt();
+                        switch(status){
+                            case(1):
+                                serviceFriendshipRequest.friendshipReplyRequest(id,"APPROVED");
+                                id1 = serviceFriendshipRequest.findFriendshipRequestById(id).getSender().getId();
+                                id2 = serviceFriendshipRequest.findFriendshipRequestById(id).getReceiver().getId();
+                                serviceUserFriendship.add_friendship(id1,id2);
+                                break;
+                            case(2):
+                                serviceFriendshipRequest.friendshipReplyRequest(id,"REJECTED");
+                                break;
+                        }
+                        System.out.println("\nSuccess!\n");
                         break;
                     case 0:
                         return;
