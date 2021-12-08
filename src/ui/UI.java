@@ -345,6 +345,7 @@ public class UI {
             System.out.println("2. All messages");
             System.out.println("3. Reply to message");
             System.out.println("4. Chat between 2 users");
+            System.out.println("5. Reply to all");
             System.out.println("0. Exit\n");
             try {
                 int c = scanner.nextInt();
@@ -391,6 +392,17 @@ public class UI {
                             System.out.println(dto);
                         }
                         System.out.println();
+                        break;
+                    case 5:
+                        System.out.println("Message id to reply to:");
+                        idMessage = scanner.nextInt();
+                        System.out.println("Id of user who replies to this message:");
+                        idReplier = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Message:");
+                        message = scanner.nextLine();
+                        serviceMessage.sendReplyToAll(idMessage,idReplier,message);
+                        System.out.println("\nSuccess!\n");
                         break;
                     case 0:
                         return;
