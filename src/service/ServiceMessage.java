@@ -135,4 +135,29 @@ public class ServiceMessage {
         if(chat.isEmpty()) throw new MessageException("There are no messages between these users!\n");
         return chat;
     }
+
+    /**
+     * Sends a reply to all message
+     * @param idMessage the id of the message to which the user replies
+     * @param idReplier the id of the user who replies to all
+     * @param message the message itself
+     * @throws Exception if the operation fails
+     */
+    public void sendReplyToAll(int idMessage,int idReplier,String message) throws Exception {
+        Message messageToReplyTo = messageRepo.find_by_id(idMessage);
+        List<User> to = messageToReplyTo.getTo();
+        User from = messageToReplyTo.getFrom();
+        User replier = userRepo.find_by_id(idReplier);
+
+        if(to.contains(replier)){
+            List<User> send_to = messageToReplyTo.getTo();
+            send_to.remove(replier);
+            send_to.add(from);
+            Message messageToSend = new Message(replier,send_to,message);
+            messageValidator.validate(messageToSend);
+            messageToSend.setReply(messageToReplyTo);
+            messageRepo.add(messageToSend);
+        }
+        else throw new MessageException("User didn't receive that message!\n");
+    }
 }
