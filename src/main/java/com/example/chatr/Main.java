@@ -1,3 +1,5 @@
+package com.example.chatr;
+
 import domain.Friendship;
 import domain.FriendshipRequest;
 import domain.Message;
