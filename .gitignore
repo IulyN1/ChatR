@@ -1,3 +1,14 @@
 .idea
 javadoc
 out
+*.class
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+.gradle
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
