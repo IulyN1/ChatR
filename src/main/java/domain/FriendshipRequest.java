@@ -6,7 +6,7 @@ public class FriendshipRequest extends Entity<Integer>{
     User sender;
     User receiver;
     String status;
-
+    String date;
     public FriendshipRequest(User sender, User receiver, String status) {
         super(0);
         this.sender = sender;
@@ -14,11 +14,27 @@ public class FriendshipRequest extends Entity<Integer>{
         this.status = status;
     }
 
+    public FriendshipRequest(User sender, User receiver, String status,String date) {
+        super(0);
+        this.sender = sender;
+        this.receiver = receiver;
+        this.status = status;
+        this.date=date;
+    }
+
     public FriendshipRequest(User sender, User receiver) {
         super(0);
         this.sender = sender;
         this.receiver = receiver;
         this.status="PENDING";
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public User getSender() {

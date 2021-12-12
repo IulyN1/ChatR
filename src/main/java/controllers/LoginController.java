@@ -14,7 +14,6 @@ import service.ServiceAccount;
 import service.ServiceFriendshipRequest;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
-
 import java.io.IOException;
 
 

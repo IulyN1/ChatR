@@ -6,7 +6,10 @@ import domain.User;
 import exceptions.RepoException;
 import repository.Repo;
 import validators.StrategyValidator;
+
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 
 public class ServiceFriendshipRequest {
@@ -36,23 +39,20 @@ public class ServiceFriendshipRequest {
     public void addFriendshipRequest(int id1,int id2) throws Exception{
         User sender = userRepo.find_by_id(id1);
         User receiver = userRepo.find_by_id(id2);
-        FriendshipRequest friendshipReq = new FriendshipRequest(sender, receiver);
+        System.out.println(sender);
+        System.out.println(receiver);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String date = sdf.format(new Date());
+        FriendshipRequest friendshipReq = new FriendshipRequest(sender, receiver,"PENDING",date);
         friendshipRequestValidator.validate(friendshipReq);
         friendshipRequestRepo.add(friendshipReq);
     }
 
     /**
      * update a FriendshipRequest between 2 users
-     * @param id
-     * @param idUser1
-     * @param idUser2
-     * @param status
      * @throws Exception
      */
-    public void updateFriendshipRequest(int id, int idUser1, int idUser2,String status) throws Exception{
-        User sender = userRepo.find_by_id(idUser1);
-        User receiver= userRepo.find_by_id(idUser2);
-        FriendshipRequest friendshipReq = new FriendshipRequest(sender, receiver,status);
+    public void updateFriendshipRequest(FriendshipRequest friendshipReq) throws Exception{
         friendshipRequestValidator.validate(friendshipReq);
         friendshipRequestRepo.update(friendshipReq);
     }
@@ -89,16 +89,16 @@ public class ServiceFriendshipRequest {
         if(friendshipRequest.getStatus()=="APPROVED")
             System.out.println("Friendship is already approved");
         else
-            if(friendshipRequest.getStatus()=="REJECTED")
-                System.out.println("Friendship is already rejected");
-            else{
-                friendshipRequest.setStatus(status);
-                updateFriendshipRequest(id,friendshipRequest.getSender().getId(),
-                        friendshipRequest.getReceiver().getId(),status);
-                if(status=="APPROVED"){
+        if(friendshipRequest.getStatus()=="REJECTED")
+            System.out.println("Friendship is already rejected");
+        else{
+            friendshipRequest.setStatus(status);
+            //updateFriendshipRequest(id,friendshipRequest.getSender().getId(),
+            //      friendshipRequest.getReceiver().getId(),status);
+            if(status=="APPROVED"){
 
-                }
             }
+        }
     }
 
     /**

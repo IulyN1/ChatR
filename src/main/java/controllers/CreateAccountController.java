@@ -1,4 +1,4 @@
-gitpackage controllers;
+package controllers;
 
 import com.example.chatr.Aplication;
 import domain.Account;
