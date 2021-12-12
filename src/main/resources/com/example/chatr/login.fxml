@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatr.LoginController">
+   <children>
+      <Label alignment="CENTER" layoutY="58.0" prefHeight="17.0" prefWidth="400.0" text="UserLogin">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <TextField fx:id="UsernameTextField" alignment="CENTER" layoutX="80.0" layoutY="197.0" prefHeight="50.0" prefWidth="240.0" promptText="Username">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="PasswordField" alignment="CENTER" layoutX="80.0" layoutY="300.0" prefHeight="50.0" prefWidth="240.0" promptText="Password">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </PasswordField>
+      <Button fx:id="LoginButton" layoutX="140.0" layoutY="392.0" mnemonicParsing="false" onMouseClicked="#onLoginButtonClick" prefHeight="50.0" prefWidth="120.0" text="Login">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label fx:id="CreateAccountLabel" layoutX="128.0" layoutY="481.0" onMouseClicked="#onCreateAccountLabelClick" onMouseEntered="#onCreateAccountLabelEntered" onMouseExited="#onCreateAccountLabelExited" text="Create an account" textFill="#1990ff">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
