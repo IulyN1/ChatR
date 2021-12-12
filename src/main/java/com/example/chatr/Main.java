@@ -16,7 +16,7 @@ import ui.UI;
 import validators.FriendshipRequestValidator;
 import validators.FriendshipValidator;
 import validators.UserValidator;
-
+/*
 public class Main {
     public static void main(String[] args) throws Exception {
         Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/socialnetwork",
@@ -36,4 +36,4 @@ public class Main {
         UI ui = new UI(serviceUserFriendship, serviceMessage,serviceFriendshipRequest);
         ui.run();
     }
-}
+}*/
