@@ -7,44 +7,53 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAccountController">
+<AnchorPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAccountController">
    <children>
       <Label alignment="CENTER" layoutX="1.0" layoutY="58.0" prefHeight="70.0" prefWidth="405.0" text="Register">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <TextField fx:id="UsernameTextField" alignment="CENTER" layoutX="80.0" layoutY="197.0" prefHeight="50.0" prefWidth="240.0" promptText="Username">
+      <TextField fx:id="UsernameTextField" alignment="CENTER" layoutX="80.0" layoutY="197.0" prefHeight="50.0"
+                 prefWidth="240.0" promptText="Username">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <TextField fx:id="FirstNameTextField" alignment="CENTER" layoutX="80.0" layoutY="248.0" prefHeight="50.0" prefWidth="240.0" promptText="First Name">
+      <TextField fx:id="FirstNameTextField" alignment="CENTER" layoutX="80.0" layoutY="248.0" prefHeight="50.0"
+                 prefWidth="240.0" promptText="First Name">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <TextField fx:id="LastNameTextField" alignment="CENTER" layoutX="80.0" layoutY="299.0" prefHeight="50.0" prefWidth="240.0" promptText="Last Name">
+      <TextField fx:id="LastNameTextField" alignment="CENTER" layoutX="80.0" layoutY="299.0" prefHeight="50.0"
+                 prefWidth="240.0" promptText="Last Name">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <PasswordField fx:id="PasswordField" alignment="CENTER" layoutX="80.0" layoutY="350.0" prefHeight="50.0" prefWidth="240.0" promptText="Password">
+      <PasswordField fx:id="PasswordField" alignment="CENTER" layoutX="80.0" layoutY="350.0" prefHeight="50.0"
+                     prefWidth="240.0" promptText="Password">
          <font>
             <Font size="24.0" />
          </font>
       </PasswordField>
-      <PasswordField fx:id="ConfirmPasswordField" alignment="CENTER" layoutX="80.0" layoutY="401.0" prefHeight="50.0" prefWidth="240.0" promptText="Confirm password">
+      <PasswordField fx:id="ConfirmPasswordField" alignment="CENTER" layoutX="80.0" layoutY="401.0"
+                     prefHeight="50.0" prefWidth="240.0" promptText="Confirm password">
          <font>
             <Font size="24.0" />
          </font>
       </PasswordField>
-      <Button fx:id="LoginButton" layoutX="140.0" layoutY="480.0" mnemonicParsing="false" onMouseClicked="#onSubmitButtonClick" prefHeight="50.0" prefWidth="120.0" text="Submit">
+      <Button fx:id="LoginButton" layoutX="140.0" layoutY="480.0" mnemonicParsing="false"
+              onMouseClicked="#onSubmitButtonClick" prefHeight="50.0" prefWidth="120.0" text="Submit">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label fx:id="BackLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-3.0" layoutY="559.0" onMouseClicked="#onBackLabelClick" onMouseEntered="#onBackLabelEntered" onMouseExited="#onBackLabelExited" prefHeight="27.0" prefWidth="97.0" text="&lt;-Back" textFill="#1990ff">
+      <Label fx:id="BackLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-3.0" layoutY="559.0"
+             onMouseClicked="#onBackLabelClick" onMouseEntered="#onBackLabelEntered" onMouseExited="#onBackLabelExited"
+             prefHeight="27.0" prefWidth="97.0" text="&lt;-Back" textFill="#1990ff">
          <font>
             <Font size="18.0" />
          </font>

@@ -37,7 +37,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="LogoutButton" mnemonicParsing="false" onMouseClicked="#onLogutButtonClick" prefHeight="55.0" prefWidth="274.0" text="Logout">
+            <Button fx:id="LogoutButton" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" prefHeight="55.0" prefWidth="274.0" text="Logout">
                <font>
                   <Font size="24.0" />
                </font>

@@ -45,7 +45,6 @@ public class LoginController {
         CreateAccountLabel.setStyle("-fx-underline: false");
     }
 
-
     public void onCreateAccountLabelClick(MouseEvent mouseEvent)throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("create-account.fxml"));
         root=fxmlLoader.load();
@@ -59,7 +58,7 @@ public class LoginController {
         stage.show();
     }
 
-    public void onLoginButtonClick(MouseEvent mouseEvent)throws  IOException{
+    public void onLoginButtonClick(MouseEvent mouseEvent)throws IOException{
         String username= UsernameTextField.getText();
         String password= PasswordField.getText();
         try {
@@ -69,7 +68,8 @@ public class LoginController {
             root=fxmlLoader.load();
             stage=(Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
             DashboardUtilityController dashboardUtilityController=fxmlLoader.getController();
-            dashboardUtilityController.setServices(serviceAccount,serviceUserFriendship,serviceMessage,serviceFriendshipRequest,account);
+            dashboardUtilityController.setServices(serviceAccount,serviceUserFriendship,serviceMessage,
+                    serviceFriendshipRequest,account);
             scene=new Scene(root);
             stage.setTitle("Menu");
             stage.setResizable(false);

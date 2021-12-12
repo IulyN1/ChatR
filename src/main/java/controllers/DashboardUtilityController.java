@@ -127,11 +127,11 @@ public class DashboardUtilityController {
         searchFilter();
     }
 
-    public void onLogutButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+    public void onLogoutButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
-        alert.setHeaderText("Yoy're about to logout!");
-        alert.setContentText("Are you sure? ");
+        alert.setHeaderText("You're about to logout!");
+        alert.setContentText("Are you sure?");
         if(alert.showAndWait().get()==ButtonType.OK){
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
             root=fxmlLoader.load();

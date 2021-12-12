@@ -6,6 +6,7 @@ public class Account extends Entity<Integer>{
     private String username;
     private String password;
     private int user_id;
+
     public Account(Integer id, String username, String password, int user_id) {
         super(id);
         this.username = username;
@@ -24,16 +25,13 @@ public class Account extends Entity<Integer>{
         return username;
     }
 
-
     public int getUser_id(){
         return user_id;
     }
 
-
     public void setUsername(String username) {
         this.username = username;
     }
-
 
     public String getPassword() {
         return password;

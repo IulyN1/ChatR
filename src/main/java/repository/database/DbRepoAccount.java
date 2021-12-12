@@ -14,24 +14,16 @@ public class DbRepoAccount implements Repo<Integer, Account> {
     private String username;
     private String password;
 
-
     public DbRepoAccount(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
 
-
     @Override
     public void add(Account account) throws Exception {
         String sql = "insert into accounts (username, password, " +
                 "user_id) values (?,?,?)";
-        Collection<Account> all_accounts = find_all();
-        for(Account ac: all_accounts){
-            if(ac.getUsername()==account.getUsername()){
-                throw new RepoException("Username already in use!\n");
-            }
-        }
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement ps = connection.prepareStatement(sql)){
 
@@ -43,8 +35,6 @@ public class DbRepoAccount implements Repo<Integer, Account> {
             e.printStackTrace();
         }
     }
-
-
 
     @Override
     public void update(Account account) throws Exception {
@@ -69,7 +59,6 @@ public class DbRepoAccount implements Repo<Integer, Account> {
         }
     }
 
-
     @Override
     public Account delete(Integer integer) throws RepoException {
         String sql = "delete from accounts where id=?";
@@ -85,7 +74,6 @@ public class DbRepoAccount implements Repo<Integer, Account> {
         }
         throw new RepoException("Account doesn't exist!\n");
     }
-
 
     @Override
     public Account find_by_id(Integer integer) throws RepoException {

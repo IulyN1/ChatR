@@ -47,9 +47,11 @@ public class CreateAccountController {
     public void onBackLabelEntered(MouseEvent mouseEvent){
         BackLabel.setStyle("-fx-underline: true;");
     }
+
     public void onBackLabelExited(MouseEvent mouseEvent){
         BackLabel.setStyle("-fx-underline: false");
     }
+
     public void onBackLabelClick(MouseEvent mouseEvent)throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
         root=fxmlLoader.load();
@@ -62,6 +64,7 @@ public class CreateAccountController {
         stage.setScene(scene);
         stage.show();
     }
+
     public void onSubmitButtonClick(MouseEvent mouseEvent){
         String username=UsernameTextField.getText();
         String password=PasswordField.getText();
@@ -73,7 +76,8 @@ public class CreateAccountController {
 
         if(!passwordConfirmation.equals(password)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Password fields do not match!");
+            alert.setTitle("Error");
+            alert.setHeaderText("Password fields do not match!");
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
         }
@@ -81,6 +85,7 @@ public class CreateAccountController {
 
         //add validator for user
             try {
+                serviceAccount.verifyUniqueUsername(username);
                 serviceUserFriendship.add_user(firstname, lastname);
                 for(User u:serviceUserFriendship.get_all_users())
                     if (u.getFirstName().equals(firstname)&& u.getLastName().equals(lastname)){
@@ -117,13 +122,11 @@ public class CreateAccountController {
         }
 
     }
-    public void setServices(ServiceAccount serviceAccount,ServiceUserFriendship serviceUserFriendship,ServiceMessage serviceMessage,ServiceFriendshipRequest serviceFriendshipRequest){
+    public void setServices(ServiceAccount serviceAccount,ServiceUserFriendship serviceUserFriendship,
+                            ServiceMessage serviceMessage,ServiceFriendshipRequest serviceFriendshipRequest){
         this.serviceAccount=serviceAccount;
         this.serviceUserFriendship=serviceUserFriendship;
         this.serviceMessage=serviceMessage;
         this.serviceFriendshipRequest=serviceFriendshipRequest;
     }
-
-
-
 }

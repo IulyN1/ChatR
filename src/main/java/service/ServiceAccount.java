@@ -8,6 +8,7 @@ import repository.Repo;
 import validators.StrategyValidator;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class ServiceAccount {
     private final Repo<Integer, User> userRepo;
@@ -25,18 +26,14 @@ public class ServiceAccount {
         accountRepo.add(account);
     }
 
-
     public void updateAccount(Account account) throws Exception{
         accountStrategyValidator.validate(account);
         accountRepo.update(account);
     }
 
-
-
     public Account deleteAccount(int id) throws RepoException{
         return accountRepo.delete(id);
     }
-
 
     public Account findAccountById(int id) throws RepoException{
         return accountRepo.find_by_id(id);
@@ -48,15 +45,19 @@ public class ServiceAccount {
 
     public Account verifyAccount(String username,String password) throws Exception {
         Collection<Account>accounts=getAllAccounts();
-        boolean valid=false;
         for (Account ac : accounts)
             if (ac.getUsername().equals(username) && ac.getPassword().equals(password)){
-                valid=true;
                 return ac;
             }
-        if (valid == false) {
-            throw new AccountException("Invalid username or pasword!");
+        throw new AccountException("Invalid username or password!");
+    }
+
+    public void verifyUniqueUsername(String username) throws Exception{
+        Collection<Account> accounts = getAllAccounts();
+        for(Account ac: accounts){
+            if(ac.getUsername().equals(username)){
+                throw new AccountException("Username already in use!");
+            }
         }
-        return null;
     }
 }
