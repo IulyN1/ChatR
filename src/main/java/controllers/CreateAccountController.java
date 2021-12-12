@@ -1,6 +1,6 @@
 package controllers;
 
-import com.example.chatr.Aplication;
+import com.example.chatr.Application;
 import domain.Account;
 import domain.User;
 import javafx.fxml.FXML;
@@ -51,7 +51,7 @@ public class CreateAccountController {
         BackLabel.setStyle("-fx-underline: false");
     }
     public void onBackLabelClick(MouseEvent mouseEvent)throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(Aplication.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
         root=fxmlLoader.load();
         LoginController loginController=fxmlLoader.getController();
         loginController.setServices(serviceAccount,serviceUserFriendship,serviceMessage,serviceFriendshipRequest);
@@ -96,7 +96,7 @@ public class CreateAccountController {
                 alert.showAndWait();
 
                 //go back to login
-                FXMLLoader fxmlLoader = new FXMLLoader(Aplication.class.getResource("login.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
                 root=fxmlLoader.load();
                 LoginController loginController=fxmlLoader.getController();
                 loginController.setServices(serviceAccount,serviceUserFriendship,serviceMessage,serviceFriendshipRequest);

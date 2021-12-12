@@ -1,6 +1,6 @@
 package controllers;
 
-import com.example.chatr.Aplication;
+import com.example.chatr.Application;
 import domain.Account;
 import domain.FriendshipRequest;
 import domain.User;
@@ -133,7 +133,7 @@ public class DashboardUtilityController {
         alert.setHeaderText("Yoy're about to logout!");
         alert.setContentText("Are you sure? ");
         if(alert.showAndWait().get()==ButtonType.OK){
-            FXMLLoader fxmlLoader = new FXMLLoader(Aplication.class.getResource("login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
             root=fxmlLoader.load();
             LoginController loginController=fxmlLoader.getController();
             loginController.setServices(serviceAccount,serviceUserFriendship,serviceMessage,serviceFriendshipRequest);

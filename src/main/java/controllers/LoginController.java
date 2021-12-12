@@ -1,6 +1,6 @@
 package controllers;
 
-import com.example.chatr.Aplication;
+import com.example.chatr.Application;
 import domain.Account;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +47,7 @@ public class LoginController {
 
 
     public void onCreateAccountLabelClick(MouseEvent mouseEvent)throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(Aplication.class.getResource("create-account.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("create-account.fxml"));
         root=fxmlLoader.load();
         stage=(Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
         CreateAccountController createAccountController=fxmlLoader.getController();
@@ -65,7 +65,7 @@ public class LoginController {
         try {
             serviceAccount.verifyAccount(username, password);
             Account account=serviceAccount.verifyAccount(username, password);
-            FXMLLoader fxmlLoader = new FXMLLoader(Aplication.class.getResource("dashboard-utility1.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("dashboard-utility1.fxml"));
             root=fxmlLoader.load();
             stage=(Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
             DashboardUtilityController dashboardUtilityController=fxmlLoader.getController();
