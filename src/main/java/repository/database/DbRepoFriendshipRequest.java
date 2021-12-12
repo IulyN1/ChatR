@@ -36,11 +36,11 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     @Override
     public void add(FriendshipRequest friendshipRequest) throws Exception {
         String sql = "insert into friendship_request (sender_id, receiver_id, " +
-                "status) values (?,?,?)";
+                "status"+",request_date"+") values (?,?,?,?)";
         Collection<FriendshipRequest> all_friendshipsReq = find_all();
         for(FriendshipRequest fr: all_friendshipsReq){
             if(fr.getSender().getId()==friendshipRequest.getSender().getId()&&
-            fr.getReceiver().getId()==friendshipRequest.getReceiver().getId()){
+                    fr.getReceiver().getId()==friendshipRequest.getReceiver().getId()){
                 throw new RepoException("Friendship request already exists!\n");
             }
         }
@@ -50,6 +50,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
             ps.setInt(1,friendshipRequest.getSender().getId());
             ps.setInt(2, friendshipRequest.getReceiver().getId());
             ps.setString(3,friendshipRequest.getStatus());
+            ps.setString(4,friendshipRequest.getDate());
             ps.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
@@ -64,12 +65,12 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
      */
     @Override
     public void update(FriendshipRequest friendshipRequest) throws Exception {
-        String sql = "update friendship_request set sender_id=?, receiver_id=?, " +
+        String sql = "update friendship_request  set sender_id=?, receiver_id=?, " +
                 "status=? where id=?";
         Collection<FriendshipRequest> all_friendshipsReq = find_all();
         for(FriendshipRequest fr: all_friendshipsReq){
             if(fr.equals(friendshipRequest)){
-                throw new RepoException("Friendship already exists!\n");
+                throw new RepoException("Friendship request already exists!\n");
             }
         }
         try (Connection connection = DriverManager.getConnection(url,username,password);
@@ -167,13 +168,14 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
                 int sender_id = resultSet.getInt("sender_id");
                 int receiver_id= resultSet.getInt("receiver_id");
                 String status = resultSet.getString("status");
+                String date = resultSet.getString("request_date");
                 User sender = new User(sender_id,
                         all_users.find_by_id(sender_id).getFirstName(),
-                        all_users.find_by_id(receiver_id).getLastName());
+                        all_users.find_by_id(sender_id).getLastName());
                 User receiver = new User(receiver_id,
                         all_users.find_by_id(receiver_id).getFirstName(),
                         all_users.find_by_id(receiver_id).getLastName());
-                FriendshipRequest friendshipReq = new FriendshipRequest(sender,receiver,status);
+                FriendshipRequest friendshipReq = new FriendshipRequest(sender,receiver,status,date);
                 friendshipReq.setId(id);
                 friendshipsReqs.add(friendshipReq);
             }

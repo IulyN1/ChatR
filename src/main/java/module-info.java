@@ -9,4 +9,6 @@ module com.example.chatr {
 
     opens com.example.chatr to javafx.fxml;
     exports com.example.chatr;
+    exports controllers;
+    opens controllers to javafx.fxml;
 }
