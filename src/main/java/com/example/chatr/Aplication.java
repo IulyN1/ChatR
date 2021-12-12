@@ -12,6 +12,7 @@ import service.ServiceAccount;
 import service.ServiceFriendshipRequest;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
+import validators.AccountValidator;
 import validators.FriendshipRequestValidator;
 import validators.FriendshipValidator;
 import validators.UserValidator;
@@ -20,16 +21,16 @@ import java.io.IOException;
 
 public class Aplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/socialnetwork",
+    public void start(Stage stage) throws Exception {
+        Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres");
-        Repo<Integer, Friendship> friendshipRepo = new DbRepoFriendship("jdbc:postgresql://localhost:5432/socialnetwork",
+        Repo<Integer, Friendship> friendshipRepo = new DbRepoFriendship("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres");
         Repo<Integer, FriendshipRequest> friendshipRequestRepo = new DbRepoFriendshipRequest(
-                "jdbc:postgresql://localhost:5432/socialnetwork", "postgres","postgres");
-        Repo<Integer, Message> messageRepo = new DbRepoMessage("jdbc:postgresql://localhost:5432/socialnetwork",
+                "jdbc:postgresql://localhost:5432/network", "postgres","postgres");
+        Repo<Integer, Message> messageRepo = new DbRepoMessage("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres", userRepo);
-        Repo<Integer, Account> accountRepo = new DbRepoAccount("jdbc:postgresql://localhost:5432/socialnetwork",
+        Repo<Integer, Account> accountRepo = new DbRepoAccount("jdbc:postgresql://localhost:5432/network",
                 "postgres","postgres");
 
         ServiceUserFriendship serviceUserFriendship = new ServiceUserFriendship(userRepo, friendshipRepo,
