@@ -19,13 +19,13 @@ import validators.UserValidator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/network",
+        Repo<Integer, User> userRepo = new DbRepoUser("jdbc:postgresql://localhost:5432/socialnetwork",
                 "postgres","postgres");
-        Repo<Integer, Friendship> friendshipRepo = new DbRepoFriendship("jdbc:postgresql://localhost:5432/network",
+        Repo<Integer, Friendship> friendshipRepo = new DbRepoFriendship("jdbc:postgresql://localhost:5432/socialnetwork",
                 "postgres","postgres");
         Repo<Integer, FriendshipRequest> friendshipRequestRepo = new DbRepoFriendshipRequest(
-                "jdbc:postgresql://localhost:5432/network", "postgres","postgres");
-        Repo<Integer, Message> messageRepo = new DbRepoMessage("jdbc:postgresql://localhost:5432/network",
+                "jdbc:postgresql://localhost:5432/socialnetwork", "postgres","postgres");
+        Repo<Integer, Message> messageRepo = new DbRepoMessage("jdbc:postgresql://localhost:5432/socialnetwork",
                 "postgres","postgres", userRepo);
 
         ServiceUserFriendship serviceUserFriendship = new ServiceUserFriendship(userRepo, friendshipRepo,
