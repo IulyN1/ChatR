@@ -1,19 +1,14 @@
 package com.example.chatr;
 
 import controllers.LoginController;
-import domain.Friendship;
-import domain.FriendshipRequest;
-import domain.Message;
-import domain.User;
+import domain.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import repository.Repo;
-import repository.database.DbRepoFriendship;
-import repository.database.DbRepoFriendshipRequest;
-import repository.database.DbRepoMessage;
-import repository.database.DbRepoUser;
+import repository.database.*;
+import service.ServiceAccount;
 import service.ServiceFriendshipRequest;
 import service.ServiceMessage;
 import service.ServiceUserFriendship;
