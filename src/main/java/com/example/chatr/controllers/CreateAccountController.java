@@ -2,6 +2,7 @@ package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
 import com.example.chatr.domain.Account;
+import com.example.chatr.domain.Entity;
 import com.example.chatr.domain.User;
 import com.example.chatr.service.ServiceAccount;
 import com.example.chatr.service.ServiceFriendshipRequest;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class CreateAccountController {
@@ -89,7 +91,8 @@ public class CreateAccountController {
                 serviceAccount.verifyUniqueUsername(username);
                 serviceUserFriendship.add_user(firstname, lastname);
                 List<User> users = serviceUserFriendship.get_all_users().stream().toList();
-                User newUser = users.get(users.size() - 1);
+                List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
+                User newUser = usersOrdered.get(usersOrdered.size() - 1);
                 Account account = new Account(username, password, newUser.getId());
                 System.out.println(account);
                 serviceAccount.addAccount(account);

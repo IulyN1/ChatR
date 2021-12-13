@@ -90,7 +90,8 @@ public class User extends Entity<Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User that = (User) o;
-        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
+        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) &&
+                Objects.equals(id, that.id);
     }
 
     /**

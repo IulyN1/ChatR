@@ -43,12 +43,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
         for (FriendshipRequest fr : all_friendshipsReq) {
             if (fr.getSender().getId() == friendshipRequest.getSender().getId() &&
                     fr.getReceiver().getId() == friendshipRequest.getReceiver().getId() &&
-                    fr.getStatus() == friendshipRequest.getStatus()) {
-                throw new RepoException("Friendship request already exists!\n");
-            }
-            else if (fr.getSender().getId() == friendshipRequest.getReceiver().getId() &&
-                    fr.getReceiver().getId() == friendshipRequest.getSender().getId() &&
-                    fr.getStatus() == friendshipRequest.getStatus()) {
+                    fr.getStatus().equals(friendshipRequest.getStatus()) ) {
                 throw new RepoException("Friendship request already exists!\n");
             }
         }

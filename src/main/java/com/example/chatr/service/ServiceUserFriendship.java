@@ -243,13 +243,13 @@ public class ServiceUserFriendship {
 
     public Collection<User> getUserNotFriends(User user){
         Collection<User> otherUsers = get_all_users();
-        otherUsers.remove(user);
+        otherUsers.removeIf(userX->(userX.getId().equals(user.getId())));
         for(Friendship fr: get_all_friendships()){
-            if(fr.getUser1().equals(user)){
-                otherUsers.remove(fr.getUser2());
+            if(fr.getUser1().getId().equals(user.getId())){
+                otherUsers.removeIf(userX->(userX.getId().equals(fr.getUser2().getId())));
             }
-            else if(fr.getUser2().equals(user)){
-                otherUsers.remove(fr.getUser1());
+            else if(fr.getUser2().getId().equals(user.getId())){
+                otherUsers.removeIf(userX->(userX.getId().equals(fr.getUser1().getId())));
             }
         }
         return otherUsers;
