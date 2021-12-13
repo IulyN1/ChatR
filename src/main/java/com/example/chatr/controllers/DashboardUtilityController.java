@@ -2,6 +2,7 @@ package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
 import com.example.chatr.domain.Account;
+import com.example.chatr.domain.Friendship;
 import com.example.chatr.domain.FriendshipRequest;
 import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.RepoException;
@@ -20,12 +21,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 
 public class DashboardUtilityController {
+    @FXML
+    Button ShowFriendsButton;
+    @FXML
+    Button AddFriendsButton;
     @FXML
     Button SendRequestButton;
     @FXML
@@ -71,7 +77,7 @@ public class DashboardUtilityController {
         c3.setCellValueFactory(new PropertyValueFactory<UserTable, String>("c2"));
         c4.setCellValueFactory(new PropertyValueFactory<UserTable, String>("date"));
         c4.setVisible(false);
-        dashboard_status = "Add friends";
+        dashboard_status = "Show friends";
         DeclineButton.setVisible(false);
     }
 
@@ -123,6 +129,31 @@ public class DashboardUtilityController {
         searchFilter();
     }
 
+    public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
+        dashboard_status = "Show friends";
+        TitleLabel.setText("Your friends");
+        SendRequestButton.setText("Delete");
+        SendRequestButton.setVisible(true);
+        c4.setVisible(false);
+        DeclineButton.setVisible(false);
+        modelGrade.clear();
+        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        for(Friendship fr: serviceUserFriendship.get_all_friendships()){
+            if(fr.getUser1().equals(currentUser)){
+                UserTable user = new UserTable(fr.getUser2().getId(),fr.getUser2().getFirstName(),
+                        fr.getUser2().getLastName());
+                modelGrade.add(user);
+            }
+            else if(fr.getUser2().equals(currentUser)){
+                UserTable user = new UserTable(fr.getUser1().getId(),fr.getUser1().getFirstName(),
+                        fr.getUser1().getLastName());
+                modelGrade.add(user);
+            }
+        }
+        table.setItems(modelGrade);
+        searchFilter();
+    }
+
     public void onLogoutButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
@@ -140,7 +171,6 @@ public class DashboardUtilityController {
             stage.setScene(scene);
             stage.show();
         }
-
     }
 
     public void setServices(ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship, ServiceMessage serviceMessage,
@@ -151,8 +181,8 @@ public class DashboardUtilityController {
         this.serviceFriendshipRequest = serviceFriendshipRequest;
         this.account = account;
         LabelHello.setText("Hello " + account.getUsername());
-        //-----initialize addFriendsDashboard------------
-        onAddFriendsButtonClick(null);
+        //-----initialize showFriendsDashboard------------
+        onShowFriendsButtonClick(null);
     }
 
     private void searchFilter() {
@@ -184,7 +214,7 @@ public class DashboardUtilityController {
             int receiver_id = Integer.parseInt(IdTextField.getText());
             serviceFriendshipRequest.addFriendshipRequest(account.getUser_id(), receiver_id);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succes!");
+            alert.setTitle("Success!");
             alert.setContentText("Friendship request sent!");
             alert.showAndWait();
         } catch (Exception e) {
@@ -193,7 +223,6 @@ public class DashboardUtilityController {
             alert.setHeaderText(e.getMessage());
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
-
         }
     }
 
@@ -208,7 +237,7 @@ public class DashboardUtilityController {
                     if (status.equals("APPROVED"))
                         serviceUserFriendship.add_friendship(fr.getSender().getId(), fr.getReceiver().getId());
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Succes!");
+                    alert.setTitle("Success!");
                     if (status.equals("REJECTED"))
                         alert.setContentText("Request rejected!");
                     if (status.equals("APPROVED"))
@@ -226,7 +255,7 @@ public class DashboardUtilityController {
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
         }
-
     }
+
 
 }
