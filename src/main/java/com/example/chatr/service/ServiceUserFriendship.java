@@ -4,8 +4,8 @@ import com.example.chatr.domain.Friendship;
 import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.repository.Repo;
-import com.example.chatr.utils.Network;
 import com.example.chatr.utils.Pair;
+import com.example.chatr.utils.Network;
 import com.example.chatr.validators.FriendshipValidator;
 import com.example.chatr.validators.PairValidator;
 import com.example.chatr.validators.StrategyValidator;
@@ -239,5 +239,19 @@ public class ServiceUserFriendship {
         Network network = new Network(users, friendships);
 
         return network.longest_path();
+    }
+
+    public Collection<User> getUserNotFriends(User user){
+        Collection<User> otherUsers = get_all_users();
+        otherUsers.remove(user);
+        for(Friendship fr: get_all_friendships()){
+            if(fr.getUser1().equals(user)){
+                otherUsers.remove(fr.getUser2());
+            }
+            else if(fr.getUser2().equals(user)){
+                otherUsers.remove(fr.getUser1());
+            }
+        }
+        return otherUsers;
     }
 }

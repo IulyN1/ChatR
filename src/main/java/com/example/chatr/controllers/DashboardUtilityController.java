@@ -25,6 +25,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 
 public class DashboardUtilityController {
@@ -82,10 +84,10 @@ public class DashboardUtilityController {
     }
 
     public void onSendButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws Exception {
-        if (dashboard_status.equals("Add friends")) {
-            addFriends();
-        } else if (dashboard_status.equals("Friendship request")) {
-            respondRequest("APPROVED");
+        switch (dashboard_status) {
+            case "Add friends" -> addFriends();
+            case "Friendship request" -> respondRequest("APPROVED");
+            case "Show friends" -> deleteFriend();
         }
     }
 
@@ -100,6 +102,7 @@ public class DashboardUtilityController {
         c4.setVisible(true);
         DeclineButton.setVisible(true);
         modelGrade.clear();
+
         for (FriendshipRequest fr : serviceFriendshipRequest.getAllRequests()) {
             if (fr.getReceiver().getId() == account.getUser_id() && fr.getStatus().equals("PENDING")) {
                 System.out.println(fr);
@@ -118,12 +121,12 @@ public class DashboardUtilityController {
         c4.setVisible(false);
         DeclineButton.setVisible(false);
         modelGrade.clear();
-        for (User user : serviceUserFriendship.get_all_users()) {
-            User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
-            if (!currentUser.equals(user)) {
-                UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName());
-                modelGrade.add(ut);
-            }
+
+        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        Collection<User> users = serviceUserFriendship.getUserNotFriends(currentUser);
+        for (User user : users) {
+            UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName());
+            modelGrade.add(ut);
         }
         table.setItems(modelGrade);
         searchFilter();
@@ -257,5 +260,42 @@ public class DashboardUtilityController {
         }
     }
 
+    private void deleteFriend() {
+        try{
+            User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+            int currentId = currentUser.getId();
+            int otherId = Integer.parseInt(IdTextField.getText());
 
+            // delete the friendship
+            for(Friendship fr: serviceUserFriendship.get_all_friendships()){
+                if(fr.getUser1().getId().equals(currentId) && fr.getUser2().getId().equals(otherId)){
+                    serviceUserFriendship.delete_friendship(fr.getId());
+                }
+                else if(fr.getUser2().getId().equals(currentId) && fr.getUser1().getId().equals(otherId)){
+                    serviceUserFriendship.delete_friendship(fr.getId());
+                }
+            }
+
+            // delete the friendship request
+            for(FriendshipRequest fr: serviceFriendshipRequest.getAllRequests()){
+                if(fr.getReceiver().getId().equals(currentId) && fr.getSender().getId().equals(otherId)){
+                    serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
+                }
+                else if(fr.getSender().getId().equals(currentId) && fr.getReceiver().getId().equals(otherId)){
+                    serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Success!");
+            alert.setContentText("Press OK to go back!");
+            alert.showAndWait();
+            onShowFriendsButtonClick(null);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.setContentText("Press OK to go back!");
+            alert.showAndWait();
+        }
+    }
 }
