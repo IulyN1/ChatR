@@ -1,10 +1,8 @@
 package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
-import com.example.chatr.domain.Account;
-import com.example.chatr.domain.Friendship;
-import com.example.chatr.domain.FriendshipRequest;
-import com.example.chatr.domain.User;
+import com.example.chatr.domain.*;
+import com.example.chatr.exceptions.FriendshipRequestException;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.service.ServiceAccount;
 import com.example.chatr.service.ServiceFriendshipRequest;
@@ -25,6 +23,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class DashboardUtilityController {
@@ -42,11 +43,13 @@ public class DashboardUtilityController {
     Label TitleLabel;
     @FXML
     Button LogoutButton;
+
     private ServiceAccount serviceAccount;
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
     private Account account;
+
     @FXML
     private Label LabelHello;
     @FXML
@@ -82,10 +85,10 @@ public class DashboardUtilityController {
     }
 
     public void onSendButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws Exception {
-        if (dashboard_status.equals("Add friends")) {
-            addFriends();
-        } else if (dashboard_status.equals("Friendship request")) {
-            respondRequest("APPROVED");
+        switch (dashboard_status) {
+            case "Add friends" -> addFriends();
+            case "Friendship request" -> respondRequest("APPROVED");
+            case "Show friends" -> deleteFriend();
         }
     }
 
@@ -100,6 +103,7 @@ public class DashboardUtilityController {
         c4.setVisible(true);
         DeclineButton.setVisible(true);
         modelGrade.clear();
+
         for (FriendshipRequest fr : serviceFriendshipRequest.getAllRequests()) {
             if (fr.getReceiver().getId() == account.getUser_id() && fr.getStatus().equals("PENDING")) {
                 System.out.println(fr);
@@ -118,12 +122,13 @@ public class DashboardUtilityController {
         c4.setVisible(false);
         DeclineButton.setVisible(false);
         modelGrade.clear();
-        for (User user : serviceUserFriendship.get_all_users()) {
-            User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
-            if (!currentUser.equals(user)) {
-                UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName());
-                modelGrade.add(ut);
-            }
+
+        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        Collection<User> users = serviceUserFriendship.getUserNotFriends(currentUser);
+        List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
+        for (User user : usersOrdered) {
+            UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName());
+            modelGrade.add(ut);
         }
         table.setItems(modelGrade);
         searchFilter();
@@ -137,6 +142,7 @@ public class DashboardUtilityController {
         c4.setVisible(false);
         DeclineButton.setVisible(false);
         modelGrade.clear();
+
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
         for(Friendship fr: serviceUserFriendship.get_all_friendships()){
             if(fr.getUser1().equals(currentUser)){
@@ -159,6 +165,7 @@ public class DashboardUtilityController {
         alert.setTitle("Logout");
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Are you sure?");
+
         if (alert.showAndWait().get() == ButtonType.OK) {
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
             root = fxmlLoader.load();
@@ -212,6 +219,7 @@ public class DashboardUtilityController {
     private void addFriends() {
         try {
             int receiver_id = Integer.parseInt(IdTextField.getText());
+            checkRequest(receiver_id);
             serviceFriendshipRequest.addFriendshipRequest(account.getUser_id(), receiver_id);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success!");
@@ -223,6 +231,15 @@ public class DashboardUtilityController {
             alert.setHeaderText(e.getMessage());
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
+        }
+    }
+
+    private void checkRequest(int userId) throws FriendshipRequestException {
+        for (FriendshipRequest fr2 : serviceFriendshipRequest.getAllRequests()) {
+            if (fr2.getSender().getId() == userId && fr2.getReceiver().getId() == account.getUser_id() &&
+                    fr2.getStatus().equals("PENDING")) {
+                throw new FriendshipRequestException("Already have a pending request from that user!");
+            }
         }
     }
 
@@ -257,5 +274,42 @@ public class DashboardUtilityController {
         }
     }
 
+    private void deleteFriend() {
+        try{
+            User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+            int currentId = currentUser.getId();
+            int otherId = Integer.parseInt(IdTextField.getText());
 
+            // delete the friendship
+            for(Friendship fr: serviceUserFriendship.get_all_friendships()){
+                if(fr.getUser1().getId().equals(currentId) && fr.getUser2().getId().equals(otherId)){
+                    serviceUserFriendship.delete_friendship(fr.getId());
+                }
+                else if(fr.getUser2().getId().equals(currentId) && fr.getUser1().getId().equals(otherId)){
+                    serviceUserFriendship.delete_friendship(fr.getId());
+                }
+            }
+            // delete the friendship request
+            for(FriendshipRequest fr: serviceFriendshipRequest.getAllRequests()){
+                if(fr.getReceiver().getId().equals(currentId) && fr.getSender().getId().equals(otherId)){
+                    serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
+                }
+                else if(fr.getSender().getId().equals(currentId) && fr.getReceiver().getId().equals(otherId)){
+                    serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
+                }
+            }
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Success!");
+            alert.setContentText("Press OK to go back!");
+            alert.showAndWait();
+            onShowFriendsButtonClick(null);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.setContentText("Press OK to go back!");
+            alert.showAndWait();
+        }
+    }
 }

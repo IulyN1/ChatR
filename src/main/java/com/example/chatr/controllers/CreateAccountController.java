@@ -2,6 +2,7 @@ package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
 import com.example.chatr.domain.Account;
+import com.example.chatr.domain.Entity;
 import com.example.chatr.domain.User;
 import com.example.chatr.service.ServiceAccount;
 import com.example.chatr.service.ServiceFriendshipRequest;
@@ -20,6 +21,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class CreateAccountController {
     @FXML
@@ -85,13 +90,13 @@ public class CreateAccountController {
             try {
                 serviceAccount.verifyUniqueUsername(username);
                 serviceUserFriendship.add_user(firstname, lastname);
-                for (User u : serviceUserFriendship.get_all_users())
-                    if (u.getFirstName().equals(firstname) && u.getLastName().equals(lastname)) {
-                        Account account = new Account(username, password, u.getId());
-                        System.out.println(account);
-                        serviceAccount.addAccount(account);
-                        break;
-                    }
+                List<User> users = serviceUserFriendship.get_all_users().stream().toList();
+                List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
+                User newUser = usersOrdered.get(usersOrdered.size() - 1);
+                Account account = new Account(username, password, newUser.getId());
+                System.out.println(account);
+                serviceAccount.addAccount(account);
+
                 //message
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Account successfully created!");
@@ -116,9 +121,7 @@ public class CreateAccountController {
                 alert.setHeaderText(e.getMessage());
                 alert.setContentText("Press Ok to go back!");
                 alert.showAndWait();
-
             }
-
     }
 
     public void setServices(ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship,

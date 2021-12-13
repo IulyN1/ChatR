@@ -5,6 +5,7 @@ import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.repository.Repo;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,12 +37,6 @@ public class DbRepoUser implements Repo<Integer, User> {
     @Override
     public void add(User user) throws Exception {
         String sql = "insert into users (first_name, last_name) values (?,?)";
-        Collection<User> all_users = find_all();
-        for (User us : all_users) {
-            if (us.equals(user)) {
-                throw new RepoException("User already exists!\n");
-            }
-        }
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -150,7 +145,7 @@ public class DbRepoUser implements Repo<Integer, User> {
      */
     @Override
     public Collection<User> find_all() {
-        Set<User> users = new HashSet<>();
+        ArrayList<User> users = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from users");
              ResultSet resultSet = statement.executeQuery()) {
