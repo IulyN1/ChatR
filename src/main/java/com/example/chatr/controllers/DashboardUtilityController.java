@@ -109,7 +109,7 @@ public class DashboardUtilityController {
          */
     }
 
-    public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+    public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Friendship request";
         TitleLabel.setText("Friendship request");
         SendRequestButton.setText("Accept");
@@ -120,6 +120,7 @@ public class DashboardUtilityController {
 
         //create new column
         TableColumn buttonColumn2=new TableColumn<>();
+        buttonColumn2.setCellValueFactory(new PropertyValueFactory<UserTable,String>("button2"));
         ArrayList<Button>tableButtons2=new ArrayList<Button>();
         table.getColumns().add(5,buttonColumn2);
         for (FriendshipRequest fr : page.getFriendshipRequests()) {
@@ -129,11 +130,24 @@ public class DashboardUtilityController {
                 tableButtons.add(auxButton);
                 tableButtons2.add(auxButton2);
                 UserTable userTable = new UserTable(fr.getSender().getId(), fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton,auxButton2);
-                //----Added event hanlder for any buttton
+                //----Added event hanlder for any buttton("ACCEPT")
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-
-                        });
+                    try {
+                        respondRequest("APPROVED",fr.getSender().getId());
+                    } catch (RepoException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                //----Added event hanlder for any buttton("DECLINE")
+                auxButton2.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                    try {
+                        respondRequest("REJECTED",fr.getSender().getId());
+                    } catch (RepoException ex) {
+                        ex.printStackTrace();
+                    }
+                });
                         modelGrade.add(userTable);
+
             }
         }
         table.setItems(modelGrade);
@@ -321,16 +335,25 @@ public class DashboardUtilityController {
         }
     }
 
-    private void respondRequest(String status) throws Exception {
+    private void respondRequest(String status,int id) throws RepoException {
         try {
-            int id = Integer.parseInt(IdTextField.getText());
-            serviceUserFriendship.find_user_by_id(id);//validate id
-            for (FriendshipRequest fr : serviceFriendshipRequest.getAllRequests()) {
-                if (fr.getSender().getId() == id && fr.getReceiver().getId() == account.getUser_id()) {
+            for (FriendshipRequest fr : page.getFriendshipRequests()) {
+                if (fr.getSender().getId() == id ) {
+                    //update Page
+                    ArrayList<FriendshipRequest>pageRequests=page.getFriendshipRequests();
+                    pageRequests.remove(fr);
+
                     fr.setStatus(status);
                     serviceFriendshipRequest.updateFriendshipRequest(fr);
-                    if (status.equals("APPROVED"))
+
+                    pageRequests.add(fr);
+
+                    if (status.equals("APPROVED")) {
                         serviceUserFriendship.add_friendship(fr.getSender().getId(), fr.getReceiver().getId());
+                        //update page
+                        ArrayList<User>friends=page.getFriends();
+                        friends.add(serviceUserFriendship.find_user_by_id(id));
+                    }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success!");
                     if (status.equals("REJECTED"))
@@ -341,7 +364,7 @@ public class DashboardUtilityController {
                     onFriendshipRequestsButtonClick(null);//update table
                     break;
                 }
-
+                onFriendshipRequestsButtonClick(null);
             }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
