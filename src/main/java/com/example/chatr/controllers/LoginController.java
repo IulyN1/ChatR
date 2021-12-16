@@ -1,6 +1,7 @@
 package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
+import com.example.chatr.Page;
 import com.example.chatr.domain.Account;
 import com.example.chatr.service.ServiceAccount;
 import com.example.chatr.service.ServiceFriendshipRequest;
@@ -69,8 +70,7 @@ public class LoginController {
             root = fxmlLoader.load();
             stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             DashboardUtilityController dashboardUtilityController = fxmlLoader.getController();
-            dashboardUtilityController.setServices(serviceAccount, serviceUserFriendship, serviceMessage,
-                    serviceFriendshipRequest, account);
+            dashboardUtilityController.setPage(new Page(account,serviceUserFriendship,serviceMessage,serviceFriendshipRequest,serviceAccount));
             scene = new Scene(root);
             stage.setTitle("Menu");
             stage.setResizable(false);

@@ -1,22 +1,36 @@
 package com.example.chatr.controllers;
 
+import javafx.scene.control.Button;
+
 public class UserTable {
     private int id;
     private String c1;
     private String c2;
     private String date;
-
-    public UserTable(int id, String c1, String c2) {
+    private Button button1;
+    private Button button2;
+    public UserTable(int id, String c1, String c2,Button button1) {
         this.id = id;
         this.c1 = c1;
         this.c2 = c2;
+        this.button1=button1;
     }
 
-    public UserTable(int id, String c1, String c2, String Date) {
+    public UserTable(int id, String c1, String c2, String Date,Button button1) {
         this.id = id;
         this.c1 = c1;
         this.c2 = c2;
         this.date = Date;
+        this.button1=button1;
+    }
+
+    public UserTable(int id,String c1, String c2, String Date, Button button1,Button button2){
+        this.id=id;
+        this.c1=c1;
+        this.c2=c2;
+        this.date=Date;
+        this.button1=button1;
+        this.button2=button2;
     }
 
     public String getDate() {
@@ -49,6 +63,26 @@ public class UserTable {
 
     public void setC2(String c2) {
         this.c2 = c2;
+    }
+
+    public Button getButton1() {
+        return button1;
+    }
+
+    public void setButton1(Button button1) {
+        this.button1 = button1;
+    }
+
+    public void setButtonText(String text){
+        this.button1.setText(text);
+    }
+
+    public Button getButton2() {
+        return button2;
+    }
+
+    public void setButton2(Button button2) {
+        this.button2 = button2;
     }
 
     @Override
