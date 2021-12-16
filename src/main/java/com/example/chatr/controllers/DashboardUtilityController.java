@@ -103,7 +103,7 @@ public class DashboardUtilityController {
         ArrayList<Button>tableButtons2=new ArrayList<Button>();
         table.getColumns().add(5,buttonColumn2);
         for (FriendshipRequest fr : page.getFriendshipRequests()) {
-            if (fr.getStatus().equals("PENDING")) {
+            if (fr.getStatus().equals("PENDING")&&fr.getSender().getId()!=account.getUser_id()) {
                 Button auxButton=new Button("Accept");
                 Button auxButton2=new Button("Decline");
                 tableButtons.add(auxButton);
