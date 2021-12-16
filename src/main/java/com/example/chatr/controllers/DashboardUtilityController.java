@@ -104,7 +104,9 @@ public class DashboardUtilityController {
     }
 
     public void onDeclineButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws Exception {
+        /*
         respondRequest("REJECTED");
+         */
     }
 
     public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
@@ -114,15 +116,22 @@ public class DashboardUtilityController {
         c4.setVisible(true);
         DeclineButton.setVisible(true);
         modelGrade.clear();
-        for (FriendshipRequest fr : serviceFriendshipRequest.getAllRequests()) {
-            if (fr.getReceiver().getId() == account.getUser_id() && fr.getStatus().equals("PENDING")) {
-                System.out.println(fr);
-                Button auxButton=new Button("Request");
+        tableButtons.clear();
+
+        //create new column
+        TableColumn buttonColumn2=new TableColumn<>();
+        ArrayList<Button>tableButtons2=new ArrayList<Button>();
+        table.getColumns().add(5,buttonColumn2);
+        for (FriendshipRequest fr : page.getFriendshipRequests()) {
+            if (fr.getStatus().equals("PENDING")) {
+                Button auxButton=new Button("Accept");
+                Button auxButton2=new Button("Decline");
                 tableButtons.add(auxButton);
-                UserTable userTable = new UserTable(fr.getSender().getId(), fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton);
+                tableButtons2.add(auxButton2);
+                UserTable userTable = new UserTable(fr.getSender().getId(), fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton,auxButton2);
                 //----Added event hanlder for any buttton
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                            System.out.println("s-a apasat");
+
                         });
                         modelGrade.add(userTable);
             }
@@ -145,10 +154,10 @@ public class DashboardUtilityController {
         for (User user : usersOrdered) {
             Button auxButton;
             boolean isSent=false;
-            for(User rec: page.getRequestSentTo()){
-                if(rec.equals(user)){
-                    ArrayList<User>friends=page.getRequestSentTo();
-                    page.setRequestSentTo(friends);
+            for(FriendshipRequest fr: page.getFriendshipRequests()){
+                if(serviceUserFriendship.find_user_by_id(fr.getReceiver().getId()).equals(user)){
+                    ArrayList<FriendshipRequest>friends=page.getFriendshipRequests();
+                    page.setFriendshipRequests(friends);
                     isSent=true;
                     break;
                 }
@@ -161,7 +170,8 @@ public class DashboardUtilityController {
             UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName(),auxButton);
             //----Added event hanlder for any buttton
             auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                if(auxButton.getText().equals("Add"))addFriends(ut.getId());
+                if(auxButton.getText().equals("Add"))
+                    addFriends(ut.getId());
                 else
                     deleteRequest(ut.getId());
 
@@ -257,9 +267,10 @@ public class DashboardUtilityController {
 //            checkRequest(receiver_id);
             serviceFriendshipRequest.addFriendshipRequest(account.getUser_id(), receiver_id);
             //update page
-            ArrayList<User>friends=page.getRequestSentTo();
-            friends.add(serviceUserFriendship.find_user_by_id(receiver_id));
-            page.setRequestSentTo(friends);
+            FriendshipRequest friendshipRequest=new FriendshipRequest(serviceUserFriendship.find_user_by_id(account.getUser_id()),serviceUserFriendship.find_user_by_id(receiver_id));
+            ArrayList<FriendshipRequest>friends=page.getFriendshipRequests();
+            friends.add(friendshipRequest);
+            page.setFriendshipRequests(friends);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success!");
             alert.setContentText("Friendship request sent!");
@@ -281,9 +292,11 @@ public class DashboardUtilityController {
                     serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
             }
             //update page
-            ArrayList<User> friends = page.getRequestSentTo();
-            friends.remove(serviceUserFriendship.find_user_by_id(receiver_id));
-            page.setRequestSentTo(friends);
+            ArrayList<FriendshipRequest> friends = page.getFriendshipRequests();
+            FriendshipRequest fr=new FriendshipRequest(serviceUserFriendship.find_user_by_id(account.getUser_id()),
+                    serviceUserFriendship.find_user_by_id(receiver_id));
+            friends.remove(fr);
+            page.setFriendshipRequests(friends);
             //alert
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success!");

@@ -19,9 +19,11 @@ public class Page {
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
     private ServiceAccount serviceAccount;
+
     private ArrayList<User>Friends=new ArrayList<User>();
-    private ArrayList<User>RequestSentTo=new ArrayList<User>();
-    private ArrayList<User>RequestReceivedFrom=new ArrayList<User>();
+    private ArrayList<FriendshipRequest>friendshipRequests=new ArrayList<FriendshipRequest>();
+
+
     public Page(Account account, ServiceUserFriendship serviceUserFriendship,
                 ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest,ServiceAccount serviceAccount) throws RepoException {
         this.account = account;
@@ -34,12 +36,9 @@ public class Page {
     }
 
     private void createRequestsLists() throws RepoException {
-        for(FriendshipRequest friendshipRequest:serviceFriendshipRequest.getAllRequests()){
-            if(friendshipRequest.getSender().getId()==account.getUser_id())
-                RequestSentTo.add(serviceUserFriendship.find_user_by_id(friendshipRequest.getReceiver().getId()));
-            else if(friendshipRequest.getReceiver().getId()==account.getUser_id())
-                RequestReceivedFrom.add(serviceUserFriendship.find_user_by_id(friendshipRequest.getSender().getId()));
-        }
+        for(FriendshipRequest fr:serviceFriendshipRequest.getAllRequests())
+            if(fr.getSender().getId()==account.getUser_id()||fr.getReceiver().getId()==account.getUser_id())
+                friendshipRequests.add(fr);
     }
 
     private void createFriendsList() throws RepoException {
@@ -93,14 +92,6 @@ public class Page {
         Friends = friends;
     }
 
-    public ArrayList<User> getRequestSentTo() {
-        return RequestSentTo;
-    }
-
-    public void setRequestSentTo(ArrayList<User> requestSentTo) {
-        RequestSentTo = requestSentTo;
-    }
-
     public ServiceAccount getServiceAccount() {
         return serviceAccount;
     }
@@ -109,12 +100,13 @@ public class Page {
         this.serviceAccount = serviceAccount;
     }
 
-    public ArrayList<User> getRequestReceivedFrom() {
-        return RequestReceivedFrom;
+
+    public ArrayList<FriendshipRequest> getFriendshipRequests() {
+        return friendshipRequests;
     }
 
-    public void setRequestReceivedFrom(ArrayList<User> requestReceivedFrom) {
-        RequestReceivedFrom = requestReceivedFrom;
+    public void setFriendshipRequests(ArrayList<FriendshipRequest> friendshipRequests) {
+        this.friendshipRequests = friendshipRequests;
     }
 
     @Override
@@ -122,22 +114,20 @@ public class Page {
         if (this == o) return true;
         if (!(o instanceof Page)) return false;
         Page page = (Page) o;
-        return account.equals(page.account)  && serviceUserFriendship.equals(page.serviceUserFriendship) &&
-                serviceMessage.equals(page.serviceMessage) && serviceFriendshipRequest.equals(page.serviceFriendshipRequest) && Friends.equals(page.Friends)
-                && RequestSentTo.equals(page.RequestSentTo) && RequestReceivedFrom.equals(page.RequestReceivedFrom);
+        return account.equals(page.account) && serviceUserFriendship.equals(page.serviceUserFriendship) && serviceMessage.equals(page.serviceMessage) && serviceFriendshipRequest.equals(page.serviceFriendshipRequest) && serviceAccount.equals(page.serviceAccount) && Friends.equals(page.Friends) && friendshipRequests.equals(page.friendshipRequests);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account, serviceUserFriendship, serviceMessage, serviceFriendshipRequest, Friends, RequestSentTo, RequestReceivedFrom);
+        return Objects.hash(account, serviceUserFriendship, serviceMessage, serviceFriendshipRequest, serviceAccount, Friends, friendshipRequests);
     }
 
     @Override
     public String toString() {
         return "Page{" +
-                "Friends=" + Friends +
-                ", RequestSentTo=" + RequestSentTo +
-                ", RequestReceivedFrom=" + RequestReceivedFrom +
+                "account=" + account +
+                ", Friends=" + Friends +
+                ", friendshipRequests=" + friendshipRequests +
                 '}';
     }
 }
