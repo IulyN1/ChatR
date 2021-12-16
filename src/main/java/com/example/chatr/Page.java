@@ -15,21 +15,20 @@ import java.util.Objects;
 
 public class Page {
     private Account account;
-    private ServiceAccount serviceAccount;
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
-
-    private ArrayList<User>Friends;
-    private ArrayList<User>RequestSentTo;
-    private ArrayList<User>RequestReceivedFrom;
-    public Page(Account account, ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship,
-                ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest) throws RepoException {
+    private ServiceAccount serviceAccount;
+    private ArrayList<User>Friends=new ArrayList<User>();
+    private ArrayList<User>RequestSentTo=new ArrayList<User>();
+    private ArrayList<User>RequestReceivedFrom=new ArrayList<User>();
+    public Page(Account account, ServiceUserFriendship serviceUserFriendship,
+                ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest,ServiceAccount serviceAccount) throws RepoException {
         this.account = account;
-        this.serviceAccount = serviceAccount;
         this.serviceUserFriendship = serviceUserFriendship;
         this.serviceMessage = serviceMessage;
         this.serviceFriendshipRequest = serviceFriendshipRequest;
+        this.serviceAccount=serviceAccount;
         createFriendsList();
         createRequestsLists();
     }
@@ -37,9 +36,9 @@ public class Page {
     private void createRequestsLists() throws RepoException {
         for(FriendshipRequest friendshipRequest:serviceFriendshipRequest.getAllRequests()){
             if(friendshipRequest.getSender().getId()==account.getUser_id())
-                RequestSentTo.add(serviceUserFriendship.find_user_by_id(friendshipRequest.getSender().getId()));
+                RequestSentTo.add(serviceUserFriendship.find_user_by_id(friendshipRequest.getReceiver().getId()));
             else if(friendshipRequest.getReceiver().getId()==account.getUser_id())
-                RequestReceivedFrom.add(serviceUserFriendship.find_user_by_id(friendshipRequest.getReceiver().getId()));
+                RequestReceivedFrom.add(serviceUserFriendship.find_user_by_id(friendshipRequest.getSender().getId()));
         }
     }
 
@@ -60,13 +59,7 @@ public class Page {
         this.account = account;
     }
 
-    public ServiceAccount getServiceAccount() {
-        return serviceAccount;
-    }
 
-    public void setServiceAccount(ServiceAccount serviceAccount) {
-        this.serviceAccount = serviceAccount;
-    }
 
     public ServiceUserFriendship getServiceUserFriendship() {
         return serviceUserFriendship;
@@ -108,6 +101,14 @@ public class Page {
         RequestSentTo = requestSentTo;
     }
 
+    public ServiceAccount getServiceAccount() {
+        return serviceAccount;
+    }
+
+    public void setServiceAccount(ServiceAccount serviceAccount) {
+        this.serviceAccount = serviceAccount;
+    }
+
     public ArrayList<User> getRequestReceivedFrom() {
         return RequestReceivedFrom;
     }
@@ -121,14 +122,14 @@ public class Page {
         if (this == o) return true;
         if (!(o instanceof Page)) return false;
         Page page = (Page) o;
-        return account.equals(page.account) && serviceAccount.equals(page.serviceAccount) && serviceUserFriendship.equals(page.serviceUserFriendship) &&
+        return account.equals(page.account)  && serviceUserFriendship.equals(page.serviceUserFriendship) &&
                 serviceMessage.equals(page.serviceMessage) && serviceFriendshipRequest.equals(page.serviceFriendshipRequest) && Friends.equals(page.Friends)
                 && RequestSentTo.equals(page.RequestSentTo) && RequestReceivedFrom.equals(page.RequestReceivedFrom);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account, serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest, Friends, RequestSentTo, RequestReceivedFrom);
+        return Objects.hash(account, serviceUserFriendship, serviceMessage, serviceFriendshipRequest, Friends, RequestSentTo, RequestReceivedFrom);
     }
 
     @Override

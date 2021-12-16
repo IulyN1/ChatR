@@ -1,6 +1,7 @@
 package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
+import com.example.chatr.Page;
 import com.example.chatr.domain.*;
 import com.example.chatr.exceptions.FriendshipRequestException;
 import com.example.chatr.exceptions.RepoException;
@@ -12,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -46,11 +46,12 @@ public class DashboardUtilityController {
     @FXML
     Button LogoutButton;
 
-    private ServiceAccount serviceAccount;
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
+    private ServiceAccount serviceAccount;
     private Account account;
+    private Page page;
 
     @FXML
     private Label LabelHello;
@@ -143,19 +144,27 @@ public class DashboardUtilityController {
         List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
         for (User user : usersOrdered) {
             Button auxButton;
-            auxButton=new Button("Add");
-            for(FriendshipRequest friendshipRequest:serviceFriendshipRequest.getAllRequests()){
-                if(friendshipRequest.getSender().getId()==account.getUser_id()&&
-                friendshipRequest.getReceiver().getId()==user.getId())
-                    auxButton.setText("Undo");
-
+            boolean isSent=false;
+            for(User rec: page.getRequestSentTo()){
+                if(rec.equals(user)){
+                    ArrayList<User>friends=page.getRequestSentTo();
+                    page.setRequestSentTo(friends);
+                    isSent=true;
+                    break;
+                }
             }
+            if(!isSent)
+                auxButton=new Button("Add");
+            else
+                auxButton=new Button("Undo");
             tableButtons.add(auxButton);
             UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName(),auxButton);
             //----Added event hanlder for any buttton
             auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                System.out.println(ut.getId());
-                addFriends(ut.getId());
+                if(auxButton.getText().equals("Add"))addFriends(ut.getId());
+                else
+                    deleteRequest(ut.getId());
+
             });
             modelGrade.add(ut);
         }
@@ -173,29 +182,15 @@ public class DashboardUtilityController {
         modelGrade.clear();
 
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
-        for(Friendship fr: serviceUserFriendship.get_all_friendships()){
-            if(fr.getUser1().equals(currentUser)){
+        for(User user: page.getFriends()){
                 Button auxButton=new Button("Delete");
                 tableButtons.add(auxButton);
-                UserTable user = new UserTable(fr.getUser2().getId(),fr.getUser2().getFirstName(),
-                        fr.getUser2().getLastName(),auxButton);
+                UserTable table = new UserTable(user.getId(),user.getFirstName(),
+                        user.getLastName(),auxButton);
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    System.out.println("s-a apasat");
-                    System.out.println(user.getId());
+                    deleteFriend(user.getId());
                 });
-                modelGrade.add(user);
-            }
-            else if(fr.getUser2().equals(currentUser)){
-                Button auxButton=new Button("Delete");
-                tableButtons.add(auxButton);
-                UserTable user = new UserTable(fr.getUser1().getId(),fr.getUser1().getFirstName(),
-                        fr.getUser1().getLastName(),auxButton);
-                auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    System.out.println("s-a apasat");
-                    System.out.println(user.getId());
-                });
-                modelGrade.add(user);
-            }
+                modelGrade.add(table);
         }
         table.setItems(modelGrade);
         searchFilter();
@@ -222,14 +217,13 @@ public class DashboardUtilityController {
     }
 
 
-    public void setServices(ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship, ServiceMessage serviceMessage,
-                            ServiceFriendshipRequest serviceFriendshipRequest, Account account) throws RepoException {
-        this.serviceAccount = serviceAccount;
-        this.serviceUserFriendship = serviceUserFriendship;
-        this.serviceMessage = serviceMessage;
-        this.serviceFriendshipRequest = serviceFriendshipRequest;
-        this.account = account;
-        LabelHello.setText("Hello " + account.getUsername());
+    private void setServices() throws RepoException {
+        this.account = page.getAccount();
+        this.serviceUserFriendship = page.getServiceUserFriendship();
+        this.serviceMessage = page.getServiceMessage();
+        this.serviceFriendshipRequest = page.getServiceFriendshipRequest();
+        this.serviceAccount=page.getServiceAccount();
+        LabelHello.setText("Hello, " + account.getUsername()+"!");
         //-----initialize showFriendsDashboard------------
         onShowFriendsButtonClick(null);
     }
@@ -258,17 +252,45 @@ public class DashboardUtilityController {
         table.setItems(sortedData);
     }
 
-    private void addFriends(int receiver_id) {
+    private void addFriends(int receiver_id){
         try {
-//            int receiver_id = Integer.parseInt(IdTextField.getText());
-            checkRequest(receiver_id);
+//            checkRequest(receiver_id);
             serviceFriendshipRequest.addFriendshipRequest(account.getUser_id(), receiver_id);
+            //update page
+            ArrayList<User>friends=page.getRequestSentTo();
+            friends.add(serviceUserFriendship.find_user_by_id(receiver_id));
+            page.setRequestSentTo(friends);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success!");
             alert.setContentText("Friendship request sent!");
             alert.showAndWait();
             onAddFriendsButtonClick(null);
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.setContentText("Press Ok to go back!");
+            alert.showAndWait();
+        }
+    }
+
+    private void deleteRequest(int receiver_id){
+        try {
+            for (FriendshipRequest fr : serviceFriendshipRequest.getAllRequests()) {
+                if (fr.getSender().getId() == account.getUser_id() && fr.getReceiver().getId() == receiver_id)
+                    serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
+            }
+            //update page
+            ArrayList<User> friends = page.getRequestSentTo();
+            friends.remove(serviceUserFriendship.find_user_by_id(receiver_id));
+            page.setRequestSentTo(friends);
+            //alert
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success!");
+            alert.setContentText("The friend request has been withdrawn!");
+            alert.showAndWait();
+            onAddFriendsButtonClick(null);
+        }catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(e.getMessage());
@@ -317,11 +339,10 @@ public class DashboardUtilityController {
         }
     }
 
-    private void deleteFriend() {
+    private void deleteFriend(int otherId) {
         try{
             User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
             int currentId = currentUser.getId();
-            int otherId = Integer.parseInt(IdTextField.getText());
 
             // delete the friendship
             for(Friendship fr: serviceUserFriendship.get_all_friendships()){
@@ -341,6 +362,10 @@ public class DashboardUtilityController {
                     serviceFriendshipRequest.deleteFriendshipRequest(fr.getId());
                 }
             }
+            //delete from page
+            ArrayList<User>friends=page.getFriends();
+            friends.remove(serviceUserFriendship.find_user_by_id(otherId));
+            page.setFriends(friends);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Success!");
@@ -354,5 +379,10 @@ public class DashboardUtilityController {
             alert.setContentText("Press OK to go back!");
             alert.showAndWait();
         }
+    }
+
+    public void setPage(Page page) throws RepoException {
+        this.page= page;
+        setServices();
     }
 }
