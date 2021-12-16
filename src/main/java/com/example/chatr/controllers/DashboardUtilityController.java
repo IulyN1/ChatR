@@ -41,7 +41,8 @@ public class DashboardUtilityController {
     Label TitleLabel;
     @FXML
     Button LogoutButton;
-
+    @FXML
+    Button settingsButton;
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
@@ -88,7 +89,7 @@ public class DashboardUtilityController {
 
 
 
-
+    //-----------------------------Actions-------------------------------------------------
     public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Friendship request";
         TitleLabel.setText("Friendship request");
@@ -213,7 +214,42 @@ public class DashboardUtilityController {
         }
     }
 
+    public void onShowFriendsButtonEnter(MouseEvent mouseEvent){
+        ShowFriendsButton.setStyle("-fx-background-color: #b3b3b3");
+    }
+    public void onShowFriendsButtonExit(MouseEvent mouseEvent){
+        ShowFriendsButton.setStyle("-fx-background-color: CDCDCD");
+    }
 
+    public void onAddFriendsButtonEnter(MouseEvent mouseEvent){
+        AddFriendsButton.setStyle("-fx-background-color: #b3b3b3");
+    }
+    public void onAddFriendsButtonExit(MouseEvent mouseEvent){
+        AddFriendsButton.setStyle("-fx-background-color: CDCDCD");
+    }
+
+    public void onFriendshipRequestsButtonEnter(MouseEvent mouseEvent){
+        FriendshipRequestsButton.setStyle("-fx-background-color: #b3b3b3");
+    }
+    public void onFriendshipRequestsButtonExit(MouseEvent mouseEvent){
+        FriendshipRequestsButton.setStyle("-fx-background-color: CDCDCD");
+    }
+
+    public void onSettingsButtonEnter(MouseEvent mouseEvent){
+        settingsButton.setStyle("-fx-background-color: #b3b3b3");
+    }
+    public void onSettingsButtonExit(MouseEvent mouseEvent){
+        settingsButton.setStyle("-fx-background-color: CDCDCD");
+    }
+
+    public void onLogoutButtonEnter(MouseEvent mouseEvent){
+        LogoutButton.setStyle("-fx-background-color: #b3b3b3");
+    }
+    public void onLogoutButtonExit(MouseEvent mouseEvent){
+        LogoutButton.setStyle("-fx-background-color: CDCDCD");
+    }
+
+    //----------------------------Functional--------------------------------------
     private void setServices() throws RepoException {
         this.account = page.getAccount();
         this.serviceUserFriendship = page.getServiceUserFriendship();

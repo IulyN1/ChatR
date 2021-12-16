@@ -22,27 +22,27 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-            <Button fx:id="ShowFriendsButton" mnemonicParsing="false" onMouseClicked="#onShowFriendsButtonClick" prefHeight="55.0" prefWidth="266.0" text="Show friends">
+            <Button fx:id="ShowFriendsButton" mnemonicParsing="false" onMouseClicked="#onShowFriendsButtonClick" onMouseEntered="#onShowFriendsButtonEnter" onMouseExited="#onShowFriendsButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Show friends">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-                <Button fx:id="AddFriendsButton" mnemonicParsing="false" onMouseClicked="#onAddFriendsButtonClick" prefHeight="55.0" prefWidth="266.0" text="Add friends">
+                <Button fx:id="AddFriendsButton" mnemonicParsing="false" onMouseClicked="#onAddFriendsButtonClick" onMouseEntered="#onAddFriendsButtonEnter" onMouseExited="#onAddFriendsButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Add friends">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Button>
-                <Button fx:id="FriendshipRequestsButton" mnemonicParsing="false" onMouseClicked="#onFriendshipRequestsButtonClick" prefHeight="55.0" prefWidth="266.0" text="Friendship Requests">
+                <Button fx:id="FriendshipRequestsButton" mnemonicParsing="false" onMouseClicked="#onFriendshipRequestsButtonClick" onMouseEntered="#onFriendshipRequestsButtonEnter" onMouseExited="#onFriendshipRequestsButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Friendship Requests">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="263.0" text="Settings">
+                <Button fx:id="settingsButton" mnemonicParsing="false" onMouseEntered="#onSettingsButtonEnter" onMouseExited="#onSettingsButtonExit" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;" text="Settings">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Button>
-                <Button fx:id="LogoutButton" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" prefHeight="55.0" prefWidth="274.0" text="Logout">
+                <Button fx:id="LogoutButton" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" onMouseEntered="#onLogoutButtonEnter" onMouseExited="#onLogoutButtonExit" prefHeight="55.0" prefWidth="274.0" style="-fx-background-color: CDCDCD;" text="Logout">
                     <font>
                         <Font size="24.0" />
                     </font>
