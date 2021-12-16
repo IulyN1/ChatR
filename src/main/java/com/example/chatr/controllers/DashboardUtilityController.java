@@ -36,11 +36,7 @@ public class DashboardUtilityController {
     @FXML
     Button AddFriendsButton;
     @FXML
-    Button SendRequestButton;
-    @FXML
     Button FriendshipRequestsButton;
-    @FXML
-    Button DeclineButton;
     @FXML
     Label TitleLabel;
     @FXML
@@ -69,8 +65,6 @@ public class DashboardUtilityController {
     private TableColumn<UserTable, String> buttonCollumn;
     @FXML
     private TextField SearchTextField;
-    @FXML
-    private TextField IdTextField;
 
     private ArrayList<Button>tableButtons=new ArrayList<Button>();
     private Stage stage;
@@ -90,31 +84,15 @@ public class DashboardUtilityController {
 //        c1.setVisible(false);//id collumn
         c4.setVisible(false);
         dashboard_status = "Show friends";
-        DeclineButton.setVisible(false);
     }
 
-    public void onSendButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws Exception {
-        /*
-        switch (dashboard_status) {
-            case "Add friends" -> addFriends();
-            case "Friendship request" -> respondRequest("APPROVED");
-            case "Show friends" -> deleteFriend();
-        }
-         */
-    }
 
-    public void onDeclineButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws Exception {
-        /*
-        respondRequest("REJECTED");
-         */
-    }
+
 
     public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Friendship request";
         TitleLabel.setText("Friendship request");
-        SendRequestButton.setText("Accept");
         c4.setVisible(true);
-        DeclineButton.setVisible(true);
         modelGrade.clear();
         tableButtons.clear();
 
@@ -157,9 +135,7 @@ public class DashboardUtilityController {
     public void onAddFriendsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Add friends";
         TitleLabel.setText("Add friends");
-        SendRequestButton.setText("Send Request");
         c4.setVisible(false);
-        DeclineButton.setVisible(false);
         modelGrade.clear();
         tableButtons.clear();
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
@@ -199,10 +175,7 @@ public class DashboardUtilityController {
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Show friends";
         TitleLabel.setText("Your friends");
-        SendRequestButton.setText("Delete");
-        SendRequestButton.setVisible(true);
         c4.setVisible(false);
-        DeclineButton.setVisible(false);
         modelGrade.clear();
 
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
@@ -326,14 +299,7 @@ public class DashboardUtilityController {
         }
     }
 
-    private void checkRequest(int userId) throws FriendshipRequestException {
-        for (FriendshipRequest fr2 : serviceFriendshipRequest.getAllRequests()) {
-            if (fr2.getSender().getId() == userId && fr2.getReceiver().getId() == account.getUser_id() &&
-                    fr2.getStatus().equals("PENDING")) {
-                throw new FriendshipRequestException("Already have a pending request from that user!");
-            }
-        }
-    }
+
 
     private void respondRequest(String status,int id) throws RepoException {
         try {
