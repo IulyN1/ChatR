@@ -76,11 +76,11 @@
                         </HBox>
                         <TableView fx:id="table" prefHeight="468.0" prefWidth="587.0" GridPane.rowIndex="1">
                             <columns>
-                                <TableColumn fx:id="c1" prefWidth="50.0" text="id" />
-                                <TableColumn fx:id="c2" prefWidth="136.0" text="First Name" />
-                                <TableColumn fx:id="c3" prefWidth="94.0" text="Last Name" />
-                                <TableColumn fx:id="c4" prefWidth="125.0" text="Date" />
-                        <TableColumn fx:id="buttonCollumn" prefWidth="107.0" />
+                                <TableColumn fx:id="c1" prefWidth="104.800048828125" text="First Name" />
+                                <TableColumn fx:id="c2" prefWidth="97.60003662109375" text="Last Name" />
+                                <TableColumn fx:id="c3" prefWidth="125.0" text="Date" />
+                        <TableColumn fx:id="buttonCollumn" prefWidth="78.4000244140625" />
+                        <TableColumn fx:id="buttonCollumn1" prefWidth="80.800048828125" />
                             </columns>
                         </TableView>
                     </children>

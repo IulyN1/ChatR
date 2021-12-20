@@ -43,6 +43,7 @@ public class DashboardUtilityController {
     Button LogoutButton;
     @FXML
     Button settingsButton;
+
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
@@ -55,19 +56,18 @@ public class DashboardUtilityController {
     @FXML
     private TableView<UserTable> table;
     @FXML
-    private TableColumn<UserTable, Integer> c1;
+    private TableColumn<UserTable, String> c1;
     @FXML
     private TableColumn<UserTable, String> c2;
     @FXML
     private TableColumn<UserTable, String> c3;
     @FXML
-    private TableColumn<UserTable, String> c4;
-    @FXML
     private TableColumn<UserTable, String> buttonCollumn;
+    @FXML
+    private TableColumn<UserTable, String> buttonCollumn1;
     @FXML
     private TextField SearchTextField;
 
-    private ArrayList<Button>tableButtons=new ArrayList<Button>();
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -77,13 +77,12 @@ public class DashboardUtilityController {
 
     @FXML
     public void initialize() {
-        c1.setCellValueFactory(new PropertyValueFactory<UserTable, Integer>("id"));
-        c2.setCellValueFactory(new PropertyValueFactory<UserTable, String>("c1"));
-        c3.setCellValueFactory(new PropertyValueFactory<UserTable, String>("c2"));
-        c4.setCellValueFactory(new PropertyValueFactory<UserTable, String>("date"));
+        c1.setCellValueFactory(new PropertyValueFactory<UserTable, String>("c1"));
+        c2.setCellValueFactory(new PropertyValueFactory<UserTable, String>("c2"));
+        c3.setCellValueFactory(new PropertyValueFactory<UserTable, String>("date"));
         buttonCollumn.setCellValueFactory(new PropertyValueFactory<UserTable,String>("button1"));
-//        c1.setVisible(false);//id collumn
-        c4.setVisible(false);
+        buttonCollumn1.setCellValueFactory(new PropertyValueFactory<UserTable,String>("button2"));
+        c3.setVisible(false);
         dashboard_status = "Show friends";
     }
 
@@ -93,22 +92,16 @@ public class DashboardUtilityController {
     public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Friendship request";
         TitleLabel.setText("Friendship request");
-        c4.setVisible(true);
+        c3.setVisible(true);
         modelGrade.clear();
-        tableButtons.clear();
+        buttonCollumn1.setVisible(true);
 
-        //create new column
-        TableColumn buttonColumn2=new TableColumn<>();
-        buttonColumn2.setCellValueFactory(new PropertyValueFactory<UserTable,String>("button2"));
-        ArrayList<Button>tableButtons2=new ArrayList<Button>();
-        table.getColumns().add(5,buttonColumn2);
         for (FriendshipRequest fr : page.getFriendshipRequests()) {
             if (fr.getStatus().equals("PENDING")&&fr.getSender().getId()!=account.getUser_id()) {
                 Button auxButton=new Button("Accept");
                 Button auxButton2=new Button("Decline");
-                tableButtons.add(auxButton);
-                tableButtons2.add(auxButton2);
-                UserTable userTable = new UserTable(fr.getSender().getId(), fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton,auxButton2);
+
+                UserTable userTable = new UserTable(fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton,auxButton2);
                 //----Added event hanlder for any buttton("ACCEPT")
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     try {
@@ -125,7 +118,7 @@ public class DashboardUtilityController {
                         ex.printStackTrace();
                     }
                 });
-                        modelGrade.add(userTable);
+                modelGrade.add(userTable);
 
             }
         }
@@ -136,12 +129,13 @@ public class DashboardUtilityController {
     public void onAddFriendsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Add friends";
         TitleLabel.setText("Add friends");
-        c4.setVisible(false);
+        c3.setVisible(false);
+        buttonCollumn1.setVisible(false);
         modelGrade.clear();
-        tableButtons.clear();
+
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
         Collection<User> users = serviceUserFriendship.getUserNotFriends(currentUser);
-        List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
+        List<User> usersOrdered = users.stream().sorted(Comparator.comparing(User::getFirstName)).toList();
         for (User user : usersOrdered) {
             Button auxButton;
             boolean isSent=false;
@@ -157,14 +151,13 @@ public class DashboardUtilityController {
                 auxButton=new Button("Add");
             else
                 auxButton=new Button("Undo");
-            tableButtons.add(auxButton);
-            UserTable ut = new UserTable(user.getId(), user.getFirstName(), user.getLastName(),auxButton);
+            UserTable ut = new UserTable(user.getFirstName(), user.getLastName(),auxButton);
             //----Added event hanlder for any buttton
             auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                 if(auxButton.getText().equals("Add"))
-                    addFriends(ut.getId());
+                    addFriends(user.getId());
                 else
-                    deleteRequest(ut.getId());
+                    deleteRequest(user.getId());
 
             });
             modelGrade.add(ut);
@@ -176,17 +169,21 @@ public class DashboardUtilityController {
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
         dashboard_status = "Show friends";
         TitleLabel.setText("Your friends");
-        c4.setVisible(false);
+        c3.setVisible(false);
+        buttonCollumn1.setVisible(true);
         modelGrade.clear();
 
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
         for(User user: page.getFriends()){
                 Button auxButton=new Button("Delete");
-                tableButtons.add(auxButton);
-                UserTable table = new UserTable(user.getId(),user.getFirstName(),
-                        user.getLastName(),auxButton);
+                Button chatButton = new Button("Chat");
+                UserTable table = new UserTable(user.getFirstName(),
+                        user.getLastName(),auxButton,chatButton);
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     deleteFriend(user.getId());
+                });
+                chatButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                    openChat(currentUser,user);
                 });
                 modelGrade.add(table);
         }
@@ -256,7 +253,8 @@ public class DashboardUtilityController {
         this.serviceMessage = page.getServiceMessage();
         this.serviceFriendshipRequest = page.getServiceFriendshipRequest();
         this.serviceAccount=page.getServiceAccount();
-        LabelHello.setText("Hello, " + account.getUsername()+"!");
+        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        LabelHello.setText("Hello, " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         //-----initialize showFriendsDashboard------------
         onShowFriendsButtonClick(null);
     }
@@ -287,7 +285,7 @@ public class DashboardUtilityController {
 
     private void addFriends(int receiver_id){
         try {
-//            checkRequest(receiver_id);
+            checkRequest(receiver_id);
             serviceFriendshipRequest.addFriendshipRequest(account.getUser_id(), receiver_id);
             //update page
             FriendshipRequest friendshipRequest=new FriendshipRequest(serviceUserFriendship.find_user_by_id(account.getUser_id()),serviceUserFriendship.find_user_by_id(receiver_id));
@@ -305,6 +303,15 @@ public class DashboardUtilityController {
             alert.setHeaderText(e.getMessage());
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
+        }
+    }
+
+    private void checkRequest(int userId) throws FriendshipRequestException {
+        for (FriendshipRequest fr2 : serviceFriendshipRequest.getAllRequests()) {
+            if (fr2.getSender().getId() == userId && fr2.getReceiver().getId() == account.getUser_id() &&
+                    fr2.getStatus().equals("PENDING")) {
+                throw new FriendshipRequestException("Already have a pending request from that user!");
+            }
         }
     }
 
@@ -417,6 +424,10 @@ public class DashboardUtilityController {
             alert.setContentText("Press OK to go back!");
             alert.showAndWait();
         }
+    }
+
+    private void openChat(User currentUser, User user) {
+
     }
 
     public void setPage(Page page) throws RepoException {
