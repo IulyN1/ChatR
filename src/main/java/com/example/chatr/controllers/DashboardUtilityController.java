@@ -2,7 +2,10 @@ package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
 import com.example.chatr.Page;
-import com.example.chatr.domain.*;
+import com.example.chatr.domain.Account;
+import com.example.chatr.domain.Friendship;
+import com.example.chatr.domain.FriendshipRequest;
+import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.FriendshipRequestException;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.service.ServiceAccount;
@@ -183,7 +186,11 @@ public class DashboardUtilityController {
                     deleteFriend(user.getId());
                 });
                 chatButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    openChat(currentUser,user);
+                    try {
+                        openChat(currentUser,user);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 modelGrade.add(table);
         }
@@ -426,8 +433,18 @@ public class DashboardUtilityController {
         }
     }
 
-    private void openChat(User currentUser, User user) {
-
+    private void openChat(User currentUser, User otherUser) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("chat.fxml"));
+        Parent root2;
+        Stage stage2 = new Stage();
+        root2 = fxmlLoader.load();
+        ChatController chatController = fxmlLoader.getController();
+        chatController.setServices(serviceMessage,currentUser,otherUser);
+        Scene scene2 = new Scene(root2, 396, 478);
+        stage2.setTitle("Chat with " + otherUser.getFirstName() + " " + otherUser.getLastName());
+        stage2.setResizable(false);
+        stage2.setScene(scene2);
+        stage2.show();
     }
 
     public void setPage(Page page) throws RepoException {

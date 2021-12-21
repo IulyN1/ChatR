@@ -33,6 +33,6 @@ public class MessageDTO extends Message {
      */
     @Override
     public String toString() {
-        return getFrom().getId() + ": " + getMessage();
+        return getMessage();
     }
 }
