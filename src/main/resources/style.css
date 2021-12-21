@@ -1,0 +1,12 @@
+.light-gray-background{
+    -fx-background-color: #c2c2c2;
+}
+
+.transparent-background{
+    -fx-background-color: rgba(0,0,0,0);
+    -fx-prompt-text-fill: white;
+}
+
+.radius{
+    -fx-background-radius: 100px;
+}
