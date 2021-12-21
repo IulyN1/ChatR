@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="520.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatr.controllers.EventsController">
+   <children>
+      <VBox layoutY="4.0" prefHeight="520.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;">
+         <children>
+            <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" prefHeight="157.0" prefWidth="267.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="CreateEventButton" mnemonicParsing="false" onMouseEntered="#onCreateEventButtonEnter" onMouseExited="#onCreateEventButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Create Event">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="ShowEventsButton" mnemonicParsing="false" onMouseEntered="#onShowEventsButtonEnter" onMouseExited="#onAddFriendsButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Show Events">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="BackButton" mnemonicParsing="false" onMouseEntered="#onBackButtonEnter" onMouseExited="#onBackButtonExit" prefHeight="55.0" prefWidth="274.0" style="-fx-background-color: CDCDCD;" text="Back">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

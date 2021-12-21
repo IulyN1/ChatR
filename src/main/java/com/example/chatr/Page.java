@@ -6,10 +6,7 @@ import com.example.chatr.domain.FriendshipRequest;
 import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.FriendshipRequestException;
 import com.example.chatr.exceptions.RepoException;
-import com.example.chatr.service.ServiceAccount;
-import com.example.chatr.service.ServiceFriendshipRequest;
-import com.example.chatr.service.ServiceMessage;
-import com.example.chatr.service.ServiceUserFriendship;
+import com.example.chatr.service.*;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
@@ -21,18 +18,20 @@ public class Page {
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
     private ServiceAccount serviceAccount;
+    private ServiceEvent serviceEvent;
 
     private ArrayList<User>Friends=new ArrayList<User>();
     private ArrayList<FriendshipRequest>friendshipRequests=new ArrayList<FriendshipRequest>();
 
 
     public Page(Account account, ServiceUserFriendship serviceUserFriendship,
-                ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest,ServiceAccount serviceAccount) throws RepoException {
+                ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest,ServiceAccount serviceAccount,ServiceEvent serviceEvent) throws RepoException {
         this.account = account;
         this.serviceUserFriendship = serviceUserFriendship;
         this.serviceMessage = serviceMessage;
         this.serviceFriendshipRequest = serviceFriendshipRequest;
         this.serviceAccount=serviceAccount;
+        this.serviceEvent=serviceEvent;
         createFriendsList();
         createRequestsLists();
     }
@@ -84,6 +83,14 @@ public class Page {
 
     public void setServiceFriendshipRequest(ServiceFriendshipRequest serviceFriendshipRequest) {
         this.serviceFriendshipRequest = serviceFriendshipRequest;
+    }
+
+    public ServiceEvent getServiceEvent() {
+        return serviceEvent;
+    }
+
+    public void setServiceEvent(ServiceEvent serviceEvent) {
+        this.serviceEvent = serviceEvent;
     }
 
     public ArrayList<User> getFriends() {

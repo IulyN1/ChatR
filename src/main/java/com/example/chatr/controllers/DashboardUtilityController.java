@@ -8,10 +8,7 @@ import com.example.chatr.domain.FriendshipRequest;
 import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.FriendshipRequestException;
 import com.example.chatr.exceptions.RepoException;
-import com.example.chatr.service.ServiceAccount;
-import com.example.chatr.service.ServiceFriendshipRequest;
-import com.example.chatr.service.ServiceMessage;
-import com.example.chatr.service.ServiceUserFriendship;
+import com.example.chatr.service.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -45,12 +42,13 @@ public class DashboardUtilityController {
     @FXML
     Button LogoutButton;
     @FXML
-    Button settingsButton;
+    Button eventsButton;
 
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
     private ServiceAccount serviceAccount;
+    private ServiceEvent serviceEvent;
     private Account account;
     private Page page;
 
@@ -226,7 +224,7 @@ public class DashboardUtilityController {
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
             root = fxmlLoader.load();
             LoginController loginController = fxmlLoader.getController();
-            loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest);
+            loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest,serviceEvent);
             stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             scene = new Scene(root, 400, 600);
             stage.setTitle("Login");
@@ -236,6 +234,18 @@ public class DashboardUtilityController {
         }
     }
 
+    public void onEventsButtonClick(javafx.scene.input.MouseEvent mouseEvent)throws  IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("events.fxml"));
+        root = fxmlLoader.load();
+        EventsController eventsController = fxmlLoader.getController();
+        eventsController.setServices(serviceAccount, serviceEvent);
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setTitle("events");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
     public void onShowFriendsButtonEnter(MouseEvent mouseEvent){
         ShowFriendsButton.setStyle("-fx-background-color: #b3b3b3");
     }
@@ -258,10 +268,10 @@ public class DashboardUtilityController {
     }
 
     public void onSettingsButtonEnter(MouseEvent mouseEvent){
-        settingsButton.setStyle("-fx-background-color: #b3b3b3");
+        eventsButton.setStyle("-fx-background-color: #b3b3b3");
     }
     public void onSettingsButtonExit(MouseEvent mouseEvent){
-        settingsButton.setStyle("-fx-background-color: CDCDCD");
+        eventsButton.setStyle("-fx-background-color: CDCDCD");
     }
 
     public void onLogoutButtonEnter(MouseEvent mouseEvent){
@@ -278,6 +288,7 @@ public class DashboardUtilityController {
         this.serviceMessage = page.getServiceMessage();
         this.serviceFriendshipRequest = page.getServiceFriendshipRequest();
         this.serviceAccount=page.getServiceAccount();
+        this.serviceEvent=page.getServiceEvent();
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
         LabelHello.setText("Hello, " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         //-----initialize showFriendsDashboard------------

@@ -41,7 +41,7 @@
                         <Font size="24.0" />
                     </font>
                 </Button>
-                <Button fx:id="settingsButton" mnemonicParsing="false" onMouseEntered="#onSettingsButtonEnter" onMouseExited="#onSettingsButtonExit" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;" text="Settings">
+                <Button fx:id="eventsButton" mnemonicParsing="false" onMouseClicked="#onEventsButtonClick" onMouseEntered="#onSettingsButtonEnter" onMouseExited="#onSettingsButtonExit" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;" text="Events">
                     <font>
                         <Font size="24.0" />
                     </font>
