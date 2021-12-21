@@ -49,7 +49,8 @@ public class ChatController {
                 scrollMessages.setVvalue((Double)newValue);
             }
         });
-        messageInput.setStyle("");
+        messageInput.setStyle("-fx-background-radius: 20px;");
+        scrollMessages.setStyle("-fx-background-color: transparent;");
     }
 
     public void showMessages() {
