@@ -238,7 +238,7 @@ public class DashboardUtilityController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("events.fxml"));
         root = fxmlLoader.load();
         EventsController eventsController = fxmlLoader.getController();
-        eventsController.setServices(serviceAccount, serviceEvent);
+        eventsController.setServices(page);
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setTitle("events");

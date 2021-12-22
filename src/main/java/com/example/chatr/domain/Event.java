@@ -49,7 +49,7 @@ public class Event extends Entity<Integer>  {
         if (this == o) return true;
         if (!(o instanceof Event)) return false;
         Event event = (Event) o;
-        return name.equals(event.name) && date.equals(event.date) && subscribers.equals(event.subscribers);
+        return Objects.equals(name, event.name) && Objects.equals(date, event.date) && Objects.equals(subscribers, event.subscribers);
     }
 
     @Override

@@ -4,6 +4,11 @@ import com.example.chatr.domain.Account;
 import com.example.chatr.domain.Event;
 import com.example.chatr.domain.FriendshipRequest;
 import com.example.chatr.exceptions.AccountException;
+import com.example.chatr.exceptions.EventException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EventValidator  implements StrategyValidator<Event> {
     private final static EventValidator eventValidator= new EventValidator();
@@ -24,8 +29,18 @@ public class EventValidator  implements StrategyValidator<Event> {
             err = err + "Empty  date!\n";
         if (event.getId() < 0)
             err = err + "Invalid id!\n";
+        SimpleDateFormat formatter5=new SimpleDateFormat("dd MMM yyyy");
+        try {
+            Date date5=formatter5.parse(event.getDate());
+            Date currentDate = new Date();
+            if(!date5.after(currentDate)){
+                err=err+"The event cannot be scheduled in the past!\n";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (!err.equals(""))
-            throw new AccountException(err);
+            throw new EventException(err);
     }
 }
 

@@ -1,9 +1,6 @@
 package com.example.chatr;
 
-import com.example.chatr.domain.Account;
-import com.example.chatr.domain.Friendship;
-import com.example.chatr.domain.FriendshipRequest;
-import com.example.chatr.domain.User;
+import com.example.chatr.domain.*;
 import com.example.chatr.exceptions.FriendshipRequestException;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.service.*;
@@ -22,7 +19,7 @@ public class Page {
 
     private ArrayList<User>Friends=new ArrayList<User>();
     private ArrayList<FriendshipRequest>friendshipRequests=new ArrayList<FriendshipRequest>();
-
+    private ArrayList<Event>events=new ArrayList<Event>();
 
     public Page(Account account, ServiceUserFriendship serviceUserFriendship,
                 ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest,ServiceAccount serviceAccount,ServiceEvent serviceEvent) throws RepoException {
@@ -34,6 +31,7 @@ public class Page {
         this.serviceEvent=serviceEvent;
         createFriendsList();
         createRequestsLists();
+        createEvenetsList();
     }
 
     private void createRequestsLists() throws RepoException {
@@ -48,6 +46,21 @@ public class Page {
                 Friends.add(serviceUserFriendship.find_user_by_id(friendship.getUser2().getId()));
             else if(friendship.getUser2().getId()==account.getUser_id())
                 Friends.add(serviceUserFriendship.find_user_by_id(friendship.getUser1().getId()));
+        }
+    }
+
+    private void createEvenetsList(){
+        for(Event event:serviceEvent.getAllEvent()) {
+            if (event.getSubscribers().contains(" ")) {
+                String[] splited = event.getSubscribers().split(" ");
+                for (String str : splited) {
+                    if(!str.equals(""))
+                    if (account.getUser_id() == Integer.parseInt(str)) {
+                        events.add(event);
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -67,6 +80,14 @@ public class Page {
 
     public void setServiceUserFriendship(ServiceUserFriendship serviceUserFriendship) {
         this.serviceUserFriendship = serviceUserFriendship;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(ArrayList<Event> events) {
+        this.events = events;
     }
 
     public ServiceMessage getServiceMessage() {

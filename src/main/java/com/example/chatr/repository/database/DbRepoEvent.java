@@ -43,11 +43,6 @@ public class DbRepoEvent implements Repo<Integer, Event> {
         String sql = "update events set name=?, date=?, " +
                 "subscribers=? where id=?";
         Collection<Event> events = find_all();
-        for (Event ev : events) {
-            if (ev.equals(event)) {
-                throw new RepoException("Event already exists!\n");
-            }
-        }
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 

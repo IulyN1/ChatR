@@ -23,20 +23,20 @@ public class ServiceEvent {
         eventRepo.add(event);
     }
 
-    public void updateAccount(Event event) throws Exception {
+    public void updateEvent(Event event) throws Exception {
         eventStrategyValidator.validate(event);
         eventRepo.update(event);
     }
 
-    public Event deleteAccount(int id) throws RepoException {
+    public Event deleteEvent(int id) throws RepoException {
         return eventRepo.delete(id);
     }
 
-    public Event findAccountById(int id) throws RepoException {
+    public Event findEventById(int id) throws RepoException {
         return eventRepo.find_by_id(id);
     }
 
-    public Collection<Event> getAllAccounts() {
+    public Collection<Event> getAllEvent() {
         return eventRepo.find_all();
     }
 }
