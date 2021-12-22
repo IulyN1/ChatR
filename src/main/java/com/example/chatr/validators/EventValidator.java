@@ -33,7 +33,8 @@ public class EventValidator  implements StrategyValidator<Event> {
         try {
             Date date5=formatter5.parse(event.getDate());
             Date currentDate = new Date();
-            if(!date5.after(currentDate)){
+            if(date5.getDay()<currentDate.getDay()&&date5.getMonth()<=currentDate.getMonth()&&
+            date5.getYear()<=date5.getYear()){
                 err=err+"The event cannot be scheduled in the past!\n";
             }
         } catch (ParseException e) {

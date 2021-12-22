@@ -127,6 +127,7 @@ public class DashboardUtilityController {
         }
         table.setItems(modelGrade);
         searchFilter();
+        table.getSortOrder().add(c1);
     }
 
     public void onAddFriendsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
@@ -178,6 +179,7 @@ public class DashboardUtilityController {
         }
         table.setItems(modelGrade);
         searchFilter();
+        table.getSortOrder().add(c1);
     }
 
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
@@ -212,6 +214,7 @@ public class DashboardUtilityController {
         }
         table.setItems(modelGrade);
         searchFilter();
+        table.getSortOrder().add(c1);
     }
 
     public void onLogoutButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {

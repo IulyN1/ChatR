@@ -1,5 +1,10 @@
 package com.example.chatr.domain;
 
+import javafx.scene.control.Alert;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class Event extends Entity<Integer>  {
@@ -42,6 +47,41 @@ public class Event extends Entity<Integer>  {
 
     public void setSubscribers(String subscribers) {
         this.subscribers = subscribers;
+    }
+
+    public void update(){
+        try {
+            SimpleDateFormat formatter5=new SimpleDateFormat("dd MMM yyyy");
+            Date date5=formatter5.parse(date);
+            Date currentDate = new Date();
+            if(currentDate.getDay()==date5.getDay()&&
+                    currentDate.getMonth()==date5.getMonth()&&
+                    currentDate.getYear()==date5.getYear()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Event notification");
+                alert.setContentText("Event "+name+ " is today!");
+                alert.showAndWait();
+            }
+            else if(currentDate.getDay()==date5.getDay()-1&&
+                    currentDate.getMonth()==date5.getMonth()&&
+                    currentDate.getYear()==date5.getYear()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Event notification");
+                alert.setContentText("Event "+name+ " is tomorrow!");
+                alert.showAndWait();
+            }
+            else if(currentDate.getDay()==date5.getDay()-3&&
+                    currentDate.getMonth()==date5.getMonth()&&
+                    currentDate.getYear()==date5.getYear()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Event notification");
+                alert.setContentText("Event "+name+ " is in 3 days!");
+                alert.showAndWait();
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

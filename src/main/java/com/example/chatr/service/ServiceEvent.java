@@ -39,4 +39,5 @@ public class ServiceEvent {
     public Collection<Event> getAllEvent() {
         return eventRepo.find_all();
     }
+
 }

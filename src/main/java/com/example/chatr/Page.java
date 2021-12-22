@@ -267,6 +267,12 @@ public class Page {
         }
     }
 
+    public void notifyAllObservers(){
+        for(Event observer:events){
+            observer.update();
+        }
+    }
+
     private void checkRequest(int userId) throws FriendshipRequestException {
         for (FriendshipRequest fr2 : serviceFriendshipRequest.getAllRequests()) {
             if (fr2.getSender().getId() == userId && fr2.getReceiver().getId() == account.getUser_id() &&

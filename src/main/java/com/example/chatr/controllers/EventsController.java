@@ -101,7 +101,6 @@ public class EventsController {
         TitleLabel.setText("Show Events");
         modelGrade.clear();
         for(Event event:serviceEvent.getAllEvent()) {
-            System.out.println();
             Boolean isEvent = false;
             for (Event event1 : page.getEvents())
                 if (event.equals(event1)) {
@@ -120,7 +119,11 @@ public class EventsController {
                         serviceEvent.updateEvent(event);
                         onShowEventsButtonClick(null);
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error!");
+                        alert.setHeaderText(ex.getMessage());
+                        alert.setContentText("Press Ok to go back!");
+                        alert.showAndWait();
                     }
                         }
                 );
@@ -139,7 +142,11 @@ public class EventsController {
                         serviceEvent.updateEvent(event);
                         onShowEventsButtonClick(null);
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error!");
+                        alert.setHeaderText(ex.getMessage());
+                        alert.setContentText("Press Ok to go back!");
+                        alert.showAndWait();
                     }
                         }
 
@@ -150,6 +157,7 @@ public class EventsController {
         }
         table.setItems(modelGrade);
         searchFilter();
+        table.getSortOrder().add(c1);
     }
 
 
@@ -253,6 +261,8 @@ public class EventsController {
         this.serviceAccount=page.getServiceAccount();
         this.serviceEvent=page.getServiceEvent();
         this.page=page;
+        //notify the new events
+        page.notifyAllObservers();
         SearchTextField.setVisible(false);
         SearchImage.setVisible(false);
         table.setVisible(false);
