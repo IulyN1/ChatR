@@ -4,19 +4,13 @@ import com.example.chatr.Application;
 import com.example.chatr.domain.Account;
 import com.example.chatr.domain.Entity;
 import com.example.chatr.domain.User;
-import com.example.chatr.service.ServiceAccount;
-import com.example.chatr.service.ServiceFriendshipRequest;
-import com.example.chatr.service.ServiceMessage;
-import com.example.chatr.service.ServiceUserFriendship;
+import com.example.chatr.service.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -37,11 +31,17 @@ public class CreateAccountController {
     private PasswordField ConfirmPasswordField;
     @FXML
     private Label BackLabel;
+    @FXML
+    private TableColumn<EventsTable, String> c1;
+    @FXML
+    private TableColumn<EventsTable, String> c2;
+
 
     private ServiceAccount serviceAccount;
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
+    private ServiceEvent serviceEvent;
 
     private Stage stage;
     private Scene scene;
@@ -55,11 +55,12 @@ public class CreateAccountController {
         BackLabel.setStyle("-fx-underline: false");
     }
 
+
     public void onBackLabelClick(MouseEvent mouseEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
         root = fxmlLoader.load();
         LoginController loginController = fxmlLoader.getController();
-        loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest);
+        loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest,serviceEvent);
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 400, 600);
         stage.setTitle("Login");
@@ -105,7 +106,7 @@ public class CreateAccountController {
                 FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
                 root = fxmlLoader.load();
                 LoginController loginController = fxmlLoader.getController();
-                loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest);
+                loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest,serviceEvent);
                 stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
                 scene = new Scene(root, 400, 600);
                 stage.setTitle("Login");
@@ -123,10 +124,11 @@ public class CreateAccountController {
     }
 
     public void setServices(ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship,
-                            ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest) {
+                            ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest, ServiceEvent serviceEvent) {
         this.serviceAccount = serviceAccount;
         this.serviceUserFriendship = serviceUserFriendship;
         this.serviceMessage = serviceMessage;
         this.serviceFriendshipRequest = serviceFriendshipRequest;
+        this.serviceEvent=serviceEvent;
     }
 }

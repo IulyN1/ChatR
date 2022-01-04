@@ -3,10 +3,7 @@ package com.example.chatr.controllers;
 import com.example.chatr.Application;
 import com.example.chatr.Page;
 import com.example.chatr.domain.Account;
-import com.example.chatr.service.ServiceAccount;
-import com.example.chatr.service.ServiceFriendshipRequest;
-import com.example.chatr.service.ServiceMessage;
-import com.example.chatr.service.ServiceUserFriendship;
+import com.example.chatr.service.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -33,6 +30,7 @@ public class LoginController {
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
     private ServiceFriendshipRequest serviceFriendshipRequest;
+    private ServiceEvent serviceEvent;
 
     private Stage stage;
     private Scene scene;
@@ -51,7 +49,7 @@ public class LoginController {
         root = fxmlLoader.load();
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         CreateAccountController createAccountController = fxmlLoader.getController();
-        createAccountController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest);
+        createAccountController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest,serviceEvent);
         scene = new Scene(root, 400, 600);
         stage.setTitle("Create account");
         stage.setResizable(false);
@@ -70,7 +68,7 @@ public class LoginController {
             root = fxmlLoader.load();
             stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             DashboardUtilityController dashboardUtilityController = fxmlLoader.getController();
-            dashboardUtilityController.setPage(new Page(account,serviceUserFriendship,serviceMessage,serviceFriendshipRequest,serviceAccount));
+            dashboardUtilityController.setPage(new Page(account,serviceUserFriendship,serviceMessage,serviceFriendshipRequest,serviceAccount,serviceEvent));
             scene = new Scene(root);
             stage.setTitle("Menu");
             stage.setResizable(false);
@@ -87,10 +85,11 @@ public class LoginController {
         }
     }
 
-    public void setServices(ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship, ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest) {
+    public void setServices(ServiceAccount serviceAccount, ServiceUserFriendship serviceUserFriendship, ServiceMessage serviceMessage, ServiceFriendshipRequest serviceFriendshipRequest,ServiceEvent serviceEvent) {
         this.serviceAccount = serviceAccount;
         this.serviceUserFriendship = serviceUserFriendship;
         this.serviceMessage = serviceMessage;
         this.serviceFriendshipRequest = serviceFriendshipRequest;
+        this.serviceEvent=serviceEvent;
     }
 }
