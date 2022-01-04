@@ -7,8 +7,6 @@ import com.example.chatr.repository.Repo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class DbRepoUser implements Repo<Integer, User> {
     private String url;
