@@ -14,7 +14,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.Comparator;
 import java.util.List;
 
@@ -92,7 +97,8 @@ public class CreateAccountController {
                 List<User> users = serviceUserFriendship.get_all_users().stream().toList();
                 List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
                 User newUser = usersOrdered.get(usersOrdered.size() - 1);
-                Account account = new Account(username, password, newUser.getId());
+                String hashedPassword = serviceAccount.hashPassword(username,password);
+                Account account = new Account(username, hashedPassword, newUser.getId());
                 System.out.println(account);
                 serviceAccount.addAccount(account);
 
