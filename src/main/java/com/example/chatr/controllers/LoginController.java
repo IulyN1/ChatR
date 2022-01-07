@@ -64,7 +64,7 @@ public class LoginController {
             serviceAccount.verifyAccount(username, password);
             Account account = serviceAccount.verifyAccount(username, password);
             System.out.println(account);
-            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("dashboard-utility1.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("dashboard-utility.fxml"));
             root = fxmlLoader.load();
             stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             DashboardUtilityController dashboardUtilityController = fxmlLoader.getController();

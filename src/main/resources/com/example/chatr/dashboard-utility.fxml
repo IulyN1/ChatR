@@ -21,7 +21,7 @@
     <children>
         <VBox layoutY="-2.0" prefHeight="520.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;">
             <children>
-                <Label fx:id="LabelHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="157.0" prefWidth="267.0">
+                <Label fx:id="LabelHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="124.0" prefWidth="263.0">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -41,11 +41,16 @@
                         <Font size="24.0" />
                     </font>
                 </Button>
-                <Button fx:id="eventsButton" mnemonicParsing="false" onMouseClicked="#onEventsButtonClick" onMouseEntered="#onSettingsButtonEnter" onMouseExited="#onSettingsButtonExit" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;" text="Events">
+                <Button fx:id="eventsButton" mnemonicParsing="false" onMouseClicked="#onEventsButtonClick" onMouseEntered="#onEventsButtonEnter" onMouseExited="#onEventsButtonExit" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;" text="Events">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Button>
+            <Button fx:id="settingsButton" mnemonicParsing="false" onMouseClicked="#onSettingsButtonClick" onMouseEntered="#onSettingsButtonEnter" onMouseExited="#onSettingsButtonExit" prefHeight="55.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;" text="Settings">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
                 <Button fx:id="LogoutButton" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" onMouseEntered="#onLogoutButtonEnter" onMouseExited="#onLogoutButtonExit" prefHeight="55.0" prefWidth="274.0" style="-fx-background-color: CDCDCD;" text="Logout">
                     <font>
                         <Font size="24.0" />

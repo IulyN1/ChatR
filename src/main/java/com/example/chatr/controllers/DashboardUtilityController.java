@@ -43,6 +43,8 @@ public class DashboardUtilityController {
     Button LogoutButton;
     @FXML
     Button eventsButton;
+    @FXML
+    Button settingsButton;
 
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
@@ -237,6 +239,19 @@ public class DashboardUtilityController {
         }
     }
 
+    public void onSettingsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("settings.fxml"));
+        root = fxmlLoader.load();
+        SettingsController settingsController = fxmlLoader.getController();
+        settingsController.setServices(page, account);
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root, 600, 400);
+        stage.setTitle("Settings");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void onEventsButtonClick(javafx.scene.input.MouseEvent mouseEvent)throws  IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("events.fxml"));
         root = fxmlLoader.load();
@@ -271,9 +286,17 @@ public class DashboardUtilityController {
     }
 
     public void onSettingsButtonEnter(MouseEvent mouseEvent){
-        eventsButton.setStyle("-fx-background-color: #b3b3b3");
+        settingsButton.setStyle("-fx-background-color: #b3b3b3");
     }
     public void onSettingsButtonExit(MouseEvent mouseEvent){
+        settingsButton.setStyle("-fx-background-color: CDCDCD");
+    }
+
+    public void onEventsButtonEnter(MouseEvent mouseEvent) {
+        eventsButton.setStyle("-fx-background-color: #b3b3b3");
+    }
+
+    public void onEventsButtonExit(MouseEvent mouseEvent) {
         eventsButton.setStyle("-fx-background-color: CDCDCD");
     }
 

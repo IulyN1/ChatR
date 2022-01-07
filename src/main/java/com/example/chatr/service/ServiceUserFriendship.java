@@ -12,6 +12,7 @@ import com.example.chatr.validators.StrategyValidator;
 import com.example.chatr.validators.UserValidator;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -250,6 +251,20 @@ public class ServiceUserFriendship {
             }
             else if(fr.getUser2().getId().equals(user.getId())){
                 otherUsers.removeIf(userX->(userX.getId().equals(fr.getUser1().getId())));
+            }
+        }
+        return otherUsers;
+    }
+
+    public Collection<User> getUserFriends(int idUser) throws RepoException {
+        User user = userRepo.find_by_id(idUser);
+        Collection<User> otherUsers = new ArrayList<>();
+        for(Friendship fr: get_all_friendships()){
+            if(fr.getUser1().getId().equals(user.getId())){
+                otherUsers.add(fr.getUser2());
+            }
+            else if(fr.getUser2().getId().equals(user.getId())){
+                otherUsers.add(fr.getUser1());
             }
         }
         return otherUsers;

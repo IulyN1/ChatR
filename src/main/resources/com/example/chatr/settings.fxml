@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatr.controllers.SettingsController">
+   <children>
+      <ImageView fx:id="backButton" fitHeight="56.0" fitWidth="62.0" layoutX="14.0" layoutY="330.0" onMouseClicked="#onBackButtonClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../back.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="70.0" layoutY="7.0" prefHeight="386.0" prefWidth="506.0">
+         <children>
+            <Label prefHeight="47.0" prefWidth="188.0" text="Reports">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Separator prefWidth="200.0" />
+            <Label prefHeight="47.0" prefWidth="505.0" text="Generate report of new friends and messages">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="30.0" prefWidth="506.0" spacing="15.0">
+               <children>
+                  <DatePicker fx:id="dateStart1" prefHeight="26.0" prefWidth="100.0" />
+                  <DatePicker fx:id="dateEnd1" prefHeight="26.0" prefWidth="100.0" />
+                  <Button fx:id="generateButton1" mnemonicParsing="false" onMouseClicked="#onGenerateButton1Clicked" text="Generate" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <Label prefHeight="47.0" prefWidth="505.0" text="Generate report of messages received from certain a user">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="30.0" prefWidth="506.0" spacing="15.0">
+               <children>
+                  <DatePicker fx:id="dateStart2" prefHeight="26.0" prefWidth="100.0" />
+                  <DatePicker fx:id="dateEnd2" prefHeight="26.0" prefWidth="100.0" />
+                  <ComboBox fx:id="userList" prefHeight="28.0" prefWidth="150.0" />
+                  <Button fx:id="generateButton2" mnemonicParsing="false" onMouseClicked="#onGenerateButton2Clicked" text="Generate" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
