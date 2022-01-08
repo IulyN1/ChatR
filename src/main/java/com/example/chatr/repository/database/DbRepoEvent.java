@@ -1,10 +1,8 @@
 package com.example.chatr.repository.database;
 
-import com.example.chatr.domain.Account;
 import com.example.chatr.domain.Event;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.repository.Repo;
-import javafx.beans.binding.NumberExpressionBase;
 
 import java.sql.*;
 import java.util.Collection;

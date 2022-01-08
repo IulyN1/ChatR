@@ -1,6 +1,5 @@
 package com.example.chatr.service;
 
-import com.example.chatr.controllers.CreateAccountController;
 import com.example.chatr.domain.Account;
 import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.AccountException;

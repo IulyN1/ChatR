@@ -4,7 +4,9 @@ import com.example.chatr.Application;
 import com.example.chatr.Page;
 import com.example.chatr.domain.*;
 import com.example.chatr.exceptions.RepoException;
-import com.example.chatr.service.*;
+import com.example.chatr.service.ServiceMessage;
+import com.example.chatr.service.ServiceUserFriendship;
+import com.example.chatr.utils.Constants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,9 +18,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -102,8 +109,72 @@ public class SettingsController {
                 }
             }
 
-            System.out.println(friendshipsReport);
-            System.out.println(messagesReport);
+            FileChooser fileChooser = new FileChooser();
+            //Set extension filter for pdf files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                PDDocument document = new PDDocument();
+                PDPage page = new PDPage();
+                document.addPage(page);
+                try {
+                    PDPageContentStream content = new PDPageContentStream(document, document.getPage(0),
+                            PDPageContentStream.AppendMode.APPEND,true,true);
+                    content.beginText();
+                    content.setFont(PDType1Font.COURIER_BOLD, 20);
+                    content.newLineAtOffset(10, 740);
+                    content.showText("Friends");
+                    content.newLineAtOffset(200, 0);
+                    content.showText("Date");
+                    content.setFont(PDType1Font.COURIER, 15);
+                    for(Friendship fr: friendshipsReport){
+                        content.newLineAtOffset(-200, -20);
+                        if(fr.getUser1().getId().equals(currentAccount.getUser_id())){
+                            content.showText(fr.getUser2().getFirstName() + " " + fr.getUser2().getLastName());
+                        }
+                        else{
+                            content.showText(fr.getUser1().getFirstName() + " " + fr.getUser1().getLastName());
+                        }
+                        content.newLineAtOffset(200,0);
+                        content.showText(fr.getFriendshipDate());
+                    }
+                    content.setFont(PDType1Font.COURIER_BOLD, 20);
+                    content.newLineAtOffset(-200, -40);
+                    content.showText("Messages");
+                    content.newLineAtOffset(200, 0);
+                    content.showText("From");
+                    content.newLineAtOffset(200, 0);
+                    content.showText("Date");
+                    content.setFont(PDType1Font.COURIER, 15);
+                    for(Message msg: messagesReport){
+                        content.newLineAtOffset(-400, -20);
+                        content.showText(msg.getMessage());
+                        content.newLineAtOffset(200, 0);
+                        content.showText(msg.getFrom().getFirstName() + " " + msg.getFrom().getLastName());
+                        content.newLineAtOffset(200, 0);
+                        content.showText(msg.getDate().format(Constants.DATE_TIME_FORMATTER));
+                    }
+                    content.endText();
+                    content.close();
+                    document.save(file);
+                    document.close();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Report exported");
+                    alert.setHeaderText("Report successfully created and exported!");
+                    alert.setContentText("Press Ok to go back!");
+                    alert.showAndWait();
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.setContentText("Press Ok to go back!");
+                    alert.showAndWait();
+                }
+            }
         }
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -118,9 +189,9 @@ public class SettingsController {
         LocalDate dateStart = dateStart2.getValue();
         LocalDate dateEnd = dateEnd2.getValue();
         UserDTO sender = userList.getValue();
-        if(dateStart != null && dateEnd != null && sender != null) {
+        if (dateStart != null && dateEnd != null && sender != null) {
 
-            List<Message> messages = serviceMessage.get_chat(currentAccount.getUser_id(),sender.getId()).stream().toList();
+            List<Message> messages = serviceMessage.get_chat(currentAccount.getUser_id(), sender.getId()).stream().toList();
             List<Message> messagesReport = new ArrayList<>();
             User thisUser = serviceUserFriendship.find_user_by_id(currentAccount.getUser_id());
             for (Message msg : messages) {
@@ -133,9 +204,54 @@ public class SettingsController {
                 }
             }
 
-            System.out.println(messagesReport);
-        }
-        else{
+            FileChooser fileChooser = new FileChooser();
+            //Set extension filter for pdf files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                PDDocument document = new PDDocument();
+                PDPage page = new PDPage();
+                document.addPage(page);
+                try {
+                    PDPageContentStream content = new PDPageContentStream(document, document.getPage(0),
+                            PDPageContentStream.AppendMode.APPEND, true, true);
+                    content.beginText();
+                    content.setFont(PDType1Font.COURIER_BOLD, 20);
+                    content.newLineAtOffset(10, 740);
+                    content.showText("Messages from: " + userList.getValue());
+                    content.newLineAtOffset(0, -40);
+                    content.showText("Messages");
+                    content.newLineAtOffset(200, 0);
+                    content.showText("Date");
+                    content.setFont(PDType1Font.COURIER, 15);
+                    for (Message msg : messagesReport) {
+                        content.newLineAtOffset(-200, -20);
+                        content.showText(msg.getMessage());
+                        content.newLineAtOffset(200, 0);
+                        content.showText(msg.getDate().format(Constants.DATE_TIME_FORMATTER));
+                    }
+                    content.endText();
+                    content.close();
+                    document.save(file);
+                    document.close();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Report exported");
+                    alert.setHeaderText("Report successfully created and exported!");
+                    alert.setContentText("Press Ok to go back!");
+                    alert.showAndWait();
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.setContentText("Press Ok to go back!");
+                    alert.showAndWait();
+                }
+            }
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please input dates and user!");

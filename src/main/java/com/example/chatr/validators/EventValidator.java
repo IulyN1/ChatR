@@ -1,9 +1,6 @@
 package com.example.chatr.validators;
 
-import com.example.chatr.domain.Account;
 import com.example.chatr.domain.Event;
-import com.example.chatr.domain.FriendshipRequest;
-import com.example.chatr.exceptions.AccountException;
 import com.example.chatr.exceptions.EventException;
 
 import java.text.ParseException;
