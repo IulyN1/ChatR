@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
@@ -98,6 +99,7 @@ public class ChatController {
                     text.setFill(Color.color(0.934,0.945,0.996));
                     repliedText.setFill(Color.color(0.934,0.945,0.996));
                     text.setFont(new Font("Arial Bold",14));
+                    message.setTextAlignment(TextAlignment.RIGHT);
                 }
                 // else align message to left
                 else{
@@ -112,12 +114,15 @@ public class ChatController {
                     menuBar.setStyle("-fx-padding: 0 1 0 1;" +
                             "-fx-spacing: 1;" +
                             "-fx-background-color: transparent;");
-                    menuBar.getMenus().get(0).setStyle("-fx-padding:0");
+                    menuBar.getMenus().get(0).setStyle("-fx-padding:0;");
                     menu.hide();
 
-                    // listeners for events on menu items
-                    menuBar.addEventHandler(MouseEvent.MOUSE_ENTERED,(e) -> {
-                        menu.show();
+                    // handlers for events on menu items
+                    menuBar.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            menu.show();
+                        }
                     });
                     reply.setOnAction(new EventHandler<ActionEvent>() {
                         @Override

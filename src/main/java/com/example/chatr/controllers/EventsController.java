@@ -5,7 +5,8 @@ import com.example.chatr.Page;
 import com.example.chatr.domain.Event;
 import com.example.chatr.exceptions.EventException;
 import com.example.chatr.exceptions.RepoException;
-import com.example.chatr.service.*;
+import com.example.chatr.service.ServiceAccount;
+import com.example.chatr.service.ServiceEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -23,12 +24,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class EventsController {
     @FXML
@@ -162,7 +160,7 @@ public class EventsController {
 
 
     public void onBackButtonClick(MouseEvent mouseEvent) throws IOException, RepoException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("dashboard-utility1.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("dashboard-utility.fxml"));
         root = fxmlLoader.load();
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         DashboardUtilityController dashboardUtilityController = fxmlLoader.getController();

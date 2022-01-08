@@ -44,6 +44,13 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
+
+    // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.25'
+    // https://mvnrepository.com/artifact/commons-logging/commons-logging
+    implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
+    // https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox
+    implementation group: 'org.apache.pdfbox', name: 'fontbox', version: '2.0.25'
 }
 
 test {

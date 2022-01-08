@@ -1,8 +1,6 @@
 package com.example.chatr.service;
 
-import com.example.chatr.domain.Account;
 import com.example.chatr.domain.Event;
-import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.repository.Repo;
 import com.example.chatr.validators.StrategyValidator;

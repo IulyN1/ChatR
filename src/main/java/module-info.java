@@ -6,6 +6,7 @@ module com.example.chatr {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires org.apache.pdfbox;
 
     opens com.example.chatr to javafx.fxml;
     exports com.example.chatr;
