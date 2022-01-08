@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+
 <AnchorPane fx:id="main" prefHeight="478.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatr.controllers.ChatController">
    <children>
       <ImageView fx:id="sendMessageButton" fitHeight="42.0" fitWidth="54.0" layoutX="329.0" layoutY="431.0" onMouseClicked="#onSendMessageClicked" pickOnBounds="true" preserveRatio="true">
@@ -30,5 +31,13 @@
             <Font name="Garamond Bold" size="40.0" />
          </font>
       </Label>
+      <ImageView fx:id="refreshButton" fitHeight="26.0" fitWidth="26.0" layoutX="343.0" layoutY="23.0" onMouseClicked="#onRefreshButtonClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../refresh.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
    </children>
 </AnchorPane>
