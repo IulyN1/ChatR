@@ -52,7 +52,8 @@ public class ChatController {
             }
         });
         messageInput.setStyle("-fx-background-radius: 20px;");
-        scrollMessages.setStyle("-fx-background-color: transparent;");
+        scrollMessages.setStyle("-fx-background-color: transparent;" +
+                "-fx-background: transparent;");
     }
 
     /**
@@ -227,5 +228,13 @@ public class ChatController {
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
         }
+    }
+
+    /**
+     * Method that refreshes the messages
+     * @param mouseEvent MouseEvent
+     */
+    public void onRefreshButtonClicked(MouseEvent mouseEvent) {
+        showMessages();
     }
 }

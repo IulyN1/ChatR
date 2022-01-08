@@ -10,3 +10,8 @@
 .radius{
     -fx-background-radius: 100px;
 }
+
+#mainChat{
+    -fx-background-image: url('chat-background.png');
+    -fx-background-size: cover;
+}
