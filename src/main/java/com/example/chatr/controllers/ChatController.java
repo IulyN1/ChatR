@@ -10,13 +10,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,7 +20,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +52,8 @@ public class ChatController {
             }
         });
         messageInput.setStyle("-fx-background-radius: 20px;");
-        scrollMessages.setStyle("-fx-background-color: transparent;");
+        scrollMessages.setStyle("-fx-background-color: transparent;" +
+                "-fx-background: transparent;");
     }
 
     /**
