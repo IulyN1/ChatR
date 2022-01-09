@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -233,6 +234,8 @@ public class DashboardUtilityController {
             stage.setTitle("Login");
             stage.setResizable(false);
             stage.setScene(scene);
+            Image img = new Image("logo.png");
+            stage.getIcons().add(img);
             stage.show();
         }
     }
@@ -247,6 +250,8 @@ public class DashboardUtilityController {
         stage.setTitle("Settings");
         stage.setResizable(false);
         stage.setScene(scene);
+        Image img = new Image("logo.png");
+        stage.getIcons().add(img);
         stage.show();
     }
 
@@ -257,9 +262,11 @@ public class DashboardUtilityController {
         eventsController.setServices(page);
         stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setTitle("events");
+        stage.setTitle("Events");
         stage.setResizable(false);
         stage.setScene(scene);
+        Image img = new Image("logo.png");
+        stage.getIcons().add(img);
         stage.show();
     }
     public void onShowFriendsButtonEnter(MouseEvent mouseEvent){
@@ -355,6 +362,8 @@ public class DashboardUtilityController {
         stage2.setTitle("Chat with " + otherUser.getFirstName() + " " + otherUser.getLastName());
         stage2.setResizable(false);
         stage2.setScene(scene2);
+        Image img = new Image("logo.png");
+        stage2.getIcons().add(img);
         stage2.show();
     }
 

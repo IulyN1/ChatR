@@ -8,6 +8,7 @@ import com.example.chatr.service.*;
 import com.example.chatr.validators.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Application extends javafx.application.Application {
@@ -43,6 +44,8 @@ public class Application extends javafx.application.Application {
         loginController.setServices(serviceAccount, serviceUserFriendship, serviceMessage, serviceFriendshipRequest,serviceEvent);
         stage.setResizable(false);
         stage.setScene(scene);
+        Image img = new Image("logo.png");
+        stage.getIcons().add(img);
         stage.show();
 
     }
