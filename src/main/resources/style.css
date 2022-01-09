@@ -15,3 +15,33 @@
     -fx-background-image: url('chat-background.png');
     -fx-background-size: cover;
 }
+
+#mainLogin{
+    -fx-background-color: linear-gradient(#00ffff, #00d4ff);
+}
+
+#UsernameTextField{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 10px;
+}
+
+#PasswordField{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 10px;
+}
+
+#LoginButton{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+    -fx-background-radius: 10px;
+}
+
+#LoginButton:hover{
+    -fx-background-color: wheat;
+    -fx-background-radius: 20px;
+}
