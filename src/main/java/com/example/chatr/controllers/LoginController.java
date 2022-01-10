@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -54,6 +55,8 @@ public class LoginController {
         stage.setTitle("Create account");
         stage.setResizable(false);
         stage.setScene(scene);
+        Image img = new Image("logo.png");
+        stage.getIcons().add(img);
         stage.show();
     }
 
@@ -73,6 +76,8 @@ public class LoginController {
             stage.setTitle("Menu");
             stage.setResizable(false);
             stage.setScene(scene);
+            Image img = new Image("logo.png");
+            stage.getIcons().add(img);
             stage.show();
 
         } catch (Exception e) {

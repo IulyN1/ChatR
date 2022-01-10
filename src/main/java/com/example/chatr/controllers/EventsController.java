@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -169,6 +170,8 @@ public class EventsController {
         stage.setTitle("Menu");
         stage.setResizable(false);
         stage.setScene(scene);
+        Image img = new Image("logo.png");
+        stage.getIcons().add(img);
         stage.show();
     }
 

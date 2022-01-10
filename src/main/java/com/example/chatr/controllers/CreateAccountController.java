@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -47,16 +48,7 @@ public class CreateAccountController {
     private Scene scene;
     private Parent root;
 
-    public void onBackLabelEntered(MouseEvent mouseEvent) {
-        BackLabel.setStyle("-fx-underline: true;");
-    }
-
-    public void onBackLabelExited(MouseEvent mouseEvent) {
-        BackLabel.setStyle("-fx-underline: false");
-    }
-
-
-    public void onBackLabelClick(MouseEvent mouseEvent) throws IOException {
+    public void onBackLoginClicked(MouseEvent mouseEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
         root = fxmlLoader.load();
         LoginController loginController = fxmlLoader.getController();
@@ -66,6 +58,8 @@ public class CreateAccountController {
         stage.setTitle("Login");
         stage.setResizable(false);
         stage.setScene(scene);
+        Image img = new Image("logo.png");
+        stage.getIcons().add(img);
         stage.show();
     }
 
@@ -113,6 +107,8 @@ public class CreateAccountController {
                 stage.setTitle("Login");
                 stage.setResizable(false);
                 stage.setScene(scene);
+                Image img = new Image("logo.png");
+                stage.getIcons().add(img);
                 stage.show();
 
             } catch (Exception e) {
