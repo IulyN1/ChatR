@@ -45,3 +45,28 @@
     -fx-background-color: wheat;
     -fx-background-radius: 20px;
 }
+
+#mainRegister{
+    -fx-background-color: linear-gradient(#00d4ff, #00ffff);
+}
+
+#FirstNameTextField{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 10px;
+}
+
+#LastNameTextField{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 10px;
+}
+
+#ConfirmPasswordField{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 10px;
+}

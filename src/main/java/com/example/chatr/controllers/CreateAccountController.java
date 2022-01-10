@@ -48,16 +48,7 @@ public class CreateAccountController {
     private Scene scene;
     private Parent root;
 
-    public void onBackLabelEntered(MouseEvent mouseEvent) {
-        BackLabel.setStyle("-fx-underline: true;");
-    }
-
-    public void onBackLabelExited(MouseEvent mouseEvent) {
-        BackLabel.setStyle("-fx-underline: false");
-    }
-
-
-    public void onBackLabelClick(MouseEvent mouseEvent) throws IOException {
+    public void onBackLoginClicked(MouseEvent mouseEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
         root = fxmlLoader.load();
         LoginController loginController = fxmlLoader.getController();
