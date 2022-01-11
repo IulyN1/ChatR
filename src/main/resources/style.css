@@ -1,10 +1,11 @@
-.light-gray-background{
-    -fx-background-color: #c2c2c2;
+.blue-background{
+    -fx-background-color: #2b2bff;
 }
 
 .transparent-background{
     -fx-background-color: rgba(0,0,0,0);
     -fx-prompt-text-fill: white;
+    -fx-text-fill: white;
 }
 
 .radius{
@@ -69,4 +70,43 @@
     -fx-font-weight: bold;
     -fx-font-size: 20px;
     -fx-background-radius: 10px;
+}
+
+#LabelHello{
+    -fx-padding: 10px;
+    -fx-font-weight: bold;
+}
+
+#mainDashboard{
+    -fx-background-color: #0000b8;
+}
+
+#ShowFriendsButton{
+    -fx-background-color: #0000b8;
+    -fx-background-radius: 20px;
+}
+
+#AddFriendsButton{
+    -fx-background-color: #0000b8;
+    -fx-background-radius: 20px;
+}
+
+#FriendshipRequestsButton{
+    -fx-background-color: #0000b8;
+    -fx-background-radius: 20px;
+}
+
+#eventsButton{
+    -fx-background-color: #0000b8;
+    -fx-background-radius: 20px;
+}
+
+#settingsButton{
+    -fx-background-color: #0000b8;
+    -fx-background-radius: 20px;
+}
+
+#LogoutButton{
+    -fx-background-color: #0000b8;
+    -fx-background-radius: 20px;
 }
