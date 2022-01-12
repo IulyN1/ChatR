@@ -110,3 +110,212 @@
     -fx-background-color: #0000b8;
     -fx-background-radius: 20px;
 }
+
+#mainSettings{
+    -fx-background-color: #54aaff;
+}
+
+#generateButton1{
+    -fx-background-color: #3d3dff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Ebrima;
+    -fx-font-size: 15px;
+    -fx-background-radius: 10px;
+}
+
+#generateButton1:hover{
+    -fx-background-color: #3500ba;
+    -fx-background-radius: 20px;
+}
+
+#generateButton2{
+    -fx-background-color: #3d3dff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Ebrima;
+    -fx-font-size: 15px;
+    -fx-background-radius: 10px;
+}
+
+#generateButton2:hover{
+    -fx-background-color: #3500ba;
+    -fx-background-radius: 20px;
+}
+
+#dateStart1{
+    -fx-background-color: transparent;
+}
+#dateStart1 .cell{
+    -fx-background-color: white;
+}
+#dateStart1 .cell:hover{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateStart1 .cell:focused{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateStart1 .arrow-button{
+    -fx-background-color: #91c8ff;
+    -fx-background-radius: 10px;
+}
+#dateStart1 .arrow-button:hover{
+    -fx-background-color: #2693ff
+}
+#dateStart1 .selected{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateStart1 .selected:focused{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateStart1 .text-field{
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Dialog;
+    -fx-background-radius: 10px;
+    -fx-font-size: 13px;
+}
+
+#dateStart2{
+    -fx-background-color: transparent;
+}
+#dateStart2 .cell{
+    -fx-background-color: white;
+}
+#dateStart2 .cell:hover{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateStart2 .cell:focused{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateStart2 .arrow-button{
+    -fx-background-color: #91c8ff;
+    -fx-background-radius: 10px;
+}
+#dateStart2 .arrow-button:hover{
+    -fx-background-color: #2693ff
+}
+#dateStart2 .selected{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateStart2 .selected:focused{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateStart2 .text-field{
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Dialog;
+    -fx-background-radius: 10px;
+    -fx-font-size: 13px;
+}
+
+#dateEnd1{
+    -fx-background-color: transparent;
+}
+#dateEnd1 .cell{
+    -fx-background-color: white;
+}
+#dateEnd1 .cell:hover{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateEnd1 .cell:focused{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateEnd1 .arrow-button{
+    -fx-background-color: #91c8ff;
+    -fx-background-radius: 10px;
+}
+#dateEnd1 .arrow-button:hover{
+    -fx-background-color: #2693ff
+}
+#dateEnd1 .selected{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateEnd1 .selected:focused{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateEnd1 .text-field{
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Dialog;
+    -fx-background-radius: 10px;
+    -fx-font-size: 13px;
+}
+
+#dateEnd2{
+    -fx-background-color: transparent;
+}
+#dateEnd2 .cell{
+    -fx-background-color: white;
+}
+#dateEnd2 .cell:hover{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateEnd2 .cell:focused{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#dateEnd2 .arrow-button{
+    -fx-background-color: #91c8ff;
+    -fx-background-radius: 10px;
+}
+#dateEnd2 .arrow-button:hover{
+    -fx-background-color: #2693ff
+}
+#dateEnd2 .selected{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateEnd2 .selected:focused{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#dateEnd2 .text-field{
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Dialog;
+    -fx-background-radius: 10px;
+    -fx-font-size: 13px;
+}
+
+#userList{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Constantia;
+    -fx-font-size: 13px;
+}
+#userList .arrow-button{
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+}
+#userList .arrow-button:hover{
+    -fx-background-color: #0080ff;
+}
+#userList .cell{
+    -fx-background-color: #0040c9;
+    -fx-background-radius: 20px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+#userList .cell:hover{
+    -fx-background-color: #002f94;
+    -fx-cursor: hand;
+}
