@@ -23,7 +23,15 @@
     <children>
         <VBox fx:id="mainPanel" layoutY="-2.0" prefHeight="520.0" prefWidth="263.0" stylesheets="@../../../style.css">
             <children>
-                <Label fx:id="LabelHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="161.0" prefWidth="263.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <ImageView fx:id="profilePic" fitHeight="65.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../profile.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="100.0" />
+               </VBox.margin>
+            </ImageView>
+                <Label fx:id="LabelHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="94.0" prefWidth="263.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="Cambria" size="26.0" />
                     </font>
@@ -83,7 +91,7 @@
                 </Button>
             </children>
         </VBox>
-        <Label fx:id="TitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="263.0" layoutY="51.0" prefHeight="35.0" prefWidth="587.0" text="Friendship Request" textFill="WHITE">
+        <Label fx:id="TitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="263.0" layoutY="51.0" prefHeight="35.0" prefWidth="587.0" text="Friendship Requests" textFill="WHITE">
             <font>
                 <Font name="Candara Bold" size="36.0" />
             </font>

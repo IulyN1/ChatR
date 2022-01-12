@@ -112,7 +112,7 @@
 }
 
 #mainSettings{
-    -fx-background-color: #54aaff;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #54aaff, #407cff);
 }
 
 #generateButton1{

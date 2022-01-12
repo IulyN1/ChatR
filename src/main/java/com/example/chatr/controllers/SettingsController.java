@@ -81,7 +81,7 @@ public class SettingsController {
     public void onGenerateButton1Clicked(MouseEvent mouseEvent) throws RepoException {
         LocalDate dateStart = dateStart1.getValue();
         LocalDate dateEnd = dateEnd1.getValue();
-        if(dateStart != null && dateEnd != null) {
+        if(dateStart != null && dateEnd != null && dateStart.compareTo(dateEnd)<=0) {
             List<Friendship> friendships = serviceUserFriendship.get_all_friendships().stream().toList();
             List<Friendship> friendshipsReport = new ArrayList<>();
 
@@ -180,7 +180,7 @@ public class SettingsController {
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Please input dates!");
+            alert.setHeaderText("Please input valid dates!");
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
         }
@@ -190,7 +190,7 @@ public class SettingsController {
         LocalDate dateStart = dateStart2.getValue();
         LocalDate dateEnd = dateEnd2.getValue();
         UserDTO sender = userList.getValue();
-        if (dateStart != null && dateEnd != null && sender != null) {
+        if (dateStart != null && dateEnd != null && sender != null && dateStart.compareTo(dateEnd)<=0) {
 
             List<Message> messages = serviceMessage.get_chat(currentAccount.getUser_id(), sender.getId()).stream().toList();
             List<Message> messagesReport = new ArrayList<>();
@@ -255,7 +255,7 @@ public class SettingsController {
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Please input dates and user!");
+            alert.setHeaderText("Please input valid dates and user!");
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
         }
