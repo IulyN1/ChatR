@@ -239,6 +239,13 @@ public class DashboardUtilityController {
     public void onRefreshButtonClick(MouseEvent mouseEvent) throws RepoException {
         System.out.println("clicked");
         page.refresh();
+        if(dashboard_status.equals("Show friends"))
+            onShowFriendsButtonClick(null);
+        else if(dashboard_status.equals("Add friends"))
+            onAddFriendsButtonClick(null);
+        else if(dashboard_status.equals("Friendship request"))
+            onFriendshipRequestsButtonClick(null);
+
     }
 
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
