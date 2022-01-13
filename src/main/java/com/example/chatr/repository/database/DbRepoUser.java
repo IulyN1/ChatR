@@ -146,6 +146,7 @@ public class DbRepoUser implements Repo<Integer, User> {
         ArrayList<User> users = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from users");
+             //order by id asc limit 10 offset 5
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {

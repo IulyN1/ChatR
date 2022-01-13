@@ -236,6 +236,11 @@ public class DashboardUtilityController {
         table.getSortOrder().add(c1);
     }
 
+    public void onRefreshButtonClick(MouseEvent mouseEvent) throws RepoException {
+        System.out.println("clicked");
+        page.refresh();
+    }
+
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
         //add button styles
         ShowFriendsButton.setStyle("-fx-background-color: #3d3dff");
@@ -330,6 +335,8 @@ public class DashboardUtilityController {
         stage.getIcons().add(img);
         stage.show();
     }
+
+
 
     public void onEventsButtonClick(javafx.scene.input.MouseEvent mouseEvent)throws  IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("events.fxml"));

@@ -34,6 +34,15 @@ public class Page {
         createEvenetsList();
     }
 
+    public void refresh() throws RepoException {
+        Friends.clear();
+        friendshipRequests.clear();
+        events.clear();
+        createFriendsList();
+        createRequestsLists();
+        createEvenetsList();
+    }
+
     private void createRequestsLists() throws RepoException {
         for(FriendshipRequest fr:serviceFriendshipRequest.getAllRequests())
             if(fr.getSender().getId()==account.getUser_id()||fr.getReceiver().getId()==account.getUser_id())
@@ -186,7 +195,6 @@ public class Page {
             alert.showAndWait();
         }
     }
-
 
     public void respondRequest(String status,int id) throws RepoException {
         try {
