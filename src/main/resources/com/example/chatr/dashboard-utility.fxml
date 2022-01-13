@@ -28,10 +28,10 @@
                   <Image url="@../../../profile.png" />
                </image>
                <VBox.margin>
-                  <Insets left="100.0" />
+                  <Insets left="100.0" top="5.0" />
                </VBox.margin>
             </ImageView>
-                <Label fx:id="LabelHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="94.0" prefWidth="263.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                <Label fx:id="LabelHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="90.0" prefWidth="263.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="Cambria" size="26.0" />
                     </font>
@@ -121,13 +121,13 @@
                               </ImageView>
                                       <TextField fx:id="SearchTextField" prefHeight="40.0" prefWidth="187.0" promptText="Search" styleClass="transparent-background" stylesheets="@../../../style.css">
                                           <font>
-                                              <Font name="Century" size="20.0" />
+                                              <Font name="Lato Semibold" size="20.0" />
                                           </font>
                                       </TextField>
                            </children>
                            <styleClass>
                               <String fx:value="radius" />
-                              <String fx:value="blue-background" />
+                              <String fx:value="search-background" />
                            </styleClass>
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" />
@@ -137,11 +137,11 @@
                         </HBox>
                         <TableView fx:id="table" prefHeight="468.0" prefWidth="587.0" GridPane.rowIndex="1">
                             <columns>
-                                <TableColumn fx:id="c1" prefWidth="104.800048828125" text="First Name" />
-                                <TableColumn fx:id="c2" prefWidth="97.60003662109375" text="Last Name" />
-                                <TableColumn fx:id="c3" prefWidth="125.0" text="Date" />
-                        <TableColumn fx:id="buttonCollumn" prefWidth="78.4000244140625" />
-                        <TableColumn fx:id="buttonCollumn1" prefWidth="80.800048828125" />
+                                <TableColumn fx:id="c1" prefWidth="115.20001220703125" text="First Name" />
+                                <TableColumn fx:id="c2" prefWidth="116.79998779296875" text="Last Name" />
+                                <TableColumn fx:id="c3" prefWidth="176.800048828125" text="Date" />
+                        <TableColumn fx:id="buttonCollumn" prefWidth="85.0" />
+                        <TableColumn fx:id="buttonCollumn1" prefWidth="85.0" />
                             </columns>
                         </TableView>
                     </children>

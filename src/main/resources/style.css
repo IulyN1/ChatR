@@ -1,11 +1,12 @@
-.blue-background{
-    -fx-background-color: #2b2bff;
+.search-background{
+    //-fx-background-color: #2b2bff;
+    -fx-background-color: white;
 }
 
 .transparent-background{
     -fx-background-color: rgba(0,0,0,0);
-    -fx-prompt-text-fill: white;
-    -fx-text-fill: white;
+    -fx-prompt-text-fill: black;
+    -fx-text-fill: black;
 }
 
 .radius{
@@ -78,36 +79,36 @@
 }
 
 #mainDashboard{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
 }
 
 #ShowFriendsButton{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
     -fx-background-radius: 20px;
 }
 
 #AddFriendsButton{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
     -fx-background-radius: 20px;
 }
 
 #FriendshipRequestsButton{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
     -fx-background-radius: 20px;
 }
 
 #eventsButton{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
     -fx-background-radius: 20px;
 }
 
 #settingsButton{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
     -fx-background-radius: 20px;
 }
 
 #LogoutButton{
-    -fx-background-color: #0000b8;
+    -fx-background-color: #003bba;
     -fx-background-radius: 20px;
 }
 
@@ -318,4 +319,72 @@
 #userList .cell:hover{
     -fx-background-color: #002f94;
     -fx-cursor: hand;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-font-family: Candara;
+}
+.table-view .table-column {
+    -fx-alignment: center;
+}
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to right, #6595BF, #447cc9);
+    -fx-background-radius: 20px;
+    -fx-padding: 3px;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
+}
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 3px;
+}
+.table-row-cell:hover {
+    -fx-text-background-color: blue;
+}
+.table-row-cell:odd{
+    -fx-background-color: linear-gradient(to bottom, #ACD7F2, #C2E5F2);
+    -fx-background-radius: 0px 0px 20px 20px;
+}
+.table-row-cell:even{
+    -fx-background-color: linear-gradient(to bottom, #C2E5F2, #ACD7F2);
+    -fx-background-radius: 20px 20px 0px 0px;
+}
+.table-row-cell:selected {
+    -fx-background-color: wheat;
+    -fx-text-background-color: blue;
+}
+
+#acceptButton {
+    -fx-font-family: Candara;
+    -fx-font-weight: bold;
+    -fx-background-color: #5917ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+}
+#acceptButton:hover{
+    -fx-background-color: #3900c9;
+}
+#declineButton {
+    -fx-font-family: Candara;
+    -fx-font-weight: bold;
+    -fx-background-color: #5917ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+}
+#declineButton:hover{
+    -fx-background-color: #3900c9;
 }
