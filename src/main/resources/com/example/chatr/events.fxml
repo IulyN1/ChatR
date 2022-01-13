@@ -1,53 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.String?>
-<AnchorPane prefHeight="520.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatr.controllers.EventsController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainEvents" prefHeight="520.0" prefWidth="850.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatr.controllers.EventsController">
    <children>
-      <VBox layoutY="4.0" prefHeight="520.0" prefWidth="263.0" style="-fx-background-color: CDCDCD;">
+      <VBox fx:id="panelEvents" prefHeight="524.0" prefWidth="263.0">
          <children>
-            <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" prefHeight="157.0" prefWidth="267.0">
+            <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" prefHeight="198.0" prefWidth="263.0">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="CreateEventButton" mnemonicParsing="false" onMouseClicked="#onCreateEventButtonClick" onMouseEntered="#onCreateEventButtonEnter" onMouseExited="#onCreateEventButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Create Event">
+            <Button fx:id="CreateEventButton" mnemonicParsing="false" onMouseClicked="#onCreateEventButtonClick" onMouseEntered="#onCreateEventButtonEnter" onMouseExited="#onCreateEventButtonExit" prefHeight="55.0" prefWidth="266.0" text="Create Event">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="ShowEventsButton" mnemonicParsing="false" onMouseClicked="#onShowEventsButtonClick" onMouseEntered="#onShowEventsButtonEnter" onMouseExited="#onShowEventsButtonExit" prefHeight="55.0" prefWidth="266.0" style="-fx-background-color: CDCDCD;" text="Show Events">
+            <Button fx:id="ShowEventsButton" mnemonicParsing="false" onMouseClicked="#onShowEventsButtonClick" onMouseEntered="#onShowEventsButtonEnter" onMouseExited="#onShowEventsButtonExit" prefHeight="55.0" prefWidth="266.0" text="Show Events">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="BackButton" mnemonicParsing="false" onMouseClicked="#onBackButtonClick" onMouseEntered="#onBackButtonEnter" onMouseExited="#onBackButtonExit" prefHeight="55.0" prefWidth="274.0" style="-fx-background-color: CDCDCD;" text="Back">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
+            <Label prefHeight="192.0" prefWidth="263.0" />
+            <ImageView fx:id="BackButton" fitHeight="61.0" fitWidth="80.0" onMouseClicked="#onBackButtonClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../back.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
          </children>
       </VBox>
-      <Label fx:id="TitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="263.0" layoutY="61.0" prefHeight="53.0" prefWidth="597.0" text="Create Event">
+      <Label fx:id="TitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="110.0" prefHeight="54.0" prefWidth="551.0" text="Create Event">
          <font>
-            <Font size="36.0" />
+            <Font name="Corbel Bold" size="40.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="439.0" layoutY="124.0" prefHeight="399.0" prefWidth="246.0" spacing="60.0">
+      <VBox alignment="CENTER" layoutX="400.0" layoutY="64.0" prefHeight="478.0" prefWidth="238.0" spacing="30.0">
          <children>
-            <TextField fx:id="EventNameLabel" prefHeight="58.0" prefWidth="246.0" promptText="Event Name">
+            <TextField fx:id="EventNameLabel" prefHeight="47.0" prefWidth="238.0" promptText="Event Name">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
-            <DatePicker fx:id="DatePicker" prefHeight="58.0" prefWidth="250.0" promptText="Pick a date" />
-            <Button fx:id="AddEventButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onAddEventButtonClick" prefHeight="43.0" prefWidth="107.0" text="Add event" textAlignment="CENTER" />
+            <DatePicker fx:id="DatePicker" prefHeight="47.0" prefWidth="238.0" promptText="Pick a date" />
+            <Button fx:id="AddEventButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onAddEventButtonClick" prefHeight="50.0" prefWidth="178.0" text="Add event" textAlignment="CENTER" />
          </children>
       </VBox>
       <GridPane fx:id="gridPane" layoutX="263.0" layoutY="10.0" prefHeight="397.0" prefWidth="587.0">
@@ -79,7 +97,7 @@
                      </children>
                      <styleClass>
                         <String fx:value="radius" />
-                        <String fx:value="light-gray-background" />
+                        <String fx:value="search-background" />
                      </styleClass>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" />
@@ -87,15 +105,18 @@
                   </HBox>
                </children>
             </HBox>
+            <TableView fx:id="table" prefHeight="326.0" prefWidth="587.0" GridPane.rowIndex="1">
+               <columns>
+                  <TableColumn fx:id="c1" prefWidth="104.800048828125" text="Name" />
+                  <TableColumn fx:id="c2" prefWidth="129.0" text="Date" />
+                  <TableColumn fx:id="c3" prefWidth="106.0" />
+               </columns>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </TableView>
          </children>
       </GridPane>
       <HBox alignment="CENTER_LEFT" layoutX="264.0" layoutY="51.0" prefHeight="40.0" prefWidth="238.0" spacing="15.0" />
-      <TableView fx:id="table" layoutX="264.0" layoutY="52.0" prefHeight="472.0" prefWidth="597.0">
-         <columns>
-            <TableColumn fx:id="c1" prefWidth="104.800048828125" text="Name" />
-            <TableColumn fx:id="c2" prefWidth="129.0" text="Date" />
-            <TableColumn fx:id="c3" prefWidth="106.0" />
-         </columns>
-      </TableView>
    </children>
 </AnchorPane>

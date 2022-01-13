@@ -388,3 +388,116 @@
 #declineButton:hover{
     -fx-background-color: #3900c9;
 }
+
+#mainEvents{
+    -fx-background-color: linear-gradient(#5f4aff, #7866ff);
+}
+
+#panelEvents{
+    -fx-background-color: transparent;
+}
+
+#CreateEventButton{
+    -fx-background-color: linear-gradient(#1486ff, #3697ff);
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Candara;
+    -fx-background-radius: 10px;
+    -fx-font-size: 26px;
+    -fx-border-color: white;
+    -fx-border-radius: 10px;
+}
+#CreateEventButton:hover{
+    -fx-background-radius: 30px;
+    -fx-background-color: linear-gradient(#3697ff, #1486ff);
+}
+
+#ShowEventsButton{
+    -fx-background-color: linear-gradient(#1486ff, #3697ff);
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Candara;
+    -fx-background-radius: 10px;
+    -fx-font-size: 26px;
+    -fx-border-color: white;
+    -fx-border-radius: 10px;
+}
+#ShowEventsButton:hover{
+    -fx-background-radius: 30px;
+    -fx-background-color: linear-gradient(#3697ff, #1486ff);
+}
+
+#EventNameLabel{
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-font-weight: bold;
+    -fx-font-family: Candara;
+    -fx-font-size: 20px;
+    -fx-prompt-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 10px;
+}
+
+#DatePicker{
+    -fx-background-color: transparent;
+}
+#DatePicker .cell{
+    -fx-background-color: white;
+}
+#DatePicker .cell:hover{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#DatePicker .cell:focused{
+    -fx-background-color: #00468c;
+    -fx-text-fill: white;
+}
+#DatePicker .arrow-button{
+    -fx-background-color: #91c8ff;
+    -fx-background-radius: 10px;
+    -fx-border-color: blue;
+    -fx-border-radius: 10px;
+}
+#DatePicker .arrow-button:hover{
+    -fx-background-color: #2693ff
+}
+#DatePicker .selected{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#DatePicker .selected:focused{
+    -fx-background-color: #0080ff;;
+    -fx-text-fill: white;
+}
+#DatePicker .text-field{
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Dialog;
+    -fx-background-radius: 10px;
+    -fx-font-size: 13px;
+    -fx-border-color: white;
+    -fx-border-radius: 10px;
+    -fx-prompt-text-fill: white;
+}
+
+#AddEventButton{
+    -fx-cursor: hand;
+    -fx-background-color: #2137ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-font-weight: bold;
+    -fx-font-family: Cambria;
+    -fx-font-size: 24px;
+    -fx-border-color: white;
+    -fx-border-radius: 10px;
+}
+#AddEventButton:hover{
+    -fx-background-radius: 20px;
+    -fx-background-color: #00bfff;
+    -fx-text-fill: black;
+    -fx-border-radius: 20px;
+}
