@@ -19,10 +19,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -86,14 +91,28 @@ public class DashboardUtilityController {
         buttonCollumn1.setCellValueFactory(new PropertyValueFactory<UserTable,String>("button2"));
         c3.setVisible(false);
         dashboard_status = "Show friends";
+
+        //add button icons
+        ShowFriendsButton.setGraphic(new ImageView("show-friends.png"));
+        AddFriendsButton.setGraphic(new ImageView("add-friends.png"));
+        FriendshipRequestsButton.setGraphic(new ImageView("friend-request.png"));
+        eventsButton.setGraphic(new ImageView("events.png"));
+        settingsButton.setGraphic(new ImageView("settings.png"));
+        LogoutButton.setGraphic(new ImageView("logout.png"));
     }
-
-
 
     //-----------------------------Actions-------------------------------------------------
     public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
+        //add button styles
+        ShowFriendsButton.setStyle("-fx-background-color: #003bba");
+        AddFriendsButton.setStyle("-fx-background-color: #003bba");
+        FriendshipRequestsButton.setStyle("-fx-background-color: #3d3dff");
+        eventsButton.setStyle("-fx-background-color: #003bba");
+        settingsButton.setStyle("-fx-background-color: #003bba");
+        LogoutButton.setStyle("-fx-background-color: #003bba");
+
         dashboard_status = "Friendship request";
-        TitleLabel.setText("Friendship request");
+        TitleLabel.setText("Friendship requests");
         c3.setVisible(true);
         modelGrade.clear();
         buttonCollumn1.setVisible(true);
@@ -102,6 +121,14 @@ public class DashboardUtilityController {
             if (fr.getStatus().equals("PENDING")&&fr.getSender().getId()!=account.getUser_id()) {
                 Button auxButton=new Button("Accept");
                 Button auxButton2=new Button("Decline");
+                auxButton.setId("acceptButton");
+                auxButton2.setId("declineButton");
+                Tooltip tooltip = new Tooltip("Accept friend request");
+                tooltip.setShowDelay(new Duration(0));
+                auxButton.setTooltip(tooltip);
+                Tooltip tooltip2 = new Tooltip("Decline friend request");
+                tooltip2.setShowDelay(new Duration(0));
+                auxButton2.setTooltip(tooltip2);
 
                 UserTable userTable = new UserTable(fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton,auxButton2);
                 //----Added event hanlder for any buttton("ACCEPT")
@@ -132,6 +159,14 @@ public class DashboardUtilityController {
     }
 
     public void onAddFriendsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
+        //add button styles
+        ShowFriendsButton.setStyle("-fx-background-color: #003bba");
+        AddFriendsButton.setStyle("-fx-background-color: #3d3dff");
+        FriendshipRequestsButton.setStyle("-fx-background-color: #003bba");
+        eventsButton.setStyle("-fx-background-color: #003bba");
+        settingsButton.setStyle("-fx-background-color: #003bba");
+        LogoutButton.setStyle("-fx-background-color: #003bba");
+
         dashboard_status = "Add friends";
         TitleLabel.setText("Add friends");
         c3.setVisible(false);
@@ -142,7 +177,6 @@ public class DashboardUtilityController {
         Collection<User> users = serviceUserFriendship.getUserNotFriends(currentUser);
         List<User> usersOrdered = users.stream().sorted(Comparator.comparing(User::getFirstName)).toList();
         for (User user : usersOrdered) {
-            Button auxButton;
             boolean isSent=false;
             for(FriendshipRequest fr: page.getFriendshipRequests()){
                 if(serviceUserFriendship.find_user_by_id(fr.getReceiver().getId()).equals(user)){
@@ -152,14 +186,33 @@ public class DashboardUtilityController {
                     break;
                 }
             }
-            if(!isSent)
-                auxButton=new Button("Add");
-            else
-                auxButton=new Button("Undo");
+
+            Button auxButton;
+            if(!isSent) {
+                auxButton = new Button();
+                auxButton.setGraphic(new ImageView("add.png"));
+                auxButton.setUserData("Add");
+                Tooltip tooltip = new Tooltip("Add friend");
+                tooltip.setShowDelay(new Duration(0));
+                auxButton.setTooltip(tooltip);
+            }
+
+            else {
+                auxButton = new Button();
+                auxButton.setGraphic(new ImageView("undo.png"));
+                auxButton.setUserData("Undo");
+                Tooltip tooltip = new Tooltip("Undo");
+                tooltip.setShowDelay(new Duration(0));
+                auxButton.setTooltip(tooltip);
+            }
+            auxButton.setStyle("-fx-padding: 0;" +
+                    "-fx-background-color: transparent;" +
+                    "-fx-cursor: hand;");
+
             UserTable ut = new UserTable(user.getFirstName(), user.getLastName(),auxButton);
             //----Added event hanlder for any buttton
             auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                if(auxButton.getText().equals("Add")) {
+                if(auxButton.getUserData().equals("Add")) {
                     page.addFriends(user.getId());
                     try {
                         onAddFriendsButtonClick(null);
@@ -184,6 +237,14 @@ public class DashboardUtilityController {
     }
 
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
+        //add button styles
+        ShowFriendsButton.setStyle("-fx-background-color: #3d3dff");
+        AddFriendsButton.setStyle("-fx-background-color: #003bba");
+        FriendshipRequestsButton.setStyle("-fx-background-color: #003bba");
+        eventsButton.setStyle("-fx-background-color: #003bba");
+        settingsButton.setStyle("-fx-background-color: #003bba");
+        LogoutButton.setStyle("-fx-background-color: #003bba");
+
         dashboard_status = "Show friends";
         TitleLabel.setText("Your friends");
         c3.setVisible(false);
@@ -192,8 +253,23 @@ public class DashboardUtilityController {
 
         User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
         for(User user: page.getFriends()){
-                Button auxButton=new Button("Delete");
-                Button chatButton = new Button("Chat");
+                Button auxButton=new Button();
+                auxButton.setGraphic(new ImageView("delete.png"));
+                Button chatButton = new Button();
+                chatButton.setGraphic(new ImageView("chat.png"));
+                auxButton.setStyle("-fx-padding: 0;" +
+                        "-fx-background-color: transparent;" +
+                        "-fx-cursor: hand;");
+                chatButton.setStyle("-fx-padding: 0;" +
+                    "-fx-background-color: transparent;" +
+                    "-fx-cursor: hand;");
+                Tooltip tooltipDelete = new Tooltip("Delete friend");
+                tooltipDelete.setShowDelay(new Duration(0));
+                auxButton.setTooltip(tooltipDelete);
+                Tooltip tooltipChat = new Tooltip("Open chat");
+                tooltipChat.setShowDelay(new Duration(0));
+                chatButton.setTooltip(tooltipChat);
+
                 UserTable table = new UserTable(user.getFirstName(),
                         user.getLastName(),auxButton,chatButton);
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -269,48 +345,6 @@ public class DashboardUtilityController {
         stage.getIcons().add(img);
         stage.show();
     }
-    public void onShowFriendsButtonEnter(MouseEvent mouseEvent){
-        ShowFriendsButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-    public void onShowFriendsButtonExit(MouseEvent mouseEvent){
-        ShowFriendsButton.setStyle("-fx-background-color: CDCDCD");
-    }
-
-    public void onAddFriendsButtonEnter(MouseEvent mouseEvent){
-        AddFriendsButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-    public void onAddFriendsButtonExit(MouseEvent mouseEvent){
-        AddFriendsButton.setStyle("-fx-background-color: CDCDCD");
-    }
-
-    public void onFriendshipRequestsButtonEnter(MouseEvent mouseEvent){
-        FriendshipRequestsButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-    public void onFriendshipRequestsButtonExit(MouseEvent mouseEvent){
-        FriendshipRequestsButton.setStyle("-fx-background-color: CDCDCD");
-    }
-
-    public void onSettingsButtonEnter(MouseEvent mouseEvent){
-        settingsButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-    public void onSettingsButtonExit(MouseEvent mouseEvent){
-        settingsButton.setStyle("-fx-background-color: CDCDCD");
-    }
-
-    public void onEventsButtonEnter(MouseEvent mouseEvent) {
-        eventsButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-
-    public void onEventsButtonExit(MouseEvent mouseEvent) {
-        eventsButton.setStyle("-fx-background-color: CDCDCD");
-    }
-
-    public void onLogoutButtonEnter(MouseEvent mouseEvent){
-        LogoutButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-    public void onLogoutButtonExit(MouseEvent mouseEvent){
-        LogoutButton.setStyle("-fx-background-color: CDCDCD");
-    }
 
     //----------------------------Functional--------------------------------------
     private void setServices() throws RepoException {
@@ -370,5 +404,57 @@ public class DashboardUtilityController {
     public void setPage(Page page) throws RepoException {
         this.page= page;
         setServices();
+    }
+
+    //--------------Styling--------------------
+    public void onShowFriendsButtonEntered(MouseEvent mouseEvent) {
+        ShowFriendsButton.setStyle("-fx-background-color: #3d3dff;");
+    }
+
+    public void onShowFriendsButtonExited(MouseEvent mouseEvent) {
+        if(!dashboard_status.equals("Show friends"))
+            ShowFriendsButton.setStyle("-fx-background-color: #003bba;");
+    }
+
+    public void onAddFriendsButtonEntered(MouseEvent mouseEvent) {
+        AddFriendsButton.setStyle("-fx-background-color: #3d3dff;");
+    }
+
+    public void onAddFriendsButtonExited(MouseEvent mouseEvent) {
+        if(!dashboard_status.equals("Add friends"))
+            AddFriendsButton.setStyle("-fx-background-color: #003bba;");
+    }
+
+    public void onFriendshipRequestsButtonEntered(MouseEvent mouseEvent) {
+        FriendshipRequestsButton.setStyle("-fx-background-color: #3d3dff;");
+    }
+
+    public void onFriendshipRequestsButtonExited(MouseEvent mouseEvent) {
+        if(!dashboard_status.equals("Friendship request"))
+        FriendshipRequestsButton.setStyle("-fx-background-color: #003bba;");
+    }
+
+    public void onEventsButtonEntered(MouseEvent mouseEvent) {
+        eventsButton.setStyle("-fx-background-color: #3d3dff;");
+    }
+
+    public void onEventsButtonExited(MouseEvent mouseEvent) {
+        eventsButton.setStyle("-fx-background-color: #003bba;");
+    }
+
+    public void onSettingsButtonEntered(MouseEvent mouseEvent) {
+        settingsButton.setStyle("-fx-background-color: #3d3dff;");
+    }
+
+    public void onSettingsButtonExited(MouseEvent mouseEvent) {
+        settingsButton.setStyle("-fx-background-color: #003bba;");
+    }
+
+    public void onLogoutButtonEntered(MouseEvent mouseEvent) {
+        LogoutButton.setStyle("-fx-background-color: #3d3dff;");
+    }
+
+    public void onLogoutButtonExited(MouseEvent mouseEvent) {
+        LogoutButton.setStyle("-fx-background-color: #003bba;");
     }
 }

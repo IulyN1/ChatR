@@ -35,8 +35,6 @@ public class EventsController {
     @FXML
     private Button ShowEventsButton;
     @FXML
-    private Button BackButton;
-    @FXML
     private Label TitleLabel;
     @FXML
     private TextField EventNameLabel;
@@ -60,6 +58,7 @@ public class EventsController {
     private TableColumn<EventsTable, String> c3;
     @FXML
     private Button MyEventsButton;
+    private String status;
 
     private ServiceAccount serviceAccount;
     private ServiceEvent serviceEvent;
@@ -75,9 +74,15 @@ public class EventsController {
         c1.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("c1"));
         c2.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("c2"));
         c2.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("button1"));
+        status = "Create event";
+        CreateEventButton.setStyle("-fx-background-color: linear-gradient(to right, #0079fa, #006bde);" +
+                "-fx-border-radius: 20px;" +
+                "-fx-background-radius: 20px");
+        ShowEventsButton.setStyle("-fx-background-color: linear-gradient(#1486ff, #3697ff);");
     }
     public void onCreateEventButtonClick(MouseEvent mouseEvent){
         TitleLabel.setText("Create Event");
+        TitleLabel.setVisible(true);
         EventNameLabel.setVisible(true);
         DatePicker.setVisible(true);
         AddEventButton.setVisible(true);
@@ -86,6 +91,11 @@ public class EventsController {
         SearchImage.setVisible(false);
         table.setVisible(false);
         gridPane.setVisible(false);
+        status = "Create event";
+        CreateEventButton.setStyle("-fx-background-color: linear-gradient(to right, #0079fa, #006bde);" +
+                "-fx-border-radius: 20px;" +
+                "-fx-background-radius: 20px");
+        ShowEventsButton.setStyle("-fx-background-color: linear-gradient(#1486ff, #3697ff);");
     }
 
     public void onShowEventsButtonClick(MouseEvent mouseEvent){
@@ -97,7 +107,13 @@ public class EventsController {
         SearchImage.setVisible(true);
         table.setVisible(true);
         gridPane.setVisible(true);
-        TitleLabel.setText("Show Events");
+        TitleLabel.setVisible(false);
+        status = "Show events";
+        ShowEventsButton.setStyle("-fx-background-color: linear-gradient(to right, #0079fa, #006bde);" +
+                "-fx-border-radius: 20px;" +
+                "-fx-background-radius: 20px");
+        CreateEventButton.setStyle("-fx-background-color: linear-gradient(#1486ff, #3697ff);");
+
         modelGrade.clear();
         for(Event event:serviceEvent.getAllEvent()) {
             Boolean isEvent = false;
@@ -175,19 +191,25 @@ public class EventsController {
         stage.show();
     }
 
-
     public void onCreateEventButtonEnter(MouseEvent mouseEvent){
-        CreateEventButton.setStyle("-fx-background-color: #b3b3b3");
+        CreateEventButton.setStyle("-fx-background-radius: 20px;" +
+                "-fx-background-color: linear-gradient(to right, #0079fa, #006bde);" +
+                "-fx-border-radius: 20px");
     }
     public void onCreateEventButtonExit(MouseEvent mouseEvent){
-        CreateEventButton.setStyle("-fx-background-color: CDCDCD");
+        if(!status.equals("Create event"))
+            CreateEventButton.setStyle("-fx-background-color: linear-gradient(#1486ff, #3697ff);" +
+                "-fx-background-radius: 10px;");
     }
-
     public void onShowEventsButtonEnter(MouseEvent mouseEvent){
-        ShowEventsButton.setStyle("-fx-background-color: #b3b3b3");
+        ShowEventsButton.setStyle("-fx-background-radius: 20px;" +
+                "-fx-background-color: linear-gradient(to right, #0079fa, #006bde);" +
+                "-fx-border-radius: 20px");
     }
     public void onShowEventsButtonExit(MouseEvent mouseEvent){
-        ShowEventsButton.setStyle("-fx-background-color: CDCDCD");
+        if(!status.equals("Show events"))
+            ShowEventsButton.setStyle("-fx-background-color: linear-gradient(#1486ff, #3697ff);" +
+                "-fx-background-radius: 10px");
     }
 
 
@@ -213,25 +235,7 @@ public class EventsController {
             alert.setContentText("Press Ok to go back!");
             alert.showAndWait();
         }
-        //add the creator
-        /*
-        String id = String.valueOf(page.getAccount().getUser_id());
-        event.setSubscribers(event.getSubscribers() + " " + id);
-        ArrayList <Event>events=page.getEvents();
-        events.add(event);
-        page.setEvents(events);
-        DatePicker.setValue(null);
-
-         */
     }
-
-    public void onBackButtonEnter(MouseEvent mouseEvent){
-        BackButton.setStyle("-fx-background-color: #b3b3b3");
-    }
-    public void onBackButtonExit(MouseEvent mouseEvent){
-        BackButton.setStyle("-fx-background-color: CDCDCD");
-    }
-
 
     private void searchFilter() {
         //---------search filter----------------------
