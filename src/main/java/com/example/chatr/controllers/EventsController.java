@@ -124,6 +124,7 @@ public class EventsController {
                 }
             if (!isEvent) {
                 Button auxButton = new Button("Subscribe");
+                auxButton.setId("subButton");
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                             String id = String.valueOf(page.getAccount().getUser_id());
                             event.setSubscribers(event.getSubscribers() + " " + id);
@@ -146,6 +147,7 @@ public class EventsController {
                 modelGrade.add(eventsTable);
             } else {
                 Button auxButton = new Button("Unsubscribe");
+                auxButton.setId("subButton");
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                             String id = String.valueOf(page.getAccount().getUser_id());
                             id=" "+id;

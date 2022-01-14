@@ -54,8 +54,6 @@ public class ServiceUserFriendship {
         this.friendshipRepo = friendshipRepo;
         this.userValidator = userValidator;
         this.friendshipValidator = friendshipValidator;
-        PairValidator.getInstance().validate(new Pair<>(userRepo, friendshipRepo));
-        bindFriendships();
     }
 
     /**

@@ -2,7 +2,6 @@ package com.example.chatr.controllers;
 
 import com.example.chatr.Application;
 import com.example.chatr.domain.Account;
-import com.example.chatr.domain.Entity;
 import com.example.chatr.domain.User;
 import com.example.chatr.service.*;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 
 public class CreateAccountController {
@@ -83,9 +81,15 @@ public class CreateAccountController {
             try {
                 serviceAccount.verifyUniqueUsername(username);
                 serviceUserFriendship.addUser(firstname, lastname);
-                List<User> users = serviceUserFriendship.getAllUsers().stream().toList();
-                List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
-                User newUser = usersOrdered.get(usersOrdered.size() - 1);
+                int maxId = 0;
+                for(int i=0;i<5;i++){
+                    List<User> users = serviceUserFriendship.getAllUsers().stream().toList();
+                    for(User us:users){
+                        if(us.getId()>maxId)
+                            maxId = us.getId();
+                    }
+                }
+                User newUser = serviceUserFriendship.findUserById(maxId);
                 String hashedPassword = serviceAccount.hashPassword(username,password);
                 Account account = new Account(username, hashedPassword, newUser.getId());
                 System.out.println(account);
