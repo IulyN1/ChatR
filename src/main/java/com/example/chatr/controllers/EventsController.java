@@ -267,7 +267,6 @@ public class EventsController {
         this.serviceEvent=page.getServiceEvent();
         this.page=page;
         //notify the new events
-        page.notifyAllObservers();
         SearchTextField.setVisible(false);
         SearchImage.setVisible(false);
         table.setVisible(false);

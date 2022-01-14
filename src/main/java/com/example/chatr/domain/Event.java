@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -52,36 +53,52 @@ public class Event extends Entity<Integer>  {
     public void update(){
         try {
             SimpleDateFormat formatter5=new SimpleDateFormat("dd MMM yyyy");
-            Date date5=formatter5.parse(date);
-            Date currentDate = new Date();
-            if(currentDate.getDay()==date5.getDay()&&
-                    currentDate.getMonth()==date5.getMonth()&&
-                    currentDate.getYear()==date5.getYear()) {
+            Date dateEvent=formatter5.parse(date);
+            Calendar event = Calendar.getInstance();
+            event.setTime(dateEvent);
+
+            Calendar today = Calendar.getInstance();
+            Calendar tomorrow=Calendar.getInstance();
+            Calendar in3days=Calendar.getInstance();
+            Calendar inOneWeek=Calendar.getInstance();
+
+            tomorrow.add(Calendar.DAY_OF_YEAR,+1);
+            in3days.add(Calendar.DAY_OF_YEAR,+3);
+            inOneWeek.add(Calendar.DAY_OF_YEAR,+7);
+
+            if(event.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                    && event.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Event notification");
                 alert.setContentText("Event "+name+ " is today!");
-                alert.showAndWait();
+                alert.show();
             }
-            else if(currentDate.getDay()==date5.getDay()-1&&
-                    currentDate.getMonth()==date5.getMonth()&&
-                    currentDate.getYear()==date5.getYear()){
+            else if(event.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR)
+                    && event.get(Calendar.DAY_OF_YEAR) == tomorrow.get(Calendar.DAY_OF_YEAR)){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Event notification");
                 alert.setContentText("Event "+name+ " is tomorrow!");
-                alert.showAndWait();
+                alert.show();
             }
-            else if(currentDate.getDay()==date5.getDay()-3&&
-                    currentDate.getMonth()==date5.getMonth()&&
-                    currentDate.getYear()==date5.getYear()) {
+            else if(event.get(Calendar.YEAR) == in3days.get(Calendar.YEAR)
+                    && event.get(Calendar.DAY_OF_YEAR) == in3days.get(Calendar.DAY_OF_YEAR)){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Event notification");
                 alert.setContentText("Event "+name+ " is in 3 days!");
-                alert.showAndWait();
+                alert.show();
+            }
+            else if(event.get(Calendar.YEAR) == inOneWeek.get(Calendar.YEAR)
+                    && event.get(Calendar.DAY_OF_YEAR) == inOneWeek.get(Calendar.DAY_OF_YEAR)){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Event notification");
+                alert.setContentText("Event "+name+ " is in one week!");
+                alert.show();
             }
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override

@@ -27,6 +27,7 @@ public class EventValidator  implements StrategyValidator<Event> {
         if (event.getId() < 0)
             err = err + "Invalid id!\n";
         SimpleDateFormat formatter5=new SimpleDateFormat("dd MMM yyyy");
+        /*
         try {
             Date date5=formatter5.parse(event.getDate());
             Date currentDate = new Date();
@@ -34,9 +35,12 @@ public class EventValidator  implements StrategyValidator<Event> {
             date5.getYear()<=date5.getYear()){
                 err=err+"The event cannot be scheduled in the past!\n";
             }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+         */
         if (!err.equals(""))
             throw new EventException(err);
     }
