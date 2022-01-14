@@ -57,7 +57,7 @@ public class DbRepoUser implements Repo<Integer, User> {
     @Override
     public void update(User user) throws Exception {
         String sql = "update users set first_name=?, last_name=? where id=?";
-        Collection<User> all_users = find_all();
+        Collection<User> all_users = findAll();
         for (User us : all_users) {
             if (us.equals(user)) {
                 throw new RepoException("User already exists!\n");
@@ -90,7 +90,7 @@ public class DbRepoUser implements Repo<Integer, User> {
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            User user = find_by_id(integer);
+            User user = findById(integer);
             ps.setInt(1, integer);
 
             ps.executeUpdate();
@@ -109,7 +109,7 @@ public class DbRepoUser implements Repo<Integer, User> {
      * @throws RepoException if the user doesn't exist
      */
     @Override
-    public User find_by_id(Integer integer) throws RepoException {
+    public User findById(Integer integer) throws RepoException {
         String sql = "select * from users where id=?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -143,7 +143,7 @@ public class DbRepoUser implements Repo<Integer, User> {
      * @return an iterable collection with all the users
      */
     @Override
-    public Collection<User> find_all() {
+    public Collection<User> findAll() {
         ArrayList<User> users = new ArrayList<>();
         if(paging>=findRecordsNumber()-5)
            paging=-5;

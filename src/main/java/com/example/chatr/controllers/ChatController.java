@@ -62,7 +62,7 @@ public class ChatController {
     public void showMessages() {
         try {
             messageBox.getChildren().clear();
-            List<Message> messages = serviceMessage.get_chat(user1.getId(), user2.getId()).stream().toList();
+            List<Message> messages = serviceMessage.getChat(user1.getId(), user2.getId()).stream().toList();
 
             for(Message msg: messages){
                 // reply message elements

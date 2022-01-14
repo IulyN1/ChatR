@@ -40,7 +40,7 @@ public class Network {
      *
      * @return the number of connected components
      */
-    public int nr_connected_components() {
+    public int nrConnectedComponents() {
         if (length == 0)
             return 0;
         int ct = 0;
@@ -81,7 +81,7 @@ public class Network {
      *
      * @return the List of Strings with all the users on this path
      */
-    public List<String> longest_path() {
+    public List<String> longestPath() {
         if (length == 0)
             return new ArrayList<>();
         int k = 0;

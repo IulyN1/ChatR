@@ -46,7 +46,7 @@ public class FileRepoFriendship extends SuperclassFileRepo<Friendship> {
                 String date = sdf.format(new Date());
                 Friendship friendship = new Friendship(user1, user2, date);
                 FriendshipValidator.getInstance().validate(friendship);
-                super.add_no_save(friendship);
+                super.addNoSave(friendship);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -59,7 +59,7 @@ public class FileRepoFriendship extends SuperclassFileRepo<Friendship> {
      */
     @Override
     protected void save() {
-        Collection<Friendship> collection = super.find_all();
+        Collection<Friendship> collection = super.findAll();
         try {
             FileWriter fileWriter = new FileWriter(fileName);
             for (Friendship friendship : collection.stream().toList()) {

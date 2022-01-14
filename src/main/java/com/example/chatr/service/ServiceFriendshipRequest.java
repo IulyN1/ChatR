@@ -39,8 +39,8 @@ public class ServiceFriendshipRequest {
      * @throws Exception
      */
     public void addFriendshipRequest(int id1, int id2) throws Exception {
-        User sender = userRepo.find_by_id(id1);
-        User receiver = userRepo.find_by_id(id2);
+        User sender = userRepo.findById(id1);
+        User receiver = userRepo.findById(id2);
         System.out.println(sender);
         System.out.println(receiver);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -80,7 +80,7 @@ public class ServiceFriendshipRequest {
      * @throws RepoException
      */
     public FriendshipRequest findFriendshipRequestById(int id) throws RepoException {
-        return friendshipRequestRepo.find_by_id(id);
+        return friendshipRequestRepo.findById(id);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ServiceFriendshipRequest {
      * @throws Exception
      */
     public void friendshipReplyRequest(int id, String status) throws Exception {
-        FriendshipRequest friendshipRequest = friendshipRequestRepo.find_by_id(id);
+        FriendshipRequest friendshipRequest = friendshipRequestRepo.findById(id);
         if (friendshipRequest.getStatus() == "APPROVED")
             System.out.println("Friendship is already approved");
         else if (friendshipRequest.getStatus() == "REJECTED")
@@ -110,7 +110,7 @@ public class ServiceFriendshipRequest {
      * @return a collection of all FriendshipRequest
      */
     public Collection<FriendshipRequest> getAllRequests() {
-        return friendshipRequestRepo.find_all();
+        return friendshipRequestRepo.findAll();
     }
 
 }

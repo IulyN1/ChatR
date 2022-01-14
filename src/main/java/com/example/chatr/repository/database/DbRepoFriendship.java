@@ -42,7 +42,7 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
                 "first_name_user2, last_name_user2, uid1, uid2,friendship_date) values (?,?,?,?,?,?,?)";
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = sdf.format(new Date());
-        Collection<Friendship> all_friendships = find_all();
+        Collection<Friendship> all_friendships = findAll();
         for (Friendship fr : all_friendships) {
             if (fr.equals(friendship)) {
                 throw new RepoException("Friendship already exists!\n");
@@ -74,7 +74,7 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
     public void update(Friendship friendship) throws Exception {
         String sql = "update friendships set first_name_user1=?, last_name_user1=?, " +
                 "first_name_user2=?, last_name_user2=?, uid1=?, uid2=? where id=?";
-        Collection<Friendship> all_friendships = find_all();
+        Collection<Friendship> all_friendships = findAll();
         for (Friendship fr : all_friendships) {
             if (fr.equals(friendship)) {
                 throw new RepoException("Friendship already exists!\n");
@@ -111,7 +111,7 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            Friendship friendship = find_by_id(integer);
+            Friendship friendship = findById(integer);
             ps.setInt(1, integer);
 
             ps.executeUpdate();
@@ -130,7 +130,7 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
      * @throws RepoException if the friendship doesn't exist
      */
     @Override
-    public Friendship find_by_id(Integer integer) throws RepoException {
+    public Friendship findById(Integer integer) throws RepoException {
         String sql = "select * from friendships where id=?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -171,7 +171,7 @@ public class DbRepoFriendship implements Repo<Integer, Friendship> {
      * @return an iterable collection with all the friendships
      */
     @Override
-    public Collection<Friendship> find_all() {
+    public Collection<Friendship> findAll() {
         Set<Friendship> friendships = new HashSet<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from friendships");

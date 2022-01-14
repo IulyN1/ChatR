@@ -22,7 +22,7 @@ public class InMemoryRepoEntity<T extends Entity<Integer>> extends InMemoryRepo<
     @Override
     public void add(T t) throws Exception {
         t.setId(id);
-        for (T el : super.find_all())
+        for (T el : super.findAll())
             if (el.equals(t))
                 throw new RepoException("It already exists!\n");
         id++;
@@ -37,7 +37,7 @@ public class InMemoryRepoEntity<T extends Entity<Integer>> extends InMemoryRepo<
      */
     @Override
     public void update(T t) throws Exception {
-        for (T el : super.find_all())
+        for (T el : super.findAll())
             if (el.equals(t))
                 throw new RepoException("It already exists!\n");
         super.update(t);

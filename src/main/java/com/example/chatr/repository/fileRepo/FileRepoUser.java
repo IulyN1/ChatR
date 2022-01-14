@@ -36,7 +36,7 @@ public class FileRepoUser extends SuperclassFileRepo<User> {
                 String[] separate = line.split(";");
                 User user = new User(separate[0], separate[1]);
                 UserValidator.getInstance().validate(user);
-                super.add_no_save(user);
+                super.addNoSave(user);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -51,7 +51,7 @@ public class FileRepoUser extends SuperclassFileRepo<User> {
     protected void save() {
         try {
             FileWriter fileWriter = new FileWriter(fileName);
-            for (User user : super.find_all()) {
+            for (User user : super.findAll()) {
                 fileWriter.write(user.getFirstName() + ";" + user.getLastName() + "\n");
             }
             fileWriter.close();

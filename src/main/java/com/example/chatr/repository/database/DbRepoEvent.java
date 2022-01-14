@@ -40,7 +40,7 @@ public class DbRepoEvent implements Repo<Integer, Event> {
     public void update(Event event) throws Exception {
         String sql = "update events set name=?, date=?, " +
                 "subscribers=? where id=?";
-        Collection<Event> events = find_all();
+        Collection<Event> events = findAll();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -60,7 +60,7 @@ public class DbRepoEvent implements Repo<Integer, Event> {
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            Event event = find_by_id(integer);
+            Event event = findById(integer);
             ps.setInt(1, integer);
             ps.executeUpdate();
             return event;
@@ -71,7 +71,7 @@ public class DbRepoEvent implements Repo<Integer, Event> {
     }
 
     @Override
-    public Event find_by_id(Integer integer) throws RepoException {
+    public Event findById(Integer integer) throws RepoException {
         String sql = "select * from events where id=?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -100,7 +100,7 @@ public class DbRepoEvent implements Repo<Integer, Event> {
     }
 
     @Override
-    public Collection<Event> find_all() {
+    public Collection<Event> findAll() {
         Set<Event> events = new HashSet<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from events");

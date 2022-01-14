@@ -39,11 +39,11 @@ public class PairValidator implements StrategyValidator<Pair<Repo<Integer, User>
         Repo<Integer, Friendship> friendshipRepo = repos.getSecond();
         String err = "";
         Map<Pair<String, String>, User> map = new HashMap<>();
-        for (User user : userRepo.find_all()) {
+        for (User user : userRepo.findAll()) {
             map.put(new Pair<>(user.getFirstName(), user.getLastName()), user);
         }
 
-        for (Friendship friendship : friendshipRepo.find_all()) {
+        for (Friendship friendship : friendshipRepo.findAll()) {
             User user1 = friendship.getUser1();
             if (!map.containsKey(new Pair<>(user1.getFirstName(), user1.getLastName()))) {
                 err += "User" + user1.getFirstName() + " " + user1.getLastName() + " doesn't exist!\n";

@@ -82,7 +82,7 @@ public class SettingsController {
         LocalDate dateStart = dateStart1.getValue();
         LocalDate dateEnd = dateEnd1.getValue();
         if(dateStart != null && dateEnd != null && dateStart.compareTo(dateEnd)<=0) {
-            List<Friendship> friendships = serviceUserFriendship.get_all_friendships().stream().toList();
+            List<Friendship> friendships = serviceUserFriendship.getAllFriendships().stream().toList();
             List<Friendship> friendshipsReport = new ArrayList<>();
 
             for (Friendship fr : friendships) {
@@ -97,9 +97,9 @@ public class SettingsController {
                 }
             }
 
-            List<Message> messages = serviceMessage.get_all_messages().stream().toList();
+            List<Message> messages = serviceMessage.getAllMessages().stream().toList();
             List<Message> messagesReport = new ArrayList<>();
-            User thisUser = serviceUserFriendship.find_user_by_id(currentAccount.getUser_id());
+            User thisUser = serviceUserFriendship.findUserById(currentAccount.getUser_id());
             for (Message msg : messages) {
                 if (msg.getTo().contains(thisUser)) {
                     LocalDateTime dateMsg = msg.getDate();
@@ -192,9 +192,9 @@ public class SettingsController {
         UserDTO sender = userList.getValue();
         if (dateStart != null && dateEnd != null && sender != null && dateStart.compareTo(dateEnd)<=0) {
 
-            List<Message> messages = serviceMessage.get_chat(currentAccount.getUser_id(), sender.getId()).stream().toList();
+            List<Message> messages = serviceMessage.getChat(currentAccount.getUser_id(), sender.getId()).stream().toList();
             List<Message> messagesReport = new ArrayList<>();
-            User thisUser = serviceUserFriendship.find_user_by_id(currentAccount.getUser_id());
+            User thisUser = serviceUserFriendship.findUserById(currentAccount.getUser_id());
             for (Message msg : messages) {
                 if (msg.getTo().contains(thisUser)) {
                     LocalDateTime dateMsg = msg.getDate();

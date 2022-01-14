@@ -82,8 +82,8 @@ public class CreateAccountController {
             //add validator for user
             try {
                 serviceAccount.verifyUniqueUsername(username);
-                serviceUserFriendship.add_user(firstname, lastname);
-                List<User> users = serviceUserFriendship.get_all_users().stream().toList();
+                serviceUserFriendship.addUser(firstname, lastname);
+                List<User> users = serviceUserFriendship.getAllUsers().stream().toList();
                 List<User> usersOrdered = users.stream().sorted(Comparator.comparing(Entity::getId)).toList();
                 User newUser = usersOrdered.get(usersOrdered.size() - 1);
                 String hashedPassword = serviceAccount.hashPassword(username,password);

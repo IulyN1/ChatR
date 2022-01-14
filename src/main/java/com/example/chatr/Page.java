@@ -53,11 +53,11 @@ public class Page {
     }
 
     private void createFriendsList() throws RepoException {
-        for(Friendship friendship:serviceUserFriendship.get_all_friendships()){
+        for(Friendship friendship:serviceUserFriendship.getAllFriendships()){
             if(friendship.getUser1().getId()==account.getUser_id())
-                Friends.add(serviceUserFriendship.find_user_by_id(friendship.getUser2().getId()));
+                Friends.add(serviceUserFriendship.findUserById(friendship.getUser2().getId()));
             else if(friendship.getUser2().getId()==account.getUser_id())
-                Friends.add(serviceUserFriendship.find_user_by_id(friendship.getUser1().getId()));
+                Friends.add(serviceUserFriendship.findUserById(friendship.getUser1().getId()));
         }
     }
 
@@ -163,7 +163,7 @@ public class Page {
             checkRequest(receiver_id);
             serviceFriendshipRequest.addFriendshipRequest(account.getUser_id(), receiver_id);
             //update page
-            FriendshipRequest friendshipRequest=new FriendshipRequest(serviceUserFriendship.find_user_by_id(account.getUser_id()),serviceUserFriendship.find_user_by_id(receiver_id));
+            FriendshipRequest friendshipRequest=new FriendshipRequest(serviceUserFriendship.findUserById(account.getUser_id()),serviceUserFriendship.findUserById(receiver_id));
             ArrayList<FriendshipRequest>friends=getFriendshipRequests();
             friends.add(friendshipRequest);
             setFriendshipRequests(friends);
@@ -188,8 +188,8 @@ public class Page {
             }
             //update page
             ArrayList<FriendshipRequest> friends =getFriendshipRequests();
-            FriendshipRequest fr=new FriendshipRequest(serviceUserFriendship.find_user_by_id(account.getUser_id()),
-                    serviceUserFriendship.find_user_by_id(receiver_id));
+            FriendshipRequest fr=new FriendshipRequest(serviceUserFriendship.findUserById(account.getUser_id()),
+                    serviceUserFriendship.findUserById(receiver_id));
             friends.remove(fr);
             setFriendshipRequests(friends);
             //alert
@@ -220,10 +220,10 @@ public class Page {
                     pageRequests.add(fr);
 
                     if (status.equals("APPROVED")) {
-                        serviceUserFriendship.add_friendship(fr.getSender().getId(), fr.getReceiver().getId());
+                        serviceUserFriendship.addFriendship(fr.getSender().getId(), fr.getReceiver().getId());
                         //update page
                         ArrayList<User>friends=getFriends();
-                        friends.add(serviceUserFriendship.find_user_by_id(id));
+                        friends.add(serviceUserFriendship.findUserById(id));
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success!");
@@ -246,16 +246,16 @@ public class Page {
 
     public void deleteFriend(int otherId) {
         try{
-            User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+            User currentUser = serviceUserFriendship.findUserById(account.getUser_id());
             int currentId = currentUser.getId();
 
             // delete the friendship
-            for(Friendship fr: serviceUserFriendship.get_all_friendships()){
+            for(Friendship fr: serviceUserFriendship.getAllFriendships()){
                 if(fr.getUser1().getId().equals(currentId) && fr.getUser2().getId().equals(otherId)){
-                    serviceUserFriendship.delete_friendship(fr.getId());
+                    serviceUserFriendship.deleteFriendship(fr.getId());
                 }
                 else if(fr.getUser2().getId().equals(currentId) && fr.getUser1().getId().equals(otherId)){
-                    serviceUserFriendship.delete_friendship(fr.getId());
+                    serviceUserFriendship.deleteFriendship(fr.getId());
                 }
             }
             // delete the friendship request
@@ -269,7 +269,7 @@ public class Page {
             }
             //delete from page
             ArrayList<User>friends=getFriends();
-            friends.remove(serviceUserFriendship.find_user_by_id(otherId));
+            friends.remove(serviceUserFriendship.findUserById(otherId));
             setFriends(friends);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

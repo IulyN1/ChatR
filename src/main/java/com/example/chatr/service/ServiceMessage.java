@@ -68,10 +68,10 @@ public class ServiceMessage {
      * @throws Exception if the operation fails
      */
     public void sendMessage(int fromId, List<Integer> toIds, String message) throws Exception {
-        User from = userRepo.find_by_id(fromId);
+        User from = userRepo.findById(fromId);
         List<User> toUsers = new ArrayList<>();
         for (Integer id : toIds) {
-            User user = userRepo.find_by_id(id);
+            User user = userRepo.findById(id);
             toUsers.add(user);
         }
         Message messageToSend = new Message(from, toUsers, message);
@@ -88,9 +88,9 @@ public class ServiceMessage {
      * @throws Exception if the operation fails
      */
     public void sendReplyMessage(int idMessage, int idReplier, String message) throws Exception {
-        Message messageToReplyTo = messageRepo.find_by_id(idMessage);
+        Message messageToReplyTo = messageRepo.findById(idMessage);
         List<User> to = messageToReplyTo.getTo();
-        User replier = userRepo.find_by_id(idReplier);
+        User replier = userRepo.findById(idReplier);
 
         if (to.contains(replier)) {
             List<User> receiver = new ArrayList<>();
@@ -107,8 +107,8 @@ public class ServiceMessage {
      *
      * @return a collection of all the messages
      */
-    public Collection<Message> get_all_messages() {
-        return messageRepo.find_all();
+    public Collection<Message> getAllMessages() {
+        return messageRepo.findAll();
     }
 
     /**
@@ -118,8 +118,8 @@ public class ServiceMessage {
      * @param idUser2 the id of the second user
      * @return a collection of messages
      */
-    public Collection<Message> get_chat(int idUser1, int idUser2) throws Exception {
-        Collection<Message> messages = messageRepo.find_all();
+    public Collection<Message> getChat(int idUser1, int idUser2) throws Exception {
+        Collection<Message> messages = messageRepo.findAll();
         Stream<Message> stream = messages.stream().
                 sorted(Comparator.comparing(Message::getDate));
         List<Message> messagesSorted = stream.toList();
@@ -128,12 +128,12 @@ public class ServiceMessage {
         for (Message msg : messagesSorted) {
             if (msg.getFrom().getId() == idUser1) {
                 for (User us : msg.getTo()) {
-                    if (us.equals(userRepo.find_by_id(idUser2)))
+                    if (us.equals(userRepo.findById(idUser2)))
                         chat.add(msg);
                 }
             } else if (msg.getFrom().getId() == idUser2) {
                 for (User us : msg.getTo()) {
-                    if (us.equals(userRepo.find_by_id(idUser1)))
+                    if (us.equals(userRepo.findById(idUser1)))
                         chat.add(msg);
                 }
             }
@@ -151,10 +151,10 @@ public class ServiceMessage {
      * @throws Exception if the operation fails
      */
     public void sendReplyToAll(int idMessage, int idReplier, String message) throws Exception {
-        Message messageToReplyTo = messageRepo.find_by_id(idMessage);
+        Message messageToReplyTo = messageRepo.findById(idMessage);
         List<User> to = messageToReplyTo.getTo();
         User from = messageToReplyTo.getFrom();
-        User replier = userRepo.find_by_id(idReplier);
+        User replier = userRepo.findById(idReplier);
 
         if (to.contains(replier)) {
             List<User> send_to = messageToReplyTo.getTo();
