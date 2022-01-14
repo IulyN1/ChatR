@@ -17,6 +17,8 @@ public class Page {
     private ServiceAccount serviceAccount;
     private ServiceEvent serviceEvent;
 
+    private boolean enter;
+
     private ArrayList<User>Friends=new ArrayList<User>();
     private ArrayList<FriendshipRequest>friendshipRequests=new ArrayList<FriendshipRequest>();
     private ArrayList<Event>events=new ArrayList<Event>();
@@ -29,6 +31,16 @@ public class Page {
         this.serviceFriendshipRequest = serviceFriendshipRequest;
         this.serviceAccount=serviceAccount;
         this.serviceEvent=serviceEvent;
+        createFriendsList();
+        createRequestsLists();
+        createEvenetsList();
+        enter=true;
+    }
+
+    public void refresh() throws RepoException {
+        Friends.clear();
+        friendshipRequests.clear();
+        events.clear();
         createFriendsList();
         createRequestsLists();
         createEvenetsList();
@@ -71,7 +83,6 @@ public class Page {
     public void setAccount(Account account) {
         this.account = account;
     }
-
 
 
     public ServiceUserFriendship getServiceUserFriendship() {
@@ -139,6 +150,14 @@ public class Page {
         this.friendshipRequests = friendshipRequests;
     }
 
+    public boolean isEnter() {
+        return enter;
+    }
+
+    public void setEnter(boolean enter) {
+        this.enter = enter;
+    }
+
     public void addFriends(int receiver_id){
         try {
             checkRequest(receiver_id);
@@ -186,7 +205,6 @@ public class Page {
             alert.showAndWait();
         }
     }
-
 
     public void respondRequest(String status,int id) throws RepoException {
         try {

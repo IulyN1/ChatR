@@ -12,7 +12,7 @@ public class DbRepoUser implements Repo<Integer, User> {
     private String url;
     private String username;
     private String password;
-
+    private int paging;
     /**
      * Constructor for DbRepoUser
      *
@@ -24,6 +24,7 @@ public class DbRepoUser implements Repo<Integer, User> {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.paging=-5;
     }
 
     /**
@@ -144,10 +145,14 @@ public class DbRepoUser implements Repo<Integer, User> {
     @Override
     public Collection<User> find_all() {
         ArrayList<User> users = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement("SELECT * from users");
-             ResultSet resultSet = statement.executeQuery()) {
+        if(paging>=findRecordsNumber()-5)
+           paging=-5;
 
+        paging+=5;
+        String sql="SELECT * from users order by id asc limit 5 offset "+paging;
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Integer id = resultSet.getInt("id");
                 String firstName = resultSet.getString("first_name");
@@ -162,5 +167,27 @@ public class DbRepoUser implements Repo<Integer, User> {
             e.printStackTrace();
         }
         return users;
+    }
+
+    private int findRecordsNumber() {
+        String sql = "SELECT COUNT(*) AS TOTAL FROM users;";
+        Integer id = null;
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    id = statement.getResultSet().getInt("total");
+                    return id;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 }

@@ -7,10 +7,14 @@ import com.example.chatr.domain.FriendshipRequest;
 import com.example.chatr.domain.User;
 import com.example.chatr.exceptions.RepoException;
 import com.example.chatr.service.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -91,7 +95,6 @@ public class DashboardUtilityController {
         buttonCollumn1.setCellValueFactory(new PropertyValueFactory<UserTable,String>("button2"));
         c3.setVisible(false);
         dashboard_status = "Show friends";
-
         //add button icons
         ShowFriendsButton.setGraphic(new ImageView("show-friends.png"));
         AddFriendsButton.setGraphic(new ImageView("add-friends.png"));
@@ -100,6 +103,16 @@ public class DashboardUtilityController {
         settingsButton.setGraphic(new ImageView("settings.png"));
         LogoutButton.setGraphic(new ImageView("logout.png"));
     }
+
+    Timeline fiveSecondsWonder = new Timeline(
+            new KeyFrame(Duration.seconds(60),
+                    new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent event) {
+                            page.notifyAllObservers();
+                        }
+                    }));
 
     //-----------------------------Actions-------------------------------------------------
     public void onFriendshipRequestsButtonClick(javafx.scene.input.MouseEvent mouseEvent) throws RepoException {
@@ -236,6 +249,18 @@ public class DashboardUtilityController {
         table.getSortOrder().add(c1);
     }
 
+    public void onRefreshButtonClick(MouseEvent mouseEvent) throws RepoException {
+        System.out.println("clicked");
+        page.refresh();
+        if(dashboard_status.equals("Show friends"))
+            onShowFriendsButtonClick(null);
+        else if(dashboard_status.equals("Add friends"))
+            onAddFriendsButtonClick(null);
+        else if(dashboard_status.equals("Friendship request"))
+            onFriendshipRequestsButtonClick(null);
+
+    }
+
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
         //add button styles
         ShowFriendsButton.setStyle("-fx-background-color: #3d3dff");
@@ -331,6 +356,8 @@ public class DashboardUtilityController {
         stage.show();
     }
 
+
+
     public void onEventsButtonClick(javafx.scene.input.MouseEvent mouseEvent)throws  IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("events.fxml"));
         root = fxmlLoader.load();
@@ -358,6 +385,12 @@ public class DashboardUtilityController {
         LabelHello.setText("Hello, " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         //-----initialize showFriendsDashboard------------
         onShowFriendsButtonClick(null);
+        fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
+        fiveSecondsWonder.play();
+        if(page.isEnter()) {
+            page.notifyAllObservers();
+            page.setEnter(false);
+        }
     }
 
     private void searchFilter() {
