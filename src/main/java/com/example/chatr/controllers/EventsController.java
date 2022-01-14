@@ -73,7 +73,7 @@ public class EventsController {
     public void initialize() {
         c1.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("c1"));
         c2.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("c2"));
-        c2.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("button1"));
+        c3.setCellValueFactory(new PropertyValueFactory<EventsTable, String>("button1"));
         status = "Create event";
         CreateEventButton.setStyle("-fx-background-color: linear-gradient(to right, #0079fa, #006bde);" +
                 "-fx-border-radius: 20px;" +

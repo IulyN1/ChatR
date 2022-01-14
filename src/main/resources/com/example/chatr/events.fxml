@@ -107,9 +107,9 @@
             </HBox>
             <TableView fx:id="table" prefHeight="326.0" prefWidth="587.0" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="c1" prefWidth="104.800048828125" text="Name" />
-                  <TableColumn fx:id="c2" prefWidth="129.0" text="Date" />
-                  <TableColumn fx:id="c3" prefWidth="106.0" />
+                  <TableColumn fx:id="c1" prefWidth="145.5999755859375" text="Name" />
+                  <TableColumn fx:id="c2" prefWidth="120.00006103515625" text="Date" />
+                  <TableColumn fx:id="c3" prefWidth="116.800048828125" />
                </columns>
                <padding>
                   <Insets top="10.0" />
@@ -117,6 +117,5 @@
             </TableView>
          </children>
       </GridPane>
-      <HBox alignment="CENTER_LEFT" layoutX="264.0" layoutY="51.0" prefHeight="40.0" prefWidth="238.0" spacing="15.0" />
    </children>
 </AnchorPane>
