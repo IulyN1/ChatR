@@ -13,6 +13,7 @@ public class DbRepoUser implements Repo<Integer, User> {
     private String username;
     private String password;
     private int paging;
+
     /**
      * Constructor for DbRepoUser
      *
@@ -24,7 +25,7 @@ public class DbRepoUser implements Repo<Integer, User> {
         this.url = url;
         this.username = username;
         this.password = password;
-        this.paging=-5;
+        this.paging = -7;
     }
 
     /**
@@ -145,11 +146,11 @@ public class DbRepoUser implements Repo<Integer, User> {
     @Override
     public Collection<User> findAll() {
         ArrayList<User> users = new ArrayList<>();
-        if(paging>=findRecordsNumber()-5)
-           paging=-5;
+        if(paging>=findRecordsNumber()-7)
+           paging = -7;
 
-        paging+=5;
-        String sql="SELECT * from users order by id asc limit 5 offset "+paging;
+        paging += 7;
+        String sql="SELECT * from users order by id asc limit 7 offset " + paging;
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {

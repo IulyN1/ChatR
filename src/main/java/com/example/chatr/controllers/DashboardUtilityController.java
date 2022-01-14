@@ -50,6 +50,8 @@ public class DashboardUtilityController {
     Button eventsButton;
     @FXML
     Button settingsButton;
+    @FXML
+    Label showOthers;
 
     private ServiceUserFriendship serviceUserFriendship;
     private ServiceMessage serviceMessage;
@@ -102,7 +104,7 @@ public class DashboardUtilityController {
     }
 
     Timeline fiveSecondsWonder = new Timeline(
-            new KeyFrame(Duration.seconds(60),
+            new KeyFrame(Duration.seconds(120),
                     new EventHandler<ActionEvent>() {
 
                         @Override
@@ -126,6 +128,7 @@ public class DashboardUtilityController {
         c3.setVisible(true);
         modelGrade.clear();
         buttonCollumn1.setVisible(true);
+        showOthers.setVisible(false);
 
         for (FriendshipRequest fr : page.getFriendshipRequests()) {
             if (fr.getStatus().equals("PENDING")&&fr.getSender().getId()!=account.getUser_id()) {
@@ -141,7 +144,7 @@ public class DashboardUtilityController {
                 auxButton2.setTooltip(tooltip2);
 
                 UserTable userTable = new UserTable(fr.getSender().getFirstName(), fr.getSender().getLastName(), fr.getDate(),auxButton,auxButton2);
-                //----Added event hanlder for any buttton("ACCEPT")
+                //----Added event handler for any button("ACCEPT")
                 auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     try {
                         page.respondRequest("APPROVED",fr.getSender().getId());
@@ -150,7 +153,7 @@ public class DashboardUtilityController {
                         ex.printStackTrace();
                     }
                 });
-                //----Added event hanlder for any buttton("DECLINE")
+                //----Added event handler for any button("DECLINE")
                 auxButton2.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     try {
                         page.respondRequest("REJECTED",fr.getSender().getId());
@@ -181,6 +184,7 @@ public class DashboardUtilityController {
         TitleLabel.setText("Add friends");
         c3.setVisible(false);
         buttonCollumn1.setVisible(false);
+        showOthers.setVisible(true);
         modelGrade.clear();
 
         User currentUser = serviceUserFriendship.findUserById(account.getUser_id());
@@ -220,7 +224,7 @@ public class DashboardUtilityController {
                     "-fx-cursor: hand;");
 
             UserTable ut = new UserTable(user.getFirstName(), user.getLastName(),auxButton);
-            //----Added event hanlder for any buttton
+            //----Added event handler for any button
             auxButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                 if(auxButton.getUserData().equals("Add")) {
                     page.addFriends(user.getId());
@@ -255,7 +259,10 @@ public class DashboardUtilityController {
             onAddFriendsButtonClick(null);
         else if(dashboard_status.equals("Friendship request"))
             onFriendshipRequestsButtonClick(null);
+    }
 
+    public void onShowOthersClicked(MouseEvent mouseEvent) throws RepoException {
+        onAddFriendsButtonClick(null);
     }
 
     public void onShowFriendsButtonClick(MouseEvent mouseEvent) throws RepoException {
@@ -271,6 +278,7 @@ public class DashboardUtilityController {
         TitleLabel.setText("Your friends");
         c3.setVisible(false);
         buttonCollumn1.setVisible(true);
+        showOthers.setVisible(false);
         modelGrade.clear();
 
         User currentUser = serviceUserFriendship.findUserById(account.getUser_id());
@@ -323,6 +331,7 @@ public class DashboardUtilityController {
         alert.setContentText("Are you sure?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
+            fiveSecondsWonder.stop();
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login.fxml"));
             root = fxmlLoader.load();
             LoginController loginController = fxmlLoader.getController();
@@ -429,6 +438,7 @@ public class DashboardUtilityController {
         Image img = new Image("logo.png");
         stage2.getIcons().add(img);
         stage2.show();
+        stage2.setAlwaysOnTop(true);
     }
 
     public void setPage(Page page) throws RepoException {

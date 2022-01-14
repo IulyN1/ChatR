@@ -3,9 +3,7 @@ package com.example.chatr.validators;
 import com.example.chatr.domain.Event;
 import com.example.chatr.exceptions.EventException;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class EventValidator  implements StrategyValidator<Event> {
     private final static EventValidator eventValidator= new EventValidator();
