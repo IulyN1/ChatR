@@ -80,13 +80,13 @@ public class UI {
                         String firstName = scanner.nextLine();
                         System.out.println("Last name: ");
                         String lastName = scanner.nextLine();
-                        serviceUserFriendship.add_user(firstName, lastName);
+                        serviceUserFriendship.addUser(firstName, lastName);
                         System.out.println("\nSuccess!\n");
                         break;
                     case 2:
                         System.out.println("ID: ");
                         int id = scanner.nextInt();
-                        serviceUserFriendship.delete_user(id);
+                        serviceUserFriendship.deleteUser(id);
                         System.out.println("\nSuccess!\n");
                         break;
                     case 3:
@@ -97,18 +97,18 @@ public class UI {
                         firstName = scanner.nextLine();
                         System.out.println("Last name: ");
                         lastName = scanner.nextLine();
-                        serviceUserFriendship.update_user(id, firstName, lastName);
+                        serviceUserFriendship.updateUser(id, firstName, lastName);
                         System.out.println("\nSuccess!\n");
                         break;
                     case 4:
                         System.out.println("ID: ");
                         id = scanner.nextInt();
-                        User user = serviceUserFriendship.find_user_by_id(id);
+                        User user = serviceUserFriendship.findUserById(id);
                         System.out.println("\n" + user.toString() + "\n");
                         break;
                     case 5:
                         System.out.println();
-                        for (User us : serviceUserFriendship.get_all_users())
+                        for (User us : serviceUserFriendship.getAllUsers())
                             System.out.println(us);
                         System.out.println();
                         break;
@@ -151,7 +151,7 @@ public class UI {
                         int id1 = scanner.nextInt();
                         System.out.println("Second user ID: ");
                         int id2 = scanner.nextInt();
-                        serviceUserFriendship.add_friendship(id1, id2);
+                        serviceUserFriendship.addFriendship(id1, id2);
                         System.out.println("\nSuccess!\n");
                         break;
                     case 2:
@@ -161,33 +161,33 @@ public class UI {
                         int idUser1 = scanner.nextInt();
                         System.out.println("ID of user 2: ");
                         int idUser2 = scanner.nextInt();
-                        serviceUserFriendship.update_friendship(id, idUser1, idUser2);
+                        serviceUserFriendship.updateFriendship(id, idUser1, idUser2);
                         System.out.println("\nSuccess!\n");
                         break;
                     case 3:
                         System.out.println("ID: ");
                         id = scanner.nextInt();
-                        serviceUserFriendship.delete_friendship(id);
+                        serviceUserFriendship.deleteFriendship(id);
                         System.out.println("\nSuccess!\n");
                         break;
                     case 4:
                         System.out.println("ID: ");
                         id = scanner.nextInt();
-                        Friendship friendship = serviceUserFriendship.find_friendship_by_id(id);
+                        Friendship friendship = serviceUserFriendship.findFriendshipById(id);
                         System.out.println("\n" + friendship.toString() + "\n");
                         break;
                     case 5:
                         System.out.println();
-                        for (Friendship fr : serviceUserFriendship.get_all_friendships())
+                        for (Friendship fr : serviceUserFriendship.getAllFriendships())
                             System.out.println(fr);
                         System.out.println();
                         break;
                     case 6:
                         System.out.println("ID: ");
                         int ID = scanner.nextInt();
-                        User user = serviceUserFriendship.find_user_by_id(ID);//check user's existence
+                        User user = serviceUserFriendship.findUserById(ID);//check user's existence
                         System.out.println(user.getFirstName() + " " + user.getLastName() + "'s friendships are:");
-                        serviceUserFriendship.get_all_friendships().stream()
+                        serviceUserFriendship.getAllFriendships().stream()
                                 .filter(
                                         myKey -> myKey.getUser1().getId() == ID
                                 )
@@ -200,7 +200,7 @@ public class UI {
 
                                         )
                                 );
-                        serviceUserFriendship.get_all_friendships().stream()
+                        serviceUserFriendship.getAllFriendships().stream()
                                 .filter(
                                         myKey -> myKey.getUser2().getId() == ID
                                 )
@@ -216,7 +216,7 @@ public class UI {
                     case 7:
                         System.out.println("ID: ");
                         id = scanner.nextInt();
-                        User user1 = serviceUserFriendship.find_user_by_id(id);//check user's existence
+                        User user1 = serviceUserFriendship.findUserById(id);//check user's existence
                         System.out.println("MONTH: ");
                         int month = scanner.nextInt();
                         System.out.println("Friendship made in " +
@@ -225,7 +225,7 @@ public class UI {
                                 " " +
                                 user1.getLastName() +
                                 " are:");
-                        serviceUserFriendship.get_all_friendships().stream()
+                        serviceUserFriendship.getAllFriendships().stream()
                                 .filter(
                                         myKey -> Integer.parseInt((myKey.getFriendshipDate().split("-")[1])) == month
                                                 && myKey.getUser1().getId() == id
@@ -238,7 +238,7 @@ public class UI {
                                                 + myKey.getFriendshipDate()
                                         )
                                 );
-                        serviceUserFriendship.get_all_friendships().stream()
+                        serviceUserFriendship.getAllFriendships().stream()
                                 .filter(
                                         myKey -> Integer.parseInt((myKey.getFriendshipDate().split("-")[1])) == month
                                                 && myKey.getUser2().getId() == id
@@ -285,7 +285,7 @@ public class UI {
                                 serviceFriendshipRequest.friendshipReplyRequest(id, "APPROVED");
                                 id1 = serviceFriendshipRequest.findFriendshipRequestById(id).getSender().getId();
                                 id2 = serviceFriendshipRequest.findFriendshipRequestById(id).getReceiver().getId();
-                                serviceUserFriendship.add_friendship(id1, id2);
+                                serviceUserFriendship.addFriendship(id1, id2);
                                 break;
                             case (2):
                                 serviceFriendshipRequest.friendshipReplyRequest(id, "REJECTED");
@@ -319,11 +319,11 @@ public class UI {
                 int c = scanner.nextInt();
                 switch (c) {
                     case 1:
-                        int nr = serviceUserFriendship.nr_related_friendships();
+                        int nr = serviceUserFriendship.nrRelatedFriendships();
                         System.out.println(nr + "\n");
                         break;
                     case 2:
-                        for (String name : serviceUserFriendship.longest_related_friendship())
+                        for (String name : serviceUserFriendship.longestRelatedFriendship())
                             System.out.println(name);
                         System.out.println();
                         break;
@@ -370,7 +370,7 @@ public class UI {
                         break;
                     case 2:
                         System.out.println();
-                        for (Message msg : serviceMessage.get_all_messages())
+                        for (Message msg : serviceMessage.getAllMessages())
                             System.out.println(msg);
                         System.out.println();
                         break;
@@ -391,7 +391,7 @@ public class UI {
                         System.out.println("Id user 2:");
                         int idUser2 = scanner.nextInt();
                         System.out.println();
-                        Collection<Message> messages = serviceMessage.get_chat(idUser1, idUser2);
+                        Collection<Message> messages = serviceMessage.getChat(idUser1, idUser2);
                         for (Message msg : messages) {
                             MessageDTO dto = new MessageDTO(msg.getId(), msg.getFrom(), msg.getTo(), msg.getMessage());
                             System.out.println(dto);

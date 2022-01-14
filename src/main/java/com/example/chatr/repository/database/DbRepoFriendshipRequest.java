@@ -39,7 +39,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     public void add(FriendshipRequest friendshipRequest) throws Exception {
         String sql = "insert into friendship_request (sender_id, receiver_id, " +
                 "status" + ",request_date" + ") values (?,?,?,?)";
-        Collection<FriendshipRequest> all_friendshipsReq = find_all();
+        Collection<FriendshipRequest> all_friendshipsReq = findAll();
         for (FriendshipRequest fr : all_friendshipsReq) {
             if (fr.getSender().getId() == friendshipRequest.getSender().getId() &&
                     fr.getReceiver().getId() == friendshipRequest.getReceiver().getId() &&
@@ -71,7 +71,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
     public void update(FriendshipRequest friendshipRequest) throws Exception {
         String sql = "update friendship_request  set sender_id=?, receiver_id=?, " +
                 "status=? where id=?";
-        Collection<FriendshipRequest> all_friendshipsReq = find_all();
+        Collection<FriendshipRequest> all_friendshipsReq = findAll();
         for (FriendshipRequest fr : all_friendshipsReq) {
             if (fr.equals(friendshipRequest)) {
                 throw new RepoException("Friendship request already exists!\n");
@@ -104,7 +104,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            FriendshipRequest friendshipReq = find_by_id(integer);
+            FriendshipRequest friendshipReq = findById(integer);
             ps.setInt(1, integer);
 
             ps.executeUpdate();
@@ -123,7 +123,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
      * @throws RepoException if the friendshipRequest doesn't exist
      */
     @Override
-    public FriendshipRequest find_by_id(Integer integer) throws RepoException {
+    public FriendshipRequest findById(Integer integer) throws RepoException {
         String sql = "select * from friendship_request where id=?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -139,11 +139,11 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
                     int receiver_id = resultSet.getInt("receiver_id");
                     String status = resultSet.getString("status");
                     User sender = new User(sender_id,
-                            all_users.find_by_id(sender_id).getFirstName(),
-                            all_users.find_by_id(receiver_id).getLastName());
+                            all_users.findById(sender_id).getFirstName(),
+                            all_users.findById(receiver_id).getLastName());
                     User receiver = new User(receiver_id,
-                            all_users.find_by_id(receiver_id).getFirstName(),
-                            all_users.find_by_id(receiver_id).getLastName());
+                            all_users.findById(receiver_id).getFirstName(),
+                            all_users.findById(receiver_id).getLastName());
                     FriendshipRequest friendshipReq = new FriendshipRequest(sender, receiver, status);
                     friendshipReq.setId(id);
                     return friendshipReq;
@@ -164,7 +164,7 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
      * @return an iterable collection with all the friendships req
      */
     @Override
-    public Collection<FriendshipRequest> find_all() {
+    public Collection<FriendshipRequest> findAll() {
         Set<FriendshipRequest> friendshipsReqs = new HashSet<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from friendship_request");
@@ -177,11 +177,11 @@ public class DbRepoFriendshipRequest implements Repo<Integer, FriendshipRequest>
                 String status = resultSet.getString("status");
                 String date = resultSet.getString("request_date");
                 User sender = new User(sender_id,
-                        all_users.find_by_id(sender_id).getFirstName(),
-                        all_users.find_by_id(sender_id).getLastName());
+                        all_users.findById(sender_id).getFirstName(),
+                        all_users.findById(sender_id).getLastName());
                 User receiver = new User(receiver_id,
-                        all_users.find_by_id(receiver_id).getFirstName(),
-                        all_users.find_by_id(receiver_id).getLastName());
+                        all_users.findById(receiver_id).getFirstName(),
+                        all_users.findById(receiver_id).getLastName());
                 FriendshipRequest friendshipReq = new FriendshipRequest(sender, receiver, status, date);
                 friendshipReq.setId(id);
                 friendshipsReqs.add(friendshipReq);

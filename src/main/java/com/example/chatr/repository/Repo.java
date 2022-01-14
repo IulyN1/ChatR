@@ -38,12 +38,12 @@ public interface Repo<ID, T extends Entity<ID>> {
      * @return the found object
      * @throws RepoException if the object doesn't exist
      */
-    T find_by_id(ID id) throws RepoException;
+    T findById(ID id) throws RepoException;
 
     /**
      * Gets all the entities in the repo
      *
      * @return an iterable collection with all the entities
      */
-    Collection<T> find_all();
+    Collection<T> findAll();
 }

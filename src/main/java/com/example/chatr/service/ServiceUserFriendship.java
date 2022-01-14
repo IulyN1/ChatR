@@ -36,7 +36,7 @@ public class ServiceUserFriendship {
         this.userValidator = UserValidator.getInstance();
         this.friendshipValidator = FriendshipValidator.getInstance();
         PairValidator.getInstance().validate(new Pair<>(userRepo, friendshipRepo));
-        bind_friendships();
+        bindFriendships();
     }
 
     /**
@@ -55,15 +55,15 @@ public class ServiceUserFriendship {
         this.userValidator = userValidator;
         this.friendshipValidator = friendshipValidator;
         PairValidator.getInstance().validate(new Pair<>(userRepo, friendshipRepo));
-        bind_friendships();
+        bindFriendships();
     }
 
     /**
      * Creates the friendships, binds the users to a friendship
      */
-    private void bind_friendships() {
-        for (User user : userRepo.find_all()) {
-            for (Friendship friendship : friendshipRepo.find_all()) {
+    private void bindFriendships() {
+        for (User user : userRepo.findAll()) {
+            for (Friendship friendship : friendshipRepo.findAll()) {
                 if (user.equals(friendship.getUser1())) {
                     friendship.setUser1(user);
                 } else if (user.equals(friendship.getUser2())) {
@@ -80,7 +80,7 @@ public class ServiceUserFriendship {
      * @param lastName  last name of the new user
      * @throws Exception if an operation fails
      */
-    public void add_user(String firstName, String lastName) throws Exception {
+    public void addUser(String firstName, String lastName) throws Exception {
         User user = new User(firstName, lastName);
         userValidator.validate(user);
         userRepo.add(user);
@@ -93,10 +93,10 @@ public class ServiceUserFriendship {
      * @return the deleted user
      * @throws RepoException if the user doesn't exist
      */
-    public User delete_user(int id) throws RepoException {
+    public User deleteUser(int id) throws RepoException {
         User user = userRepo.delete(id);
 
-        Collection<Friendship> collection = friendshipRepo.find_all();
+        Collection<Friendship> collection = friendshipRepo.findAll();
         for (Friendship friendship : collection.stream().toList()) {
             if (friendship.getUser1().equals(user))
                 friendshipRepo.delete(friendship.getId());
@@ -112,13 +112,13 @@ public class ServiceUserFriendship {
      * @param lastName  the new last name of the user
      * @throws Exception if the operation fails
      */
-    public void update_user(int id, String firstName, String lastName) throws Exception {
+    public void updateUser(int id, String firstName, String lastName) throws Exception {
         User user = new User(id, firstName, lastName);
-        User old_user = find_user_by_id(id);
+        User old_user = findUserById(id);
         userValidator.validate(user);
         userRepo.update(user);
 
-        Collection<Friendship> collection = friendshipRepo.find_all();
+        Collection<Friendship> collection = friendshipRepo.findAll();
         for (Friendship friendship : collection.stream().toList()) {
             if (friendship.getUser1().equals(old_user)) {
                 friendship.setUser1(user);
@@ -138,8 +138,8 @@ public class ServiceUserFriendship {
      * @return the user if it was found
      * @throws RepoException if the user doesn't exist
      */
-    public User find_user_by_id(int id) throws RepoException {
-        return userRepo.find_by_id(id);
+    public User findUserById(int id) throws RepoException {
+        return userRepo.findById(id);
     }
 
     /**
@@ -149,9 +149,9 @@ public class ServiceUserFriendship {
      * @param id2 the ID of the second user
      * @throws Exception if the operation fails
      */
-    public void add_friendship(int id1, int id2) throws Exception {
-        User user1 = userRepo.find_by_id(id1);
-        User user2 = userRepo.find_by_id(id2);
+    public void addFriendship(int id1, int id2) throws Exception {
+        User user1 = userRepo.findById(id1);
+        User user2 = userRepo.findById(id2);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = sdf.format(new Date());
         Friendship friendship = new Friendship(user1, user2, date);
@@ -167,9 +167,9 @@ public class ServiceUserFriendship {
      * @param idUser2 the id of the second user
      * @throws Exception if the operation fails
      */
-    public void update_friendship(int id, int idUser1, int idUser2) throws Exception {
-        User user1 = userRepo.find_by_id(idUser1);
-        User user2 = userRepo.find_by_id(idUser2);
+    public void updateFriendship(int id, int idUser1, int idUser2) throws Exception {
+        User user1 = userRepo.findById(idUser1);
+        User user2 = userRepo.findById(idUser2);
         Friendship friendship = new Friendship(id, user1, user2);
         friendshipValidator.validate(friendship);
         friendshipRepo.update(friendship);
@@ -183,7 +183,7 @@ public class ServiceUserFriendship {
      * @return the deleted friendship
      * @throws RepoException if the friendship doesn't exist
      */
-    public Friendship delete_friendship(int id) throws RepoException {
+    public Friendship deleteFriendship(int id) throws RepoException {
         return friendshipRepo.delete(id);
     }
 
@@ -194,8 +194,8 @@ public class ServiceUserFriendship {
      * @return the found friendship
      * @throws RepoException if the friendship doesn't exist
      */
-    public Friendship find_friendship_by_id(int id) throws RepoException {
-        return friendshipRepo.find_by_id(id);
+    public Friendship findFriendshipById(int id) throws RepoException {
+        return friendshipRepo.findById(id);
     }
 
     /**
@@ -203,8 +203,8 @@ public class ServiceUserFriendship {
      *
      * @return an iterable collection with all the users
      */
-    public Collection<User> get_all_users() {
-        return userRepo.find_all();
+    public Collection<User> getAllUsers() {
+        return userRepo.findAll();
     }
 
     /**
@@ -212,8 +212,8 @@ public class ServiceUserFriendship {
      *
      * @return an iterable collection with all the friendships
      */
-    public Collection<Friendship> get_all_friendships() {
-        return friendshipRepo.find_all();
+    public Collection<Friendship> getAllFriendships() {
+        return friendshipRepo.findAll();
     }
 
     /**
@@ -221,12 +221,12 @@ public class ServiceUserFriendship {
      *
      * @return Integer representing this number
      */
-    public int nr_related_friendships() {
-        List<User> users = userRepo.find_all().stream().toList();
-        List<Friendship> friendships = friendshipRepo.find_all().stream().toList();
+    public int nrRelatedFriendships() {
+        List<User> users = userRepo.findAll().stream().toList();
+        List<Friendship> friendships = friendshipRepo.findAll().stream().toList();
         Network network = new Network(users, friendships);
 
-        return network.nr_connected_components();
+        return network.nrConnectedComponents();
     }
 
     /**
@@ -234,18 +234,18 @@ public class ServiceUserFriendship {
      *
      * @return a collection of iterable String
      */
-    public Collection<String> longest_related_friendship() {
-        List<User> users = userRepo.find_all().stream().toList();
-        List<Friendship> friendships = friendshipRepo.find_all().stream().toList();
+    public Collection<String> longestRelatedFriendship() {
+        List<User> users = userRepo.findAll().stream().toList();
+        List<Friendship> friendships = friendshipRepo.findAll().stream().toList();
         Network network = new Network(users, friendships);
 
-        return network.longest_path();
+        return network.longestPath();
     }
 
     public Collection<User> getUserNotFriends(User user){
-        Collection<User> otherUsers = get_all_users();
+        Collection<User> otherUsers = getAllUsers();
         otherUsers.removeIf(userX->(userX.getId().equals(user.getId())));
-        for(Friendship fr: get_all_friendships()){
+        for(Friendship fr: getAllFriendships()){
             if(fr.getUser1().getId().equals(user.getId())){
                 otherUsers.removeIf(userX->(userX.getId().equals(fr.getUser2().getId())));
             }
@@ -257,9 +257,9 @@ public class ServiceUserFriendship {
     }
 
     public Collection<User> getUserFriends(int idUser) throws RepoException {
-        User user = userRepo.find_by_id(idUser);
+        User user = userRepo.findById(idUser);
         Collection<User> otherUsers = new ArrayList<>();
-        for(Friendship fr: get_all_friendships()){
+        for(Friendship fr: getAllFriendships()){
             if(fr.getUser1().getId().equals(user.getId())){
                 otherUsers.add(fr.getUser2());
             }

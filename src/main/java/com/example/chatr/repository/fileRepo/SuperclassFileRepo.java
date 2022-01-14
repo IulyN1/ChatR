@@ -37,7 +37,7 @@ public abstract class SuperclassFileRepo<T extends Entity<Integer>> extends InMe
      * @param t generic object Entity
      * @throws Exception if the operation fails
      */
-    public void add_no_save(T t) throws Exception {
+    public void addNoSave(T t) throws Exception {
         super.add(t);
     }
 

@@ -40,7 +40,7 @@ public class DbRepoAccount implements Repo<Integer, Account> {
     public void update(Account account) throws Exception {
         String sql = "update accounts set username=?, password=?, " +
                 "user_id=? where id=?";
-        Collection<Account> accounts = find_all();
+        Collection<Account> accounts = findAll();
         for (Account ac : accounts) {
             if (ac.equals(accounts)) {
                 throw new RepoException("Account already exists!\n");
@@ -65,7 +65,7 @@ public class DbRepoAccount implements Repo<Integer, Account> {
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            Account account = find_by_id(integer);
+            Account account = findById(integer);
             ps.setInt(1, integer);
             ps.executeUpdate();
             return account;
@@ -76,7 +76,7 @@ public class DbRepoAccount implements Repo<Integer, Account> {
     }
 
     @Override
-    public Account find_by_id(Integer integer) throws RepoException {
+    public Account findById(Integer integer) throws RepoException {
         String sql = "select * from account where id=?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -111,7 +111,7 @@ public class DbRepoAccount implements Repo<Integer, Account> {
      * @return an iterable collection with all the friendships req
      */
     @Override
-    public Collection<Account> find_all() {
+    public Collection<Account> findAll() {
         Set<Account> accounts = new HashSet<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from accounts");

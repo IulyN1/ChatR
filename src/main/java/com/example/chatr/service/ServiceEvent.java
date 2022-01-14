@@ -31,11 +31,11 @@ public class ServiceEvent {
     }
 
     public Event findEventById(int id) throws RepoException {
-        return eventRepo.find_by_id(id);
+        return eventRepo.findById(id);
     }
 
     public Collection<Event> getAllEvent() {
-        return eventRepo.find_all();
+        return eventRepo.findAll();
     }
 
 }

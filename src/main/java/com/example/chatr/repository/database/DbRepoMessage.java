@@ -99,7 +99,7 @@ public class DbRepoMessage implements Repo<Integer, Message> {
      * @throws RepoException if the message doesn't exist
      */
     @Override
-    public Message find_by_id(Integer integer) throws RepoException {
+    public Message findById(Integer integer) throws RepoException {
         String sql = "select * from messages where id=?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -116,13 +116,13 @@ public class DbRepoMessage implements Repo<Integer, Message> {
                     Timestamp date = resultSet.getTimestamp("date");
                     int replyId = resultSet.getInt("reply");
 
-                    User userFrom = repoUser.find_by_id(fromId);
+                    User userFrom = repoUser.findById(fromId);
                     List<User> toUsers = getToUsers(to);
                     Message messageSent = new Message(userFrom, toUsers, message);
                     messageSent.setId(id);
                     messageSent.setDate(date.toLocalDateTime());
                     if (replyId != 0) {
-                        messageSent.setReply(find_by_id(replyId));
+                        messageSent.setReply(findById(replyId));
                     }
                     return messageSent;
                 }
@@ -142,7 +142,7 @@ public class DbRepoMessage implements Repo<Integer, Message> {
      * @return a collection with all the messages
      */
     @Override
-    public Collection<Message> find_all() {
+    public Collection<Message> findAll() {
         Set<Message> messages = new HashSet<>();
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT * from messages");
@@ -156,13 +156,13 @@ public class DbRepoMessage implements Repo<Integer, Message> {
                 Timestamp date = resultSet.getTimestamp("date");
                 int replyId = resultSet.getInt("reply");
 
-                User userFrom = repoUser.find_by_id(fromId);
+                User userFrom = repoUser.findById(fromId);
                 List<User> toUsers = getToUsers(to);
                 Message messageSent = new Message(userFrom, toUsers, message);
                 messageSent.setId(id);
                 messageSent.setDate(date.toLocalDateTime());
                 if (replyId != 0) {
-                    messageSent.setReply(find_by_id(replyId));
+                    messageSent.setReply(findById(replyId));
                 }
                 messages.add(messageSent);
             }
@@ -190,7 +190,7 @@ public class DbRepoMessage implements Repo<Integer, Message> {
         List<User> toUsers = new ArrayList<>();
         for (int idUser : toUsersIds) {
             try {
-                User user = repoUser.find_by_id(idUser);
+                User user = repoUser.findById(idUser);
                 toUsers.add(user);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -69,7 +69,7 @@ public class InMemoryRepo<ID, T extends Entity<ID>> implements Repo<ID, T> {
      * @throws RepoException if the id is not existent
      */
     @Override
-    public T find_by_id(ID id) throws RepoException {
+    public T findById(ID id) throws RepoException {
         for (T t : list) {
             if (t.getId() == id)
                 return t;
@@ -81,7 +81,7 @@ public class InMemoryRepo<ID, T extends Entity<ID>> implements Repo<ID, T> {
      * @return an iterable collection of all the objects in the list
      */
     @Override
-    public Collection<T> find_all() {
+    public Collection<T> findAll() {
         return list;
     }
 }

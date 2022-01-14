@@ -28,10 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -186,13 +183,13 @@ public class DashboardUtilityController {
         buttonCollumn1.setVisible(false);
         modelGrade.clear();
 
-        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        User currentUser = serviceUserFriendship.findUserById(account.getUser_id());
         Collection<User> users = serviceUserFriendship.getUserNotFriends(currentUser);
         List<User> usersOrdered = users.stream().sorted(Comparator.comparing(User::getFirstName)).toList();
         for (User user : usersOrdered) {
             boolean isSent=false;
             for(FriendshipRequest fr: page.getFriendshipRequests()){
-                if(serviceUserFriendship.find_user_by_id(fr.getReceiver().getId()).equals(user)){
+                if(serviceUserFriendship.findUserById(fr.getReceiver().getId()).equals(user)){
                     ArrayList<FriendshipRequest>friends=page.getFriendshipRequests();
                     page.setFriendshipRequests(friends);
                     isSent=true;
@@ -276,7 +273,7 @@ public class DashboardUtilityController {
         buttonCollumn1.setVisible(true);
         modelGrade.clear();
 
-        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        User currentUser = serviceUserFriendship.findUserById(account.getUser_id());
         for(User user: page.getFriends()){
                 Button auxButton=new Button();
                 auxButton.setGraphic(new ImageView("delete.png"));
@@ -381,7 +378,7 @@ public class DashboardUtilityController {
         this.serviceFriendshipRequest = page.getServiceFriendshipRequest();
         this.serviceAccount=page.getServiceAccount();
         this.serviceEvent=page.getServiceEvent();
-        User currentUser = serviceUserFriendship.find_user_by_id(account.getUser_id());
+        User currentUser = serviceUserFriendship.findUserById(account.getUser_id());
         LabelHello.setText("Hello, " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         //-----initialize showFriendsDashboard------------
         onShowFriendsButtonClick(null);

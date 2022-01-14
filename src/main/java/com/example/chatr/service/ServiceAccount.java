@@ -41,11 +41,11 @@ public class ServiceAccount {
     }
 
     public Account findAccountById(int id) throws RepoException {
-        return accountRepo.find_by_id(id);
+        return accountRepo.findById(id);
     }
 
     public Collection<Account> getAllAccounts() {
-        return accountRepo.find_all();
+        return accountRepo.findAll();
     }
 
     public Account verifyAccount(String username, String password) throws Exception {
